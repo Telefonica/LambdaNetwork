@@ -1,0 +1,40 @@
+"""
+Authors: Wouter Van Gansbeke, Simon Vandenhende
+Licensed under the CC BY-NC 4.0 license (https://creativecommons.org/licenses/by-nc/4.0/)
+"""
+import os
+import yaml
+from easydict import EasyDict
+
+def mkdir_if_missing(directory):
+    if not os.path.exists(directory):
+        try:
+            os.makedirs(directory)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+def create_config(config_file_env, config_file_exp):
+    # Config for environment path
+    with open(config_file_env, 'r') as stream:
+        root_dir = yaml.safe_load(stream)['root_dir']
+   
+    with open(config_file_exp, 'r') as stream:
+        config = yaml.safe_load(stream)
+    
+    cfg = EasyDict()
+   
+    # Copy
+    for k, v in config.items():
+        cfg[k] = v
+
+    # Set paths for pretext task (These directories are needed in every stage)
+    base_dir = os.path.join(root_dir, cfg['train_db_name'])
+    mkdir_if_missing(base_dir)
+    cfg['base_dir'] = base_dir
+    cfg['checkpoint_dir'] = os.path.join(base_dir, 'checkpoint.pth.tar')
+    cfg['model_dir'] = os.path.join(base_dir, 'model.pth.tar')
+    cfg['train_loss_dir'] = os.path.join(base_dir, 'train_loss.npy')
+    cfg['val_loss_dir'] = os.path.join(base_dir, 'val_loss.npy')
+
+    return cfg 

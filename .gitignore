@@ -1,0 +1,8 @@
+nohup.out
+.pylintrc
+__pycache__/
+**/__pycache__
+.vscode/
+datasets/SpeechCommands/
+datasets/speech_commands_v0.02.tar.gz
+output/
