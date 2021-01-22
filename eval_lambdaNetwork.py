@@ -40,7 +40,7 @@ def main():
     # Get dataset
     print('Get validation dataset ...')
     val_transforms = get_val_transformations(config)
-    test_dataset = get_dataset(config, val_transforms, to_augmented_dataset=False, subset='test')
+    test_dataset = get_dataset(config, val_transforms, to_augmented_dataset=False, subset='testing')
     test_dataloader = get_val_dataloader(config, test_dataset)
     print('Number of samples: {}'.format(len(test_dataset)))
 

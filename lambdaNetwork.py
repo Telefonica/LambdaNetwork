@@ -28,7 +28,7 @@ def main():
     if cuda:
         if args.gpu is None:
             model = torch.nn.DataParallel(model)
-            #p['batch_size'] = torch.cuda.device_count() * p['batch_size']
+            p['batch_size'] = torch.cuda.device_count() * p['batch_size']
         else:
             device = torch.device('cuda:{}'.format(args.gpu))
             torch.cuda.set_device(device)
@@ -44,11 +44,13 @@ def main():
     elif p['setup'] == 'supervised':
         to_augmented_dataset = False
 
-    train_dataset = get_dataset(p, train_transforms, to_augmented_dataset=to_augmented_dataset, subset="train")
+    train_dataset = get_dataset(p, train_transforms, to_augmented_dataset=to_augmented_dataset, subset="training")
     val_dataset = get_dataset(p, val_transforms, to_augmented_dataset=False, subset="validation")
+    test_dataset = get_dataset(p, val_transforms, to_augmented_dataset=False, subset="testing")
     
     train_dataloader = get_train_dataloader(p, train_dataset)
     val_dataloader = get_val_dataloader(p, val_dataset)
+    test_dataloader = get_val_dataloader(p, test_dataset)
 
     # Print the model shape and memory on the GPU
     if cuda:
@@ -79,7 +81,13 @@ def main():
     print("    Total batches: {:.2f}".format(len(train_dataset)/p['batch_size']))
 
     loss_train_values = []
+    
     loss_val_values = []
+    acc_val_values = []
+    
+    loss_test_values = []
+    acc_test_values = []
+    current_best_acc = 0.0
 
     for epoch in range(start_epoch, p['epochs']):
         print("Epoch {}/{}".format(epoch, p['epochs']))
@@ -95,10 +103,21 @@ def main():
             loss_val = 0
         elif p['setup'] == 'supervised':
             loss_train = supervised_train(train_dataloader, model, criterion, optimizer)
-            loss_val = supervised_val(val_dataloader, model, criterion)
+            loss_val, acc_val = supervised_val(val_dataloader, model, criterion)
+            loss_test, acc_test = supervised_val(test_dataloader, model, criterion)
+
+            if current_best_acc < acc_test:
+                print('Saving the most accurate current model for the Test dataset')
+                torch.save(model.state_dict(), p['model_test'])
+                current_best_acc = acc_test
 
         loss_train_values.append(loss_train)
+        
         loss_val_values.append(loss_val)
+        acc_val_values.append(acc_val)
+        
+        loss_test_values.append(loss_test)
+        acc_test_values.append(acc_test)
 
         # Checkpoint
         print('Checkpoint ...')
@@ -110,7 +129,12 @@ def main():
 
     # Save the training loss values
     np.save(p['train_loss_dir'], loss_train_values)
+    
     np.save(p['val_loss_dir'], loss_val_values)
+    np.save(p['val_acc_dir'], acc_val_values)
+    
+    np.save(p['test_loss_dir'], loss_test_values)
+    np.save(p['test_acc_dir'], acc_test_values)
 
     print('Training complete')
 

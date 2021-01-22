@@ -1,4 +1,4 @@
-from utils.common_config import get_dataset, get_train_dataloader, get_train_transformations
+from utils.common_config import get_dataset, get_train_dataloader, get_train_transformations, get_val_dataloader
 from utils.config import create_config
 from utils.audioutils import save_wav, open_wavfile
 import numpy as np
@@ -9,8 +9,8 @@ config_env = './configs/env.yml'
 p = create_config(config_env, config_exp)
 
 transforms = get_train_transformations(p)
-dataset = get_dataset(p, transform=transforms, to_augmented_dataset=False, subset="validation")
-dataloader = get_train_dataloader(p, dataset)
+dataset = get_dataset(p, transform=transforms, to_augmented_dataset=False, subset="train")
+dataloader = get_val_dataloader(p, dataset)
 
 for i, batch in enumerate(dataloader):
     print('MEL SPECTOGRAM: {}'.format(batch['mel_spectogram'].shape))

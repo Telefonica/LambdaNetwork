@@ -36,6 +36,10 @@ class SupervisedModel(nn.Module):
         self.backbone = backbone['backbone']
         self.backbone_dim = backbone['dim']
         self.head = head
+
+        # If we don't use all the dataset: add unknown (+1)
+        if num_labels != 35:
+            num_labels = num_labels + 1
  
         if head == 'linear':
             self.contrastive_head = nn.Linear(self.backbone_dim, num_labels+1)
