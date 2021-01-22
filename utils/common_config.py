@@ -85,13 +85,14 @@ def get_train_transformations(p):
             augment.VolTransform(p=0.6),                # Increases / Decreases volume
             #augment.VadTransform(p=0.5),               # NOT NEEDED: Tries to trim Silence in the audio
             #augment.FadeTransform(p=0.5),              # NOT WORK: FIX RANDOM RANGES
-            augment.CropTransform(p=0.3),               # Randomply crop a small part of the signal
+            augment.CropTransform(p=0.2),               # Randomply crop a small part of the signal
             #augment.RIRTransform(p=0.5),               # Room impulse response
-            augment.GaussianSNRTransform(p=0.5),        # Adding Gaussian noise
+            #augment.GaussianSNRTransform(p=0.5),        # Adding Gaussian noise
             augment.TimeStretchTransform(p=0.3),        # Increase / Decrease time without mod its pitch
             augment.PitchShiftTransform(p=0.2),         # Shif the pitch of the signal
-            augment.ShiftTransform(p=0.5),              # Shift the audio signal temporally
-            augment.ClippingDistortionTransform(p=0.3), # Saturation distortion the audio signal
+            augment.ShiftTransform(p=0.3),              # Shift the audio signal temporally
+            augment.ClippingDistortionTransform(p=0.2), # Saturation distortion the audio signal
+            augment.AddBackgroundNoise(p=0.8),          # Add background noise randomly picked
             augment.LengthTransform()                   # After all the transforms, keep the same length
         )
 

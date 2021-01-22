@@ -6,6 +6,8 @@ import random
 import math
 import numpy as np
 import torchvision.transforms as transforms
+from torchaudio import load
+import glob
 
 """Quick Guide for all transforms:
 
@@ -467,4 +469,29 @@ class LengthTransform(torch.nn.Module):
         
     def __repr__(self):
         return self.__class__.__name__ + '(length={0})'.format(self.length)
+
+
+class AddBackgroundNoise(torch.nn.Module):
+    def __init__(self, p=0.7, vol_range=(0.1, 0.3), background_path='datasets/SpeechCommands/speech_commands_v0.02/_background_noise_/'):
+        super(AddBackgroundNoise, self).__init__()
+        self.p = p
+        self.vol_range = vol_range
+        self.backgrounds = glob.glob(background_path + '*.wav')
+    
+    def __call__(self, tensor):
+        if self.p < random.random():
+            return tensor
         
+        background_noise_path = self.backgrounds[random.randint(0, len(self.backgrounds)-1)]
+        background_noise = load(background_noise_path)[0]
+        
+        audio_length = tensor.shape[1]
+        background_length = background_noise.shape[1]
+        
+        start_sample = random.randint(0, background_length-audio_length)
+        background_noise = background_noise[:,start_sample:start_sample+audio_length]
+
+        return tensor + random.uniform(*self.vol_range)*background_noise
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(vol_range={1}'.format(self.vol_range)

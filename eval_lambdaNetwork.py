@@ -23,10 +23,19 @@ def main():
     with open(args.config_exp, 'r') as stream:
         config = yaml.safe_load(stream)
 
-    # Use a single GPU for the evaluation
+    # Get model
+    print('Getting the model')
+    model = get_model(config)
+
+    # Use Data parallel mode if not GPU is selected through the args
     if cuda:
-        device = torch.device('cuda:{}'.format(args.gpu))
-        torch.cuda.set_device(device)
+        if args.gpu is None:
+            model = torch.nn.DataParallel(model)
+            #p['batch_size'] = torch.cuda.device_count() * p['batch_size']
+        else:
+            device = torch.device('cuda:{}'.format(args.gpu))
+            torch.cuda.set_device(device)
+        model.cuda()
 
     # Get dataset
     print('Get validation dataset ...')
@@ -35,9 +44,6 @@ def main():
     test_dataloader = get_val_dataloader(config, test_dataset)
     print('Number of samples: {}'.format(len(test_dataset)))
 
-    # Get model
-    print('Getting the model')
-    model = get_model(config)
     
     # Read model weights
     print('Load model weights ...')

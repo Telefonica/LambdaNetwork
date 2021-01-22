@@ -1,13 +1,15 @@
-from utils.common_config import get_dataset, get_train_dataloader, split_dataset
+from utils.common_config import get_dataset, get_train_dataloader, get_train_transformations
 from utils.config import create_config
+from utils.audioutils import save_wav, open_wavfile
+import numpy as np
 
-config_exp = './configs/lambdaResnet_supervised.yml'
+config_exp = './configs/lambdaResnet2D_supervised.yml'
 config_env = './configs/env.yml'
 
 p = create_config(config_env, config_exp)
 
-dataset = get_dataset(p, transform='placeholder', to_augmented_dataset=False)
-train_dataset, val_dataset = split_dataset(p, dataset, split=0.7)
+transforms = get_train_transformations(p)
+dataset = get_dataset(p, transform=transforms, to_augmented_dataset=False, subset="validation")
 dataloader = get_train_dataloader(p, dataset)
 
 for i, batch in enumerate(dataloader):
@@ -15,14 +17,13 @@ for i, batch in enumerate(dataloader):
     print('AUDIO: {}'.format(batch['audio'].shape))
 
     print('LABELS: {}'.format(batch['label']))
-    print('LABELS: {}'.format(batch['categorical_label']))
+    print('LABELS: {}'.format(batch['target']))
 
     import torch
-    print(torch.nn.functional.one_hot(batch['categorical_label']))
+    print(torch.nn.functional.one_hot(batch['target']))
 
+    audio_tensor = batch['audio']
+    audio_wav = (audio_tensor.numpy()[0]*32768.0).astype(np.int16)
+    save_wav(audio_wav, 'augmented_audio_{}.wav'.format(batch['label'][0]))
 
-
-    
     break
-
-#print(dataset[0])
