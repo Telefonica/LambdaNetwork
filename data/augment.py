@@ -494,4 +494,4 @@ class AddBackgroundNoise(torch.nn.Module):
         return tensor + random.uniform(*self.vol_range)*background_noise
 
     def __repr__(self):
-        return self.__class__.__name__ + '(vol_range={1}'.format(self.vol_range)
+        return self.__class__.__name__ + '(vol_range={0}'.format(self.vol_range)

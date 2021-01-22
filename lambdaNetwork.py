@@ -94,7 +94,7 @@ def main():
             loss_train = simclr_train(train_dataloader, model, criterion, optimizer, epoch)
             loss_val = 0
         elif p['setup'] == 'supervised':
-            #loss_train = supervised_train(train_dataloader, model, criterion, optimizer)
+            loss_train = supervised_train(train_dataloader, model, criterion, optimizer)
             loss_val = supervised_val(val_dataloader, model, criterion)
 
         loss_train_values.append(loss_train)

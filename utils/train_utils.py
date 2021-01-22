@@ -67,17 +67,18 @@ def supervised_train(train_loader, model, criterion, optimizer):
     return total_loss / (i+1)
 
 def supervised_val(val_loader, model, criterion):
-    model.eval()
+    #model.eval()
     total_loss = 0
 
     for i, batch in enumerate(val_loader):
         
-        mel_spectogram = batch['mel_spectogram'].cuda(non_blocking=True)
-
+        mel_spectogram = batch['mel_spectogram'].cuda(non_blocking=True)\
+            
         output = model(mel_spectogram)
         target = batch['target']
 
         loss = criterion(output, target.cuda(non_blocking=True))
+        
         total_loss += loss.item()
     
     print("Validation loss: {}".format(total_loss/(i+1)))
