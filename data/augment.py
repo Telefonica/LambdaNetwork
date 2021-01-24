@@ -472,7 +472,7 @@ class LengthTransform(torch.nn.Module):
 
 
 class AddBackgroundNoise(torch.nn.Module):
-    def __init__(self, p=0.7, vol_range=(0.1, 0.3), background_path='datasets/SpeechCommands/speech_commands_v0.02/_background_noise_/'):
+    def __init__(self, p=0.7, vol_range=(0.1, 0.25), background_path='datasets/SpeechCommands/speech_commands_v0.02/_background_noise_/'):
         super(AddBackgroundNoise, self).__init__()
         self.p = p
         self.vol_range = vol_range

@@ -3,7 +3,7 @@ import torch
 import numpy as np
 
 from utils.config import create_config
-from utils.train_utils import simclr_train, supervised_train, supervised_val
+from utils.train_utils import simclr_train, supervised_train, supervised_val, supervised_test
 from utils.common_config import get_model, get_criterion, get_optimizer, adjust_learning_rate, get_dataset,\
                                 get_train_transformations, get_train_dataloader,\
                                 get_val_transformations, get_val_dataloader
@@ -81,11 +81,7 @@ def main():
     print("    Total batches: {:.2f}".format(len(train_dataset)/p['batch_size']))
 
     loss_train_values = []
-    
     loss_val_values = []
-    acc_val_values = []
-    
-    loss_test_values = []
     acc_test_values = []
     current_best_acc = 0.0
 
@@ -103,8 +99,8 @@ def main():
             loss_val = 0
         elif p['setup'] == 'supervised':
             loss_train = supervised_train(train_dataloader, model, criterion, optimizer)
-            loss_val, acc_val = supervised_val(val_dataloader, model, criterion)
-            loss_test, acc_test = supervised_val(test_dataloader, model, criterion)
+            loss_val = supervised_val(val_dataloader, model, criterion, optimizer)
+            acc_test = supervised_test(test_dataloader, model, criterion)
 
             if current_best_acc < acc_test:
                 print('Saving the most accurate current model for the Test dataset')
@@ -112,11 +108,7 @@ def main():
                 current_best_acc = acc_test
 
         loss_train_values.append(loss_train)
-        
         loss_val_values.append(loss_val)
-        acc_val_values.append(acc_val)
-        
-        loss_test_values.append(loss_test)
         acc_test_values.append(acc_test)
 
         # Checkpoint
@@ -129,11 +121,7 @@ def main():
 
     # Save the training loss values
     np.save(p['train_loss_dir'], loss_train_values)
-    
     np.save(p['val_loss_dir'], loss_val_values)
-    np.save(p['val_acc_dir'], acc_val_values)
-    
-    np.save(p['test_loss_dir'], loss_test_values)
     np.save(p['test_acc_dir'], acc_test_values)
 
     print('Training complete')

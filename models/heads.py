@@ -42,12 +42,12 @@ class SupervisedModel(nn.Module):
             num_labels = num_labels + 1
  
         if head == 'linear':
-            self.contrastive_head = nn.Linear(self.backbone_dim, num_labels+1)
+            self.contrastive_head = nn.Linear(self.backbone_dim, num_labels)
 
         elif head == 'mlp':
             self.contrastive_head = nn.Sequential(
                     nn.Linear(self.backbone_dim, self.backbone_dim),
-                    nn.ReLU(), nn.Linear(self.backbone_dim, num_labels+1))
+                    nn.ReLU(), nn.Linear(self.backbone_dim, num_labels))
         
         else:
             raise ValueError('Invalid head {}'.format(head))

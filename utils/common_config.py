@@ -92,7 +92,7 @@ def get_train_transformations(p):
             augment.PitchShiftTransform(p=0.2),         # Shif the pitch of the signal
             augment.ShiftTransform(p=0.3),              # Shift the audio signal temporally
             augment.ClippingDistortionTransform(p=0.2), # Saturation distortion the audio signal
-            augment.AddBackgroundNoise(p=0.8),          # Add background noise randomly picked
+            augment.AddBackgroundNoise(p=0.7),          # Add background noise randomly picked
             augment.LengthTransform()                   # After all the transforms, keep the same length
         )
 

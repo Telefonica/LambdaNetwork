@@ -66,34 +66,49 @@ def supervised_train(train_loader, model, criterion, optimizer):
 
     return total_loss / (i+1)
 
-def supervised_val(val_loader, model, criterion):
-    #model.eval()
+def supervised_val(val_loader, model, criterion, optimizer):
+    model.train()
     total_loss = 0
-
-    corrects = 0
-    total_samples = 0
 
     for i, batch in enumerate(val_loader):
         
-        mel_spectogram = batch['mel_spectogram'].cuda(non_blocking=True)\
+        mel_spectogram = batch['mel_spectogram'].cuda(non_blocking=True)
 
         output = model(mel_spectogram)
         target = batch['target']
 
         loss = criterion(output, target.cuda(non_blocking=True))
-        
         total_loss += loss.item()
 
-        target_output = output.argmax(axis=1)
-        samples_batch = len(target_output)
-        for s in range(0, samples_batch):
-            if target_output[s].item() == target[s].item():
-                corrects += 1
-        total_samples += samples_batch
-    
-    print("Loss: {0}, Accuracy: {1:.2f}%".format(total_loss/(i+1), (corrects/total_samples)*100))
+        # Do not compute these gradients
+        optimizer.zero_grad()
 
-    return total_loss/(i+1), corrects/total_samples
+    print("Validation Loss: {0}".format(total_loss/(i+1)))
+
+    return total_loss / (i+1)
+
+@torch.no_grad()
+def supervised_test(val_loader, model, criterion):
+    model.eval()
+    corrects = 0
+    total_samples = 0
+
+    for i, batch in enumerate(val_loader):
+        
+        mel_spectogram = batch['mel_spectogram'].cuda(non_blocking=True)
+
+        output = model(mel_spectogram)
+        target = batch['target']
+
+        batch_size = target.size(0)
+        target_output = output.argmax(axis=1).to('cpu')
+        
+        corrects += torch.sum(target_output == target).item()
+        total_samples += batch_size
+
+    print('Accuracy of the model (Test Data): {0:.2f}%'.format(float(corrects/total_samples)*100))
+    
+    return float(corrects/total_samples)
 
 
 def scan_train(train_loader, model, criterion, optimizer, epoch, update_cluster_head_only=False):

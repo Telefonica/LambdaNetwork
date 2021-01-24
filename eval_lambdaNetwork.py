@@ -62,8 +62,8 @@ def main():
 
         print('Create Memory Bank')
         memory_bank = MemoryBank(len(test_dataset),
-                                config['model_kwargs']['num_labels']+1,
-                                config['num_labels']+1, config['criterion_kwargs']['temperature'])
+                                config['model_kwargs']['num_labels'],
+                                config['num_labels'], config['criterion_kwargs']['temperature'])
         if cuda:
             memory_bank.cuda()
 
@@ -84,8 +84,8 @@ def main():
     elif config['setup'] == 'contrastive':
         print('Create Memory Bank')
         memory_bank = MemoryBank(len(test_dataset),
-                                config['model_kwargs']['features_dim'],
-                                config['num_events'], config['criterion_kwargs']['temperature'])
+                                config['model_kwargs']['features_dim']+1,
+                                config['num_events']+1, config['criterion_kwargs']['temperature'])
         if cuda:
             memory_bank.cuda()
 
