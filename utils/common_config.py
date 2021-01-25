@@ -40,6 +40,14 @@ def get_model(p, pretrain_path=None):
         from models import LambdaResnets
         backbone = LambdaResnets.LambdaResNet18(in_channels=1)
 
+    if p['backbone'] == 'Resnet50':
+        from models import Resnets
+        backbone = Resnets.ResNet50(in_channels=1)
+    
+    if p['backbone'] == 'Resnet18':
+        from models import Resnets
+        backbone = Resnets.ResNet18(in_channels=1)
+
     if p['setup'] == 'contrastive':
         from models.heads import ContrastiveModel
         model = ContrastiveModel(backbone)
@@ -87,7 +95,7 @@ def get_train_transformations(p):
             #augment.FadeTransform(p=0.5),              # NOT WORK: FIX RANDOM RANGES
             augment.CropTransform(p=0.2),               # Randomply crop a small part of the signal
             #augment.RIRTransform(p=0.5),               # Room impulse response
-            #augment.GaussianSNRTransform(p=0.5),        # Adding Gaussian noise
+            #augment.GaussianSNRTransform(p=0.5),       # Adding Gaussian noise
             augment.TimeStretchTransform(p=0.3),        # Increase / Decrease time without mod its pitch
             augment.PitchShiftTransform(p=0.2),         # Shif the pitch of the signal
             augment.ShiftTransform(p=0.3),              # Shift the audio signal temporally

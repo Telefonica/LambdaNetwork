@@ -27,6 +27,7 @@ def main():
     # Use Data parallel mode if not GPU is selected through the args
     if cuda:
         if args.gpu is None:
+            device = torch.device('cuda:0')
             model = torch.nn.DataParallel(model)
             p['batch_size'] = torch.cuda.device_count() * p['batch_size']
         else:
@@ -54,7 +55,7 @@ def main():
 
     # Print the model shape and memory on the GPU
     if cuda:
-        print(summary(model, train_dataset[0]['mel_spectogram'].shape, batch_size=p['batch_size']))
+        print(summary(model, train_dataset[0]['mel_spectogram'].cuda().shape, batch_size=p['batch_size'], device=device))
     else:
         print(summary(model, train_dataset[0]['mel_spectogram'].shape, batch_size=p['batch_size'], device='cpu'))
 

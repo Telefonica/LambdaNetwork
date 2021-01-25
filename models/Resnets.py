@@ -4,72 +4,54 @@ import torch.nn.functional as F
 from models.LambdaLayers import LambdaLayer2D as LambdaConv
 
 
-class LambdaBlock(nn.Module):
+class BasicBlock(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, is_last=False):
-        super(LambdaBlock, self).__init__()
-        self.is_last = is_last
-
-        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)    
+    def __init__(self, in_planes, planes, stride=1):
+        super(BasicBlock, self).__init__()
+        self.conv1 = nn.Conv2d( in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
-        #self.conv1 = nn.ModuleList([LambdaConv(in_planes, planes)])
-        #if stride != 1 or in_planes != self.expansion * planes:
-        #    self.conv1.append(nn.AvgPool2d(kernel_size=(3, 3), stride=stride, padding=(1, 1)))
-        #self.conv1.append(nn.BatchNorm2d(planes))
-        #self.conv1.append(nn.ReLU())
-        #self.conv1 = nn.Sequential(*self.conv1)
-        
-        self.conv2 = nn.ModuleList([LambdaConv(planes, planes)])
-        if stride != 1 or in_planes != self.expansion * planes:
-            self.conv2.append(nn.AvgPool2d(kernel_size=(3, 3), stride=1, padding=(1, 1)))
-        self.conv2.append(nn.BatchNorm2d(planes))
-        self.conv2.append(nn.ReLU())
-        self.conv2 = nn.Sequential(*self.conv2)
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(planes)
 
         self.shortcut = nn.Sequential()
-        if stride != 1 or in_planes != self.expansion * planes:
+        if stride != 1 or in_planes != self.expansion*planes:
             self.shortcut = nn.Sequential(
-                nn.Conv2d(in_planes, self.expansion * planes, kernel_size=1, stride=stride, bias=False),
-                nn.BatchNorm2d(self.expansion * planes)
+                nn.Conv2d(in_planes, self.expansion*planes,
+                          kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(self.expansion*planes)
             )
 
     def forward(self, x):
-        #out = self.conv1(x)
         out = F.relu(self.bn1(self.conv1(x)))
-        out = self.conv2(out)
+        out = self.bn2(self.conv2(out))
         out += self.shortcut(x)
         out = F.relu(out)
         return out
 
-class LambdaBottleneck(nn.Module):
+
+class Bottleneck(nn.Module):
     expansion = 4
 
     def __init__(self, in_planes, planes, stride=1):
-        super(LambdaBottleneck, self).__init__()
+        super(Bottleneck, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
-
-        self.conv2 = nn.ModuleList([LambdaConv(planes, planes)])
-        if stride != 1 or in_planes != self.expansion * planes:
-            self.conv2.append(nn.AvgPool2d(kernel_size=(3, 3), stride=stride, padding=(1, 1)))
-        self.conv2.append(nn.BatchNorm2d(planes))
-        self.conv2.append(nn.ReLU())
-        self.conv2 = nn.Sequential(*self.conv2)
-
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(planes)
         self.conv3 = nn.Conv2d(planes, self.expansion * planes, kernel_size=1, bias=False)
         self.bn3 = nn.BatchNorm2d(self.expansion * planes)
 
         self.shortcut = nn.Sequential()
         if stride != 1 or in_planes != self.expansion*planes:
             self.shortcut = nn.Sequential(
-                nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride),
+                nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1),
                 nn.BatchNorm2d(self.expansion*planes)
             )
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
-        out = self.conv2(out)
+        out = F.relu(self.bn2(self.conv2(out)))
         out = self.bn3(self.conv3(out))
         out += self.shortcut(x)
         out = F.relu(out)
@@ -122,11 +104,11 @@ class ResNet(nn.Module):
         return out
 
 
-def LambdaResNet18(in_channels=1):
-    return {'backbone': ResNet(LambdaBlock, [2, 2, 2, 2], in_channels=in_channels), 'dim': 512}
+def ResNet18(in_channels=1):
+    return {'backbone': ResNet(BasicBlock, [2, 2, 2, 2], in_channels=in_channels), 'dim': 512}
 
-def LambdaResNet50(in_channels=1):
-    return {'backbone': ResNet(LambdaBottleneck, [3, 4, 6, 3], in_channels=in_channels), 'dim': 2048}
+def ResNet50(in_channels=1):
+    return {'backbone': ResNet(Bottleneck, [3, 4, 6, 3], in_channels=in_channels), 'dim': 2048}
 
 # reference
 # https://discuss.pytorch.org/t/how-do-i-check-the-number-of-parameters-of-a-model/4325
@@ -142,10 +124,10 @@ def get_n_params(model):
 
 def check_params():
 
-    model = LambdaResNet18()
-    print('LambdaResNet18: ', get_n_params(model))
+    model = ResNet18()
+    print('ResNet18: ', get_n_params(model))
 
-    model = LambdaResNet50()
-    print('LambdaResNet50: ', get_n_params(model))
+    model = ResNet50()
+    print('ResNet50: ', get_n_params(model))
 
 # check_params()

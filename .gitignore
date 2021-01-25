@@ -1,4 +1,4 @@
-nohup.out
+*.out
 .pylintrc
 __pycache__/
 **/__pycache__

@@ -29,7 +29,8 @@ def create_config(config_file_env, config_file_exp):
         cfg[k] = v
 
     # Set paths for pretext task (These directories are needed in every stage)
-    base_dir = os.path.join(root_dir, cfg['train_db_name'])
+    model_name = cfg['backbone'] + '_' + str(cfg['num_labels'])
+    base_dir = os.path.join(root_dir, model_name)
     mkdir_if_missing(base_dir)
     cfg['base_dir'] = base_dir
     cfg['checkpoint_dir'] = os.path.join(base_dir, 'checkpoint.pth.tar')
