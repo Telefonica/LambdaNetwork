@@ -19,7 +19,7 @@ def get_SpeechCommandsSampler(p, dataset):
     print("Computing the weight of each sampler for the Weighted sampler ...")
     # Get the weight for each sample in the dataset
     weights = np.zeros(len(dataset))
-    for i, sample in enumerate(dataset):
+    for i, sample in enumerate(dataset.dataset):
         index = dataset.labels.index(sample['label'])
         weights[i] = probabilities[index]
         #weights[i] = probabilities[index]/occurences[index]
