@@ -24,19 +24,22 @@ class MelDataset(Dataset):
         
         self.length = 16000
         self.transform = transform
+        self.labels = dataset.labels
         
     def __len__(self):
         return len(self.dataset)
 
     def __getitem__(self, index):
-        audio, sample_rate, label, speaker_id, utterance_num = self.dataset.__getitem__(index)
+        sample = self.dataset.__getitem__(index)
         
         # If the label is not in the label list
-        if label not in self.dataset.labels:
+        label = sample['label']
+        if label not in self.labels:
             label = 'unknown'
+        
 
         # Audio data augmentation
-        audio = self.transform(audio)
+        audio = self.transform(sample['audio'])
 
         # Getting the spectogram
         mel_spectogram = torch.log(self.mel(audio)+0.001)
@@ -44,7 +47,7 @@ class MelDataset(Dataset):
         return {'audio': audio,
                 'mel_spectogram': mel_spectogram,
                 'label': label,
-                'target': self.dataset.labels.index(label)}
+                'target': self.labels.index(label)}
 
 """ 
     AugmentedDataset

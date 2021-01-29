@@ -5,13 +5,13 @@ setup: supervised
 train_db_name: google_commands
 val_db_name: google_commands
 db_name: google_commands
-num_labels: 35
+num_labels: 20
 
 # Model
 backbone: lambdaResnet50
 model_kwargs:
    head: mlp
-   num_labels: 35
+   num_labels: 20
 
 # Loss
 criterion: supervised

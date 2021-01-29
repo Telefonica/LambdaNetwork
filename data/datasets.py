@@ -45,3 +45,17 @@ class SpeechCommands(SPEECHCOMMANDS):
             self.labels.remove('unknown')
         
         self.labels = sorted(self.labels)
+
+    def __getitem__(self, index):
+        audio, sample_rate, label, speaker_id, utterance_number = super().__getitem__(index)
+
+        # If the label is not in the label list
+        if label not in self.labels:
+            label = 'unknown'
+        
+        return {'audio': audio,
+            'sample_rate': sample_rate,
+            'label': label,
+        }
+        #return waveform, sample_rate, label, speaker_id, utterance_number
+

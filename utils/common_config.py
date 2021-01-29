@@ -75,6 +75,15 @@ def get_dataset(p, transform, to_augmented_dataset=False, to_neighbors_dataset=F
     return dataset
 
 def get_train_dataloader(p, dataset):
+    # Get weighted sampler if we use less than all the commands
+    if p['train_db_name'] == 'google_commands' and p['num_labels'] != 35:
+        from data.samplers import get_SpeechCommandsSampler
+        sampler = get_SpeechCommandsSampler(p, dataset)
+
+        return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
+            batch_size=p['batch_size'], sampler=sampler, pin_memory=True)
+
+
     return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
             batch_size=p['batch_size'], pin_memory=True,
             drop_last=True, shuffle=True)
