@@ -19,20 +19,22 @@ dataloader = get_train_dataloader(p, dataset)
 audio = dataset[0]['audio']
 print(dataset[0]['label'])
 
-background = load('datasets/SpeechCommands/speech_commands_v0.02/_background_noise_/doing_the_dishes.wav')
-back_noise_tensor = background[0][0, 0:16000]
+from data.augment import AddBackgroundNoiseSNR
 
-# Add a random value summed up
-combined_audio = audio + 0.1*back_noise_tensor
+transform = AddBackgroundNoiseSNR(p=1.0, SNR_range_db=(0, 15))
+combined_audio = transform(audio)
 
 audio_int = (audio.numpy()[0]*32768.0).astype(np.int16)
-back_noise = (background[0].numpy()[0]*32768.0).astype(np.int16)
-combined_audio_int = (combined_audio.numpy()*32768.0).astype(np.int16)
+combined_audio_int = (combined_audio.numpy()[0]*32768.0).astype(np.int16)
 
-save_wav(back_noise, 'back.wav')
+#save_wav(back_noise, 'back.wav')
 save_wav(audio_int, 'tensor.wav')
 save_wav(combined_audio_int, 'combined.wav')
 
+print(audio_int.shape)
+print(combined_audio_int.shape)
+
 plt.figure()
 plt.plot(audio_int)
+plt.plot(combined_audio_int)
 plt.show()

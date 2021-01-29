@@ -470,7 +470,9 @@ class LengthTransform(torch.nn.Module):
     def __repr__(self):
         return self.__class__.__name__ + '(length={0})'.format(self.length)
 
-
+'''
+Adds a Background Noise within a volume range
+'''
 class AddBackgroundNoise(torch.nn.Module):
     def __init__(self, p=0.7, vol_range=(0.1, 0.25), background_path='datasets/SpeechCommands/speech_commands_v0.02/_background_noise_/'):
         super(AddBackgroundNoise, self).__init__()
@@ -495,3 +497,47 @@ class AddBackgroundNoise(torch.nn.Module):
 
     def __repr__(self):
         return self.__class__.__name__ + '(vol_range={0}'.format(self.vol_range)
+
+'''
+Adds a Background Noise within a Signal to noise ratio
+'''
+class AddBackgroundNoiseSNR(torch.nn.Module):
+    def __init__(self, p=0.7, SNR_range_db=(0, 15), background_path='datasets/SpeechCommands/speech_commands_v0.02/_background_noise_/'):
+        super(AddBackgroundNoiseSNR, self).__init__()
+        self.p = p
+        self.SNR_range_db = SNR_range_db
+        self.backgrounds = glob.glob(background_path + '*.wav')
+    
+    def calculate_rms(self, samples):  
+        return torch.sqrt(torch.mean(torch.square(samples), axis=1))
+
+    def calculate_desired_noise_rms(self, clean_rms, snr_db):
+        a = float(snr_db) / 20
+        noise_rms = clean_rms / (10 ** a)
+        return noise_rms
+
+    def __call__(self, tensor):
+        if self.p < random.random():
+            return tensor
+        
+        background_noise_path = self.backgrounds[random.randint(0, len(self.backgrounds)-1)]
+        background_noise = load(background_noise_path)[0]
+        
+        audio_length = tensor.shape[1]
+        background_length = background_noise.shape[1]
+        
+        start_sample = random.randint(0, background_length-audio_length)
+        background_noise = background_noise[:,start_sample:start_sample+audio_length]
+
+        snr_db = random.uniform(*self.SNR_range_db)
+        
+        noise_rms = self.calculate_rms(background_noise)
+        audio_rms = self.calculate_rms(tensor)
+        desired_noise_rms = self.calculate_desired_noise_rms(audio_rms, snr_db)
+
+        background_noise = background_noise * (desired_noise_rms / noise_rms)
+
+        return tensor + background_noise
+        
+    def __repr__(self):
+        return self.__class__.__name__ + '(SNR_range(dB)={0}'.format(self.SNR_range_db)

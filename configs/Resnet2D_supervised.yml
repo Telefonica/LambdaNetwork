@@ -8,7 +8,7 @@ db_name: google_commands
 num_labels: 35
 
 # Model
-backbone: Resnet18
+backbone: Resnet50
 model_kwargs:
    head: mlp
    num_labels: 35
@@ -29,7 +29,7 @@ optimizer_kwargs:
 scheduler: cosine
 scheduler_kwargs:
    lr_decay_rate: 0.1
-batch_size: 256
+batch_size: 50
 num_workers: 12
 
 # Transformations
