@@ -48,6 +48,10 @@ def get_model(p, pretrain_path=None):
         from models import Resnets
         backbone = Resnets.ResNet18(in_channels=1)
 
+    if p['backbone'] == 'LightResnet15':
+        from models import LightResnets
+        backbone = LightResnets.ResNet15(in_channels=1)
+
     if p['setup'] == 'contrastive':
         from models.heads import ContrastiveModel
         model = ContrastiveModel(backbone)
