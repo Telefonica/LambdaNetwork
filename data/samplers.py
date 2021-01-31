@@ -13,13 +13,13 @@ def get_SpeechCommandsSampler(p, dataset):
         occurences[index] += 1
 
     probabilities = occurences/len(dataset)
-    wieghts = 1/(num_labels*probabilities)
+    weights = 1/(num_labels*probabilities)
 
     print("Computing the weight of each sampler for the Weighted sampler ...")
     # Get the weight for each sample in the dataset
     weights_sample = np.zeros(len(dataset))
     for i, sample in enumerate(dataset.dataset):
         index = dataset.labels.index(sample['label'])
-        weights_sample[i] = wieghts[index]
+        weights_sample[i] = weights[index]
     
     return WeightedRandomSampler(weights_sample, len(dataset), replacement=True)
