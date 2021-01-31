@@ -4,14 +4,13 @@ from torch.utils.data import WeightedRandomSampler
 
 
 from data.datasets import SpeechCommands
-
-dataset = SpeechCommands(num_labels=35, subset='training')
-print(len(dataset))
-
-
 import numpy as np
 
+dataset = SpeechCommands(num_labels=2, subset='training')
+print(len(dataset))
+
 occurences = np.zeros(len(dataset.labels))
+num_labels = len(dataset.labels)
 
 labels = []
 for i, sample in enumerate(dataset):
@@ -21,16 +20,16 @@ for i, sample in enumerate(dataset):
 probabilities = occurences/len(dataset)
 
 # Reverse the probabilities
-probabilities = (1 - probabilities)/sum(1-probabilities)
+weights = 1 / (num_labels * probabilities)
 
-weights = np.zeros(len(dataset))
+weights_sample = np.zeros(len(dataset))
 for i, sample in enumerate(dataset):
     index = dataset.labels.index(sample['label'])
-    weights[i] = probabilities[index]
+    weights_sample[i] = weights[index]
     #weights[i] = probabilities[index]/occurences[index]
     
 batch_size = 30
-samples = list(WeightedRandomSampler(weights, batch_size, replacement=True))
+samples = list(WeightedRandomSampler(weights_sample, batch_size, replacement=True))
 for sample in samples:
     print(dataset[sample]['label'])
 
