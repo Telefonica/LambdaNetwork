@@ -33,6 +33,9 @@ loss_axs.grid(linestyle='dotted')
 acc_axs.title.set_text('Accuracy evolution')
 acc_axs.plot(test_acc, label='Test')
 
+acc_axs.set_ylim([0.,1.])
+acc_axs.set_yticks(np.arange(0, 1.01, 0.1))
+
 y_max_acc = max(test_acc)
 x_max_acc = np.where(test_acc == y_max_acc)[0].item()
 acc_axs.scatter(x_max_acc, y_max_acc, color='r', label="Max Acc: {:.2f}%".format(y_max_acc * 100))
