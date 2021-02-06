@@ -1,8 +1,5 @@
 import torch
 from torch.utils.data import WeightedRandomSampler
-
-
-
 from data.datasets import SpeechCommands
 import numpy as np
 
@@ -32,5 +29,3 @@ batch_size = 30
 samples = list(WeightedRandomSampler(weights_sample, batch_size, replacement=True))
 for sample in samples:
     print(dataset[sample]['label'])
-
-# Weight tensor should contain a weight for each SAMPLE
