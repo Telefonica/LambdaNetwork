@@ -87,7 +87,7 @@ def main():
         current_best_acc = checkpoint['best_acc']
     
     else:
-        print('No checkpoint file at {}'.format(p['simclr_checkpoint']))
+        print('No checkpoint file at {}'.format(p['checkpoint_dir']))
         start_epoch = 0
         loss_train_values = []
         loss_val_values = []
