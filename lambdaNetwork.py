@@ -1,6 +1,7 @@
 import argparse
 import torch
 import numpy as np
+import os
 
 from utils.config import create_config
 from utils.train_utils import supervised_train, supervised_val, supervised_test
@@ -73,18 +74,30 @@ def main():
     optimizer = get_optimizer(p, model)
     print(optimizer)
 
-    # TODO: Checkpoint load the last epoch
-    start_epoch = 0
+    # TCheckpoint load the last epoch
+    if os.path.exists(p['checkpoint_dir']):
+        print('Restart from checkpoint {}'.format(p['checkpoint_dir']))
+        checkpoint = torch.load(p['checkpoint_dir'], map_location='cpu')
+        model.load_state_dict(checkpoint['model'])
+        optimizer.load_state_dict(checkpoint['optimizer'])        
+        start_epoch = checkpoint['epoch']
+        loss_train_values = np.load(p['train_loss_dir']).tolist()
+        loss_val_values = np.load(p['val_loss_dir']).tolist()
+        acc_test_values = np.load(p['test_acc_dir']).tolist()
+        current_best_acc = checkpoint['best_acc']
+    
+    else:
+        print('No checkpoint file at {}'.format(p['simclr_checkpoint']))
+        start_epoch = 0
+        loss_train_values = []
+        loss_val_values = []
+        acc_test_values = []
+        current_best_acc = 0.0
 
     print("Starting the Training loop ...")
     print("    Number of Epochs: {}".format(p['epochs']))
     print("    Batch size: {}".format(p['batch_size']))
     print("    Total batches: {:.2f}".format(len(train_dataset)/p['batch_size']))
-
-    loss_train_values = []
-    loss_val_values = []
-    acc_test_values = []
-    current_best_acc = 0.0
 
     for epoch in range(start_epoch, p['epochs']):
         print("Epoch {}/{}".format(epoch, p['epochs']))
@@ -111,16 +124,15 @@ def main():
         # Checkpoint
         print('Checkpoint ...')
         torch.save({'optimizer': optimizer.state_dict(), 'model': model.state_dict(), 
-                    'epoch': epoch + 1}, p['checkpoint_dir'])
+                    'epoch': epoch + 1, 'best_acc': current_best_acc}, p['checkpoint_dir'])
+
+        # Save the training loss values
+        np.save(p['train_loss_dir'], loss_train_values)
+        np.save(p['val_loss_dir'], loss_val_values)
+        np.save(p['test_acc_dir'], acc_test_values)
     
     # Save final model
     torch.save(model.state_dict(), p['model_dir'])
-
-    # Save the training loss values
-    np.save(p['train_loss_dir'], loss_train_values)
-    np.save(p['val_loss_dir'], loss_val_values)
-    np.save(p['test_acc_dir'], acc_test_values)
-
     print('Training complete')
 
 if __name__ == "__main__":

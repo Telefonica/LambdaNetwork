@@ -42,8 +42,6 @@ def create_config(config_file_env, config_file_exp):
     cfg['model_dir'] = os.path.join(base_dir, 'model.pth.tar')
     cfg['train_loss_dir'] = os.path.join(base_dir, 'train_loss.npy')
     cfg['val_loss_dir'] = os.path.join(base_dir, 'val_loss.npy')
-    cfg['test_loss_dir'] = os.path.join(base_dir, 'test_loss.npy')
-    cfg['val_acc_dir'] = os.path.join(base_dir, 'val_accuracy.npy')
     cfg['test_acc_dir'] = os.path.join(base_dir, 'test_accuracy.npy')
 
     return cfg 
