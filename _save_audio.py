@@ -7,13 +7,13 @@ import torch
 import matplotlib.pyplot as plt
 from torchaudio import load
 
-config_exp = './configs/lambdaResnet2D_supervised.yml'
+config_exp = './configs/google_commands/LambdaResnet2D.yml'
 config_env = './configs/env.yml'
 
 p = create_config(config_env, config_exp)
 
 transforms = get_val_transformations(p)
-dataset = get_dataset(p, transform=transforms, to_augmented_dataset=False, subset="validation")
+dataset = get_dataset(p, transform=transforms, subset="validation")
 dataloader = get_train_dataloader(p, dataset)
 
 audio = dataset[0]['audio']

@@ -3,16 +3,10 @@ import math
 import numpy as np
 import torch
 import torch.nn as nn
-import torchaudio
-import torchaudio.transforms as audio_transforms
 import data.augment as augment
 
 # On this case, p is config file and p['criterion_kwargs'] includes the temperature
 def get_criterion(p):
-    if p['criterion'] == 'simclr':
-        from losses.losses import SimCLRLoss
-        criterion = SimCLRLoss(**p['criterion_kwargs'])
-
     if p['criterion'] == 'supervised':
         from losses.losses import CrossEntropyLoss
         criterion = CrossEntropyLoss()
@@ -20,73 +14,60 @@ def get_criterion(p):
     return criterion
 
 
-def get_feature_dimensions_backbone(p):
-    if p['backbone'] == 'lambdaResnet18':
-        return 512
+def get_model(p):
 
-    elif p['backbone'] == 'lambdaResnet50':
-        return 2048
+    if p['setup'] == '2D':
+        from models import LambdaResnets_2D as LambdaResnets
+    if p['setup'] == '1D':
+        from models import LambdaResnets_1D as LambdaResnets
 
-    else:
-        raise NotImplementedError
-
-
-def get_model(p, pretrain_path=None):
-    if p['backbone'] == 'lambdaResnet50':
-        from models import LambdaResnets
-        backbone = LambdaResnets.LambdaResNet50(in_channels=1)
-    
-    if p['backbone'] == 'lambdaResnet18':
-        from models import LambdaResnets
+    if p['backbone'] == 'LambdaResnet18':
         backbone = LambdaResnets.LambdaResNet18(in_channels=1)
 
+    # TODO FIX FOR RESNETS
     if p['backbone'] == 'Resnet50':
-        from models import Resnets
-        backbone = Resnets.ResNet50(in_channels=1)
+        from models import Resnets_2D
+        backbone = Resnets_2D.ResNet50(in_channels=1)
     
     if p['backbone'] == 'Resnet18':
-        from models import Resnets
-        backbone = Resnets.ResNet18(in_channels=1)
+        from models import Resnets_2D
+        backbone = Resnets_2D.ResNet18(in_channels=1)
 
     if p['backbone'] == 'LightResnet15':
-        from models import LightResnets
-        backbone = LightResnets.ResNet15(in_channels=1)
+        from models import LightResnets_2D
+        backbone = LightResnets_2D.ResNet15(in_channels=1)
 
-    if p['setup'] == 'contrastive':
-        from models.heads import ContrastiveModel
-        model = ContrastiveModel(backbone)
 
-    if p['setup'] == 'supervised':
-        from models.heads import SupervisedModel
-        model = SupervisedModel(backbone, **p['model_kwargs'])
+    from models.heads import SupervisedModel
+    model = SupervisedModel(backbone, **p['model_kwargs'])
     
     return model
 
 
-def get_dataset(p, transform, to_augmented_dataset=False, to_neighbors_dataset=False, split=None, subset=None):
-    if p['train_db_name'] == 'google_commands':
+def get_dataset(p, transform, subset=None):
+    if p['db_name'] == 'google_commands':
         from data.datasets import SpeechCommands
         dataset = SpeechCommands(num_labels=p['num_labels'], subset=subset)
 
-    from data.custom_dataset import MelDataset
-    dataset = MelDataset(dataset, **p['spectogram_kwargs'], transform=transform)
+    from data.custom_dataset import AudioDataset
+    dataset = AudioDataset(dataset, transform=transform)
 
-    # Wrap into other dataset (__getitem__ changes)
-    if to_augmented_dataset: # Dataset returns pairs of augmented audio
-        from data.custom_dataset import AugmentedDataset
-        dataset = AugmentedDataset(dataset, transform=transform)
+    if p['setup'] == '2D':
+        from data.custom_dataset import MelDataset
+        dataset = MelDataset(dataset, **p['spectogram_kwargs'])
 
     return dataset
 
+
 def get_train_dataloader(p, dataset):
+    
     # Get weighted sampler if we use less than all the commands
-    if p['train_db_name'] == 'google_commands' and p['num_labels'] != 35:
+    if p['db_name'] == 'google_commands' and p['num_labels'] != 35:
         from data.samplers import get_SpeechCommandsSampler
         sampler = get_SpeechCommandsSampler(p, dataset)
 
         return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
             batch_size=p['batch_size'], sampler=sampler, pin_memory=True)
-
 
     return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
             batch_size=p['batch_size'], pin_memory=True,
@@ -100,26 +81,26 @@ def get_val_dataloader(p, dataset):
 
 
 def get_train_transformations(p):
-    if p['augmentation_strategy'] == 'audio':
+    if p['transformation_strategy'] == 'audio':
         return nn.Sequential(
-            #augment.PadTrim(p=0.5),                    # NOT WORK: DONT KNOW ?
-            augment.VolTransform(p=0.6),                # Increases / Decreases volume
-            #augment.VadTransform(p=0.5),               # NOT NEEDED: Tries to trim Silence in the audio
-            #augment.FadeTransform(p=0.5),              # NOT WORK: FIX RANDOM RANGES
-            augment.CropTransform(p=0.2),               # Randomply crop a small part of the signal
-            #augment.RIRTransform(p=0.5),               # Room impulse response
-            #augment.GaussianSNRTransform(p=0.5),       # Adding Gaussian noise
-            augment.TimeStretchTransform(p=0.3),        # Increase / Decrease time without mod its pitch
-            augment.PitchShiftTransform(p=0.2),         # Shif the pitch of the signal
-            augment.ShiftTransform(p=0.3),              # Shift the audio signal temporally
-            augment.ClippingDistortionTransform(p=0.2), # Saturation distortion the audio signal
-            #augment.AddBackgroundNoise(p=0.7),         # Add background noise randomly picked (volume)
-            augment.AddBackgroundNoiseSNR(p=0.7),       # Add background noise randomly picked (SNR)
-            augment.LengthTransform()                   # After all the transforms, keep the same length
+            #augment.PadTrim(p=0.5),                                                        # NOT WORK: DONT KNOW ?
+            augment.VolTransform(p=p['transformation_kwargs']['volume']['p']),                # Increases / Decreases volume
+            #augment.VadTransform(p=0.5),                                                   # NOT NEEDED: Tries to trim Silence in the audio
+            #augment.FadeTransform(p=0.5),                                                  # NOT WORK: FIX RANDOM RANGES
+            augment.CropTransform(p=p['transformation_kwargs']['crop']['p']),               # Randomply crop a small part of the signal
+            #augment.RIRTransform(p=0.5),                                                   # Room impulse response
+            #augment.GaussianSNRTransform(p=0.5),                                           # Adding Gaussian noise
+            augment.TimeStretchTransform(p=p['transformation_kwargs']['time_strech']['p']), # Increase / Decrease time without mod its pitch
+            augment.PitchShiftTransform(p=p['transformation_kwargs']['pitch_shift']['p']),  # Shif the pitch of the signal
+            augment.ShiftTransform(p=p['transformation_kwargs']['temporal_shift']['p']),    # Shift the audio signal temporally
+            augment.ClippingDistortionTransform(p=p['transformation_kwargs']['clipping_distortion']['p']), # Saturation distortion the audio signal
+            #augment.AddBackgroundNoise(p=0.7),                                             # Add background noise randomly picked (volume)
+            augment.AddBackgroundNoiseSNR(p=p['transformation_kwargs']['background_noise']['p']), # Add background noise randomly picked (SNR)
+            augment.LengthTransform()                                                       # After all the transforms, keep the same length
         )
 
 def get_val_transformations(p):
-    if p['augmentation_strategy'] == 'audio':
+    if p['transformation_strategy'] == 'audio':
         return nn.Sequential(
             augment.LengthTransform()
         )

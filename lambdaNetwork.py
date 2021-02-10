@@ -3,7 +3,7 @@ import torch
 import numpy as np
 
 from utils.config import create_config
-from utils.train_utils import simclr_train, supervised_train, supervised_val, supervised_test
+from utils.train_utils import supervised_train, supervised_val, supervised_test
 from utils.common_config import get_model, get_criterion, get_optimizer, adjust_learning_rate, get_dataset,\
                                 get_train_transformations, get_train_dataloader,\
                                 get_val_transformations, get_val_dataloader
@@ -38,26 +38,26 @@ def main():
     # Dataset: Get Train and Evaluation
     train_transforms = get_train_transformations(p)
     val_transforms = get_val_transformations(p)
-    
-    # Split whole dataset in train/validation and get loaders
-    if p['setup'] == 'contrastive':
-        to_augmented_dataset = True
-    elif p['setup'] == 'supervised':
-        to_augmented_dataset = False
 
-    train_dataset = get_dataset(p, train_transforms, to_augmented_dataset=to_augmented_dataset, subset="training")
-    val_dataset = get_dataset(p, val_transforms, to_augmented_dataset=False, subset="validation")
-    test_dataset = get_dataset(p, val_transforms, to_augmented_dataset=False, subset="testing")
+    train_dataset = get_dataset(p, train_transforms, subset="training")
+    val_dataset = get_dataset(p, val_transforms, subset="validation")
+    test_dataset = get_dataset(p, val_transforms, subset="testing")
     
     train_dataloader = get_train_dataloader(p, train_dataset)
     val_dataloader = get_val_dataloader(p, val_dataset)
     test_dataloader = get_val_dataloader(p, test_dataset)
 
-    # Print the model shape and memory on the GPU
+    # Print the model shape and memory on the GPU or CPU
     if cuda:
-        print(summary(model, train_dataset[0]['mel_spectogram'].cuda().shape, batch_size=p['batch_size'], device=device))
+        if p['setup'] == '1D':
+            print(summary(model, train_dataset[0]['audio'].cuda().shape, batch_size=p['batch_size'], device=device))
+        if p['setup'] == '2D':
+            print(summary(model, train_dataset[0]['mel_spectogram'].cuda().shape, batch_size=p['batch_size'], device=device))
     else:
-        print(summary(model, train_dataset[0]['mel_spectogram'].shape, batch_size=p['batch_size'], device='cpu'))
+        if p['setup'] == '1D':
+            print(summary(model, train_dataset[0]['audio'].shape, batch_size=p['batch_size'], device='cpu'))
+        if p['setup'] == '2D':
+            print(summary(model, train_dataset[0]['mel_spectogram'].shape, batch_size=p['batch_size'], device='cpu'))
 
     print('Train transforms:', train_transforms)
     print('Validation transforms:', val_transforms)
@@ -95,18 +95,14 @@ def main():
 
         # Train
         print('Train...')
-        if p['setup'] == 'contrastive':
-            loss_train = simclr_train(train_dataloader, model, criterion, optimizer, epoch)
-            loss_val = 0
-        elif p['setup'] == 'supervised':
-            loss_train = supervised_train(train_dataloader, model, criterion, optimizer)
-            loss_val = supervised_val(val_dataloader, model, criterion, optimizer)
-            acc_test = supervised_test(test_dataloader, model, criterion)
+        loss_train = supervised_train(train_dataloader, model, criterion, optimizer, p['setup'])
+        loss_val = supervised_val(val_dataloader, model, criterion, optimizer, p['setup'])
+        acc_test = supervised_test(test_dataloader, model, criterion, p['setup'])
 
-            if current_best_acc < acc_test:
-                print('Saving the most accurate current model for the Test dataset')
-                torch.save(model.state_dict(), p['model_test'])
-                current_best_acc = acc_test
+        if current_best_acc < acc_test:
+            print('Saving the most accurate current model for the Test dataset')
+            torch.save(model.state_dict(), p['model_test'])
+            current_best_acc = acc_test
 
         loss_train_values.append(loss_train)
         loss_val_values.append(loss_val)

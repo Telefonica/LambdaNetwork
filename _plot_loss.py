@@ -48,4 +48,5 @@ acc_axs.set_ylabel('Accuracy')
 acc_axs.grid(linestyle='dotted')
 
 # Show the resuling plot
+plt.savefig(args.output + 'train.png', dpi=300)
 plt.show()

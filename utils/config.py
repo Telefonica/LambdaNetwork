@@ -28,10 +28,14 @@ def create_config(config_file_env, config_file_exp):
     for k, v in config.items():
         cfg[k] = v
 
-    # Set paths for pretext task (These directories are needed in every stage)
-    model_name = cfg['backbone'] + '_' + str(cfg['num_labels'])
-    base_dir = os.path.join(root_dir, model_name)
+    # Set paths for the task of the dataset:
+    dataset_dir = os.path.join(root_dir, cfg['db_name'])
+    mkdir_if_missing(dataset_dir)
+
+    model_name = cfg['backbone'] + '_' + cfg['setup'] + '_' + str(cfg['num_labels'])
+    base_dir = os.path.join(dataset_dir, model_name)
     mkdir_if_missing(base_dir)
+    
     cfg['base_dir'] = base_dir
     cfg['checkpoint_dir'] = os.path.join(base_dir, 'checkpoint.pth.tar')
     cfg['model_test'] = os.path.join(base_dir, 'best_model.pth.tar')
