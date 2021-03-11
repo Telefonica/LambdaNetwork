@@ -1,14 +1,17 @@
 import torch
 
 
-def supervised_train(train_loader, model, criterion, optimizer, setup):
+def supervised_train(train_loader, model, criterion, optimizer, setup, frontend='None'):
     model.train()
     total_loss = 0
 
     for i, batch in enumerate(train_loader):
         
         if setup == '1D':
-            input = batch['audio'].cuda(non_blocking=True)
+            if frontend == 'raw':
+                input = batch['audio'].cuda(non_blocking=True)
+            if frontend == 'mel':
+                input = torch.squeeze(batch['mel_spectogram']).cuda(non_blocking=True)
         elif setup == '2D':
             input = batch['mel_spectogram'].cuda(non_blocking=True)
         
@@ -28,14 +31,17 @@ def supervised_train(train_loader, model, criterion, optimizer, setup):
     return total_loss / (i+1)
 
 
-def supervised_val(val_loader, model, criterion, optimizer, setup):
+def supervised_val(val_loader, model, criterion, optimizer, setup, frontend='None'):
     model.train()
     total_loss = 0
 
     for i, batch in enumerate(val_loader):
         
         if setup == '1D':
-            input = batch['audio'].cuda(non_blocking=True)
+            if frontend == 'raw':
+                input = batch['audio'].cuda(non_blocking=True)
+            if frontend == 'mel':
+                input = torch.squeeze(batch['mel_spectogram']).cuda(non_blocking=True)
         elif setup == '2D':
             input = batch['mel_spectogram'].cuda(non_blocking=True)
 
@@ -54,7 +60,7 @@ def supervised_val(val_loader, model, criterion, optimizer, setup):
 
 
 @torch.no_grad()
-def supervised_test(val_loader, model, criterion, setup):
+def supervised_test(val_loader, model, criterion, setup, frontend='None'):
     model.eval()
     corrects = 0
     total_samples = 0
@@ -62,7 +68,10 @@ def supervised_test(val_loader, model, criterion, setup):
     for i, batch in enumerate(val_loader):
 
         if setup == '1D':
-            input = batch['audio'].cuda(non_blocking=True)
+            if frontend == 'raw':
+                input = batch['audio'].cuda(non_blocking=True)
+            if frontend == 'mel':
+                input = torch.squeeze(batch['mel_spectogram']).cuda(non_blocking=True)
         elif setup == '2D':
             input = batch['mel_spectogram'].cuda(non_blocking=True)
 

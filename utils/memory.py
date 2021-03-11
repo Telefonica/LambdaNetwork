@@ -4,22 +4,26 @@ Licensed under the CC BY-NC 4.0 license (https://creativecommons.org/licenses/by
 """
 import numpy as np
 import torch
-import faiss
+#import faiss
 
 
 class MemoryBank(object):
     def __init__(self, n, dim, num_classes, temperature):
         self.n = n
         self.dim = dim 
-        self.features = torch.FloatTensor(self.n, self.dim)
+        if dim != 35:
+            self.features = torch.FloatTensor(self.n, self.dim+1)
+        else:
+            self.features = torch.FloatTensor(self.n, self.dim)
         self.targets = torch.FloatTensor(self.n)
         self.ptr = 0
         self.device = 'cpu'
         self.K = 100
         self.temperature = temperature
         self.C = num_classes
+        self.labels = []
 
-        self.ngpus = faiss.get_num_gpus()
+        #self.ngpus = faiss.get_num_gpus()
 
     def weighted_knn(self, predictions):
         # perform weighted knn
@@ -64,11 +68,12 @@ class MemoryBank(object):
     def reset(self):
         self.ptr = 0 
         
-    def update(self, features, targets):
+    def update(self, features, targets, label):
         b = features.size(0)
         assert(b + self.ptr <= self.n)
         self.features[self.ptr:self.ptr+b].copy_(features.detach())
         self.targets[self.ptr:self.ptr+b].copy_(targets.detach())
+        self.labels.append(label)
         self.ptr += b
 
     def get_memory(self):
@@ -99,14 +104,18 @@ class MemoryBank(object):
 
 
 @torch.no_grad()
-def fill_memory_bank(loader, model, memory_bank):
+def fill_memory_bank(loader, model, memory_bank, setup):
     model.eval()
     memory_bank.reset()
 
     for i, batch in enumerate(loader):
-        mel = batch['mel_spectogram'].cuda(non_blocking=True)
-        output = model(mel)
+        if setup == '1D':
+            input = batch['audio'].cuda(non_blocking=True)
+        elif setup == '2D':
+            input = batch['mel_spectogram'].cuda(non_blocking=True)
+        output = model(input)
         target = batch['target']
-        memory_bank.update(output, target)
+        label = batch['label']
+        memory_bank.update(output, target, label)
         if i % 100 == 0:
             print('Fill Memory Bank [%d/%d]' %(i, len(loader)))

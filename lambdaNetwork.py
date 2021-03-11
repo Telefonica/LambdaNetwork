@@ -51,12 +51,19 @@ def main():
     # Print the model shape and memory on the GPU or CPU
     if cuda:
         if p['setup'] == '1D':
-            print(summary(model, train_dataset[0]['audio'].cuda().shape, batch_size=p['batch_size'], device=device))
+            if p['frontend'] == 'raw':
+                print(summary(model, train_dataset[0]['audio'].cuda().shape, batch_size=p['batch_size'], device=device))
+            elif p['frontend'] == 'mel':
+                print(summary(model, torch.squeeze(train_dataset[0]['mel_spectogram']).cuda().shape, batch_size=p['batch_size'], device=device))
+
         if p['setup'] == '2D':
             print(summary(model, train_dataset[0]['mel_spectogram'].cuda().shape, batch_size=p['batch_size'], device=device))
     else:
         if p['setup'] == '1D':
-            print(summary(model, train_dataset[0]['audio'].shape, batch_size=p['batch_size'], device='cpu'))
+            if p['frontend'] == 'raw':
+                print(summary(model, train_dataset[0]['audio'].shape, batch_size=p['batch_size'], device='cpu'))
+            elif p['frontend'] == 'mel':
+                print(summary(model, torch.squeeze(train_dataset[0]['mel_spectogram']).shape, batch_size=p['batch_size'], device='cpu'))
         if p['setup'] == '2D':
             print(summary(model, train_dataset[0]['mel_spectogram'].shape, batch_size=p['batch_size'], device='cpu'))
 
@@ -108,9 +115,9 @@ def main():
 
         # Train
         print('Train...')
-        loss_train = supervised_train(train_dataloader, model, criterion, optimizer, p['setup'])
-        loss_val = supervised_val(val_dataloader, model, criterion, optimizer, p['setup'])
-        acc_test = supervised_test(test_dataloader, model, criterion, p['setup'])
+        loss_train = supervised_train(train_dataloader, model, criterion, optimizer, p['setup'], p['frontend'])
+        loss_val = supervised_val(val_dataloader, model, criterion, optimizer, p['setup'], p['frontend'])
+        acc_test = supervised_test(test_dataloader, model, criterion, p['setup'], p['frontend'])
 
         if current_best_acc < acc_test:
             print('Saving the most accurate current model for the Test dataset')

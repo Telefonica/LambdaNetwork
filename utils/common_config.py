@@ -22,7 +22,10 @@ def get_model(p):
         from models import LambdaResnets_1D as LambdaResnets
 
     if p['backbone'] == 'LambdaResnet18':
-        backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+        if p['frontend'] == 'mel':
+            backbone = LambdaResnets.LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'])
+        else:
+            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
 
     # TODO FIX FOR RESNETS
     if p['backbone'] == 'Resnet50':
@@ -55,6 +58,11 @@ def get_dataset(p, transform, subset=None):
     if p['setup'] == '2D':
         from data.custom_dataset import MelDataset
         dataset = MelDataset(dataset, **p['spectogram_kwargs'])
+
+    else:
+        if p['frontend'] == 'mel':
+            from data.custom_dataset import MelDataset
+            dataset = MelDataset(dataset, **p['spectogram_kwargs'])
 
     return dataset
 

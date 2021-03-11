@@ -1,15 +1,16 @@
 # Setup
-setup: 2D
+setup: 1D
 
 # Dataset
 db_name: google_commands
-num_labels: 10
+num_labels: 35
 
 # Model
 backbone: LambdaResnet18
+frontend: sincnet
 model_kwargs:
    head: mlp
-   num_labels: 10
+   num_labels: 35
 
 # Loss
 criterion: supervised
@@ -27,7 +28,7 @@ optimizer_kwargs:
 scheduler: cosine
 scheduler_kwargs:
    lr_decay_rate: 0.1
-batch_size: 256
+batch_size: 32
 num_workers: 12
 
 # Transformations
