@@ -32,10 +32,7 @@ def create_config(config_file_env, config_file_exp):
     dataset_dir = os.path.join(root_dir, cfg['db_name'])
     mkdir_if_missing(dataset_dir)
 
-    if cfg['setup'] == '1D':
-        model_name = cfg['backbone'] + '_' + cfg['setup'] + '_' + cfg['frontend'] + '_' + str(cfg['num_labels'])
-    else:
-        model_name = cfg['backbone'] + '_' + cfg['setup'] + '_' + str(cfg['num_labels'])
+    model_name = cfg['backbone'] + '_' + cfg['setup'] + '_' + cfg['frontend'] + '_' + str(cfg['num_labels'])
     base_dir = os.path.join(dataset_dir, model_name)
     mkdir_if_missing(base_dir)
     

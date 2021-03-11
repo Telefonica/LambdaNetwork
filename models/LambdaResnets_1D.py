@@ -108,6 +108,11 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
+        
+        # In case the MEL has a 1 channel
+        if x.shape[1] == 1 and len(x.shape) > 3:
+            x = torch.squeeze(x)
+
         out = self.relu(self.bn1(self.conv1(x)))
         out = self.maxpool(out)
 

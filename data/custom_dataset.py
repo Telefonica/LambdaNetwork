@@ -32,7 +32,7 @@ class AudioDataset(Dataset):
         # Audio data augmentation
         audio = self.transform(sample['audio'])
         
-        return {'audio': audio,
+        return {'input': audio,
                 'label': label,
                 'target': self.labels.index(label)}
 
@@ -69,9 +69,8 @@ class MelDataset(Dataset):
             label = 'unknown'
         
         # Getting the spectogram
-        mel_spectogram = torch.log(self.mel(sample['audio'])+0.001)
+        mel_spectogram = torch.log(self.mel(sample['input'])+0.001)
         
-        return {'audio': sample['audio'],
-                'mel_spectogram': mel_spectogram,
+        return {'input': mel_spectogram,
                 'label': label,
                 'target': self.labels.index(label)}

@@ -18,13 +18,86 @@ def get_model(p):
 
     if p['setup'] == '2D':
         from models import LambdaResnets_2D as LambdaResnets
+        if p['frontend'] == 'mel':
+            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+        if p['frontend'] == 'sincnet':
+            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+
+            # BIG TODO HERE: Move this variables to the config file
+            # [cnn]
+            fs = 16000
+            cw_len = 1000
+            wlen = int(fs*cw_len/1000.00)
+            cnn_N_filt = 80, 60, 60
+            cnn_len_filt = 251, 5, 5
+            cnn_max_pool_len=3, 3, 3
+            cnn_use_laynorm_inp=True
+            cnn_use_batchnorm_inp=False
+            cnn_use_laynorm=True, True, True
+            cnn_use_batchnorm=False, False, False
+            cnn_act= ['relu','relu','relu']
+            cnn_drop=0.0, 0.0, 0.0
+
+            CNN_arch = {'input_dim': wlen,
+                'fs': fs,
+                'cnn_N_filt': cnn_N_filt,
+                'cnn_len_filt': cnn_len_filt,
+                'cnn_max_pool_len':cnn_max_pool_len,
+                'cnn_use_laynorm_inp': cnn_use_laynorm_inp,
+                'cnn_use_batchnorm_inp': cnn_use_batchnorm_inp,
+                'cnn_use_laynorm':cnn_use_laynorm,
+                'cnn_use_batchnorm':cnn_use_batchnorm,
+                'cnn_act': cnn_act,
+                'cnn_drop':cnn_drop,          
+            }
+
+            from models.SincNet import SincNet
+            sincnet = SincNet(CNN_arch)
+            # END TODO
+    
     if p['setup'] == '1D':
         from models import LambdaResnets_1D as LambdaResnets
 
-    if p['backbone'] == 'LambdaResnet18':
         if p['frontend'] == 'mel':
             backbone = LambdaResnets.LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'])
-        else:
+    
+        elif p['frontend'] == 'sincnet':
+
+            # BIG TODO HERE: Move this variables to the config file
+            # [cnn]
+            fs = 16000
+            cw_len = 1000
+            wlen = int(fs*cw_len/1000.00)
+            cnn_N_filt = 80, 60, 60
+            cnn_len_filt = 251, 5, 5
+            cnn_max_pool_len=3, 3, 3
+            cnn_use_laynorm_inp=True
+            cnn_use_batchnorm_inp=False
+            cnn_use_laynorm=True, True, True
+            cnn_use_batchnorm=False, False, False
+            cnn_act= ['relu','relu','relu']
+            cnn_drop=0.0, 0.0, 0.0
+
+            CNN_arch = {'input_dim': wlen,
+                'fs': fs,
+                'cnn_N_filt': cnn_N_filt,
+                'cnn_len_filt': cnn_len_filt,
+                'cnn_max_pool_len':cnn_max_pool_len,
+                'cnn_use_laynorm_inp': cnn_use_laynorm_inp,
+                'cnn_use_batchnorm_inp': cnn_use_batchnorm_inp,
+                'cnn_use_laynorm':cnn_use_laynorm,
+                'cnn_use_batchnorm':cnn_use_batchnorm,
+                'cnn_act': cnn_act,
+                'cnn_drop':cnn_drop,          
+            }
+
+            from models.SincNet import SincNet
+            sincnet = SincNet(CNN_arch)
+            # END TODO
+
+            backbone = LambdaResnets.LambdaResNet18(in_channels=60)
+        
+        elif p['frontend'] == 'raw':
             backbone = LambdaResnets.LambdaResNet18(in_channels=1)
 
     # TODO FIX FOR RESNETS
@@ -42,12 +115,18 @@ def get_model(p):
 
 
     from models.heads import SupervisedModel
-    model = SupervisedModel(backbone, **p['model_kwargs'])
+
+    # Add the frontend network
+    if p['frontend'] == 'sincnet':
+        model = SupervisedModel(backbone, frontend=sincnet, **p['model_kwargs'])
+    else:
+        model = SupervisedModel(backbone, **p['model_kwargs'])
     
     return model
 
 
 def get_dataset(p, transform, subset=None):
+    
     if p['db_name'] == 'google_commands':
         from data.datasets import SpeechCommands
         dataset = SpeechCommands(num_labels=p['num_labels'], subset=subset)
@@ -55,15 +134,10 @@ def get_dataset(p, transform, subset=None):
     from data.custom_dataset import AudioDataset
     dataset = AudioDataset(dataset, transform=transform)
 
-    if p['setup'] == '2D':
+    if p['frontend'] == 'mel':
         from data.custom_dataset import MelDataset
         dataset = MelDataset(dataset, **p['spectogram_kwargs'])
-
-    else:
-        if p['frontend'] == 'mel':
-            from data.custom_dataset import MelDataset
-            dataset = MelDataset(dataset, **p['spectogram_kwargs'])
-
+    
     return dataset
 
 

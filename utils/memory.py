@@ -104,15 +104,13 @@ class MemoryBank(object):
 
 
 @torch.no_grad()
-def fill_memory_bank(loader, model, memory_bank, setup):
+def fill_memory_bank(loader, model, memory_bank, setup, frontend):
     model.eval()
     memory_bank.reset()
 
     for i, batch in enumerate(loader):
-        if setup == '1D':
-            input = batch['audio'].cuda(non_blocking=True)
-        elif setup == '2D':
-            input = batch['mel_spectogram'].cuda(non_blocking=True)
+        
+        input = batch['input'].cuda(non_blocking=True)
         output = model(input)
         target = batch['target']
         label = batch['label']

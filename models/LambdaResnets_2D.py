@@ -108,6 +108,9 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
+        if x.shape[1] != 1:
+            x = torch.unsqueeze(x, dim=1)
+
         out = self.relu(self.bn1(self.conv1(x)))
         out = self.maxpool(out)
 

@@ -65,7 +65,7 @@ def main():
         memory_bank.cuda()
 
     print('Fill Memory Bank')
-    fill_memory_bank(test_dataloader, model, memory_bank, p['setup'])
+    fill_memory_bank(test_dataloader, model, memory_bank)
     eval_output, eval_target = memory_bank.get_memory()
 
     print('Evaluating the predictions')
