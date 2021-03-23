@@ -49,10 +49,14 @@ def main():
     test_dataloader = get_val_dataloader(p, test_dataset)
 
     # Print the model shape and memory on the GPU or CPU
+    print(train_dataset[0]['input'].cuda().shape)
+    
     if cuda:
         print(summary(model, train_dataset[0]['input'].cuda().shape, batch_size=p['batch_size'], device=device))
     else:
         print(summary(model, train_dataset[0]['input'].shape, batch_size=p['batch_size'], device='cpu'))
+    
+    
 
     print('Train transforms:', train_transforms)
     print('Validation transforms:', val_transforms)

@@ -45,8 +45,22 @@ print(model(input))
 
 import torch
 from models.Resnets_2D import ResNet15
+from models.LambdaResnets_2D import LambdaResNet15_2d
+from models.LambdaResnets_1D import LambdaResNet15_1d
+from torchscan import summary
 
-model = ResNet15(in_channels=1)
-backbone = model['backbone']
-input = torch.zeros([3, 100, 40])
-print(backbone(input).shape)
+input = torch.zeros([5, 1, 40, 100])
+
+res15 = ResNet15(in_channels=1, n_maps=44)['backbone']
+lambdaRes15_2d = LambdaResNet15_2d(in_channels=1, n_maps=44)['backbone']
+lambdaRes15_1d = LambdaResNet15_1d(in_channels=40, n_maps=44)['backbone']
+
+import sys
+
+print(summary(res15, (1,40,101)))
+print(summary(lambdaRes15_2d, (1,40,101)))
+print(summary(lambdaRes15_1d, (1,40,101)))
+
+print('Resnet 15 2D {}'.format(res15(input).shape))
+print('Lambda Resnet 15 2D {}'.format(lambdaRes15_2d(input).shape))
+print('Lambda Resnet 15 1D {}'.format(lambdaRes15_1d(input).shape))

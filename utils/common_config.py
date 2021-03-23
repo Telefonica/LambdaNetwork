@@ -19,7 +19,8 @@ def get_model(p):
     if p['setup'] == '2D':
         from models import LambdaResnets_2D as LambdaResnets
         if p['frontend'] == 'mel':
-            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+            #backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+            backbone = LambdaResnets.LambdaResNet15_2d(in_channels=1)
         
         if p['frontend'] == 'sincnet':
             backbone = LambdaResnets.LambdaResNet18(in_channels=1)
@@ -60,7 +61,8 @@ def get_model(p):
         from models import LambdaResnets_1D as LambdaResnets
 
         if p['frontend'] == 'mel':
-            backbone = LambdaResnets.LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'])
+            #backbone = LambdaResnets.LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'])
+            backbone = LambdaResnets.LambdaResNet15_1d(in_channels=p['spectogram_kwargs']['n_mels'])
     
         elif p['frontend'] == 'sincnet':
 

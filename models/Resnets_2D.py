@@ -143,8 +143,11 @@ class Res15(nn.Module):
         #return x.unsqueeze(-2), length
 
 
-def ResNet15(in_channels=1):
-    return {'backbone': Res15(in_channels=in_channels, n_maps=45), 'dim': 45}
+from models.LambdaLayers import LambdaLayer2D
+
+def ResNet15(in_channels=1, n_maps=45):
+    return {'backbone': Res15(in_channels=in_channels, n_maps=n_maps), 'dim': 45}
+
 
 def ResNet18(in_channels=1):
     return {'backbone': ResNet(BasicBlock, [2, 2, 2, 2], in_channels=in_channels), 'dim': 512}
