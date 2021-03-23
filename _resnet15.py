@@ -32,6 +32,7 @@ inp = torch.zeros([1, 1, 100, 100])
 print(model(inp))
 '''
 
+'''
 import torch
 from models.LambdaResnets_1D import LambdaResNet18
 from models.heads import SupervisedModel
@@ -40,3 +41,12 @@ in_channels = input.shape[1]
 backbone = LambdaResNet18(in_channels=in_channels)
 model = SupervisedModel(backbone, num_labels=35)
 print(model(input))
+'''
+
+import torch
+from models.Resnets_2D import ResNet15
+
+model = ResNet15(in_channels=1)
+backbone = model['backbone']
+input = torch.zeros([3, 100, 40])
+print(backbone(input).shape)

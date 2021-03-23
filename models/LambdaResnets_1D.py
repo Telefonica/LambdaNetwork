@@ -111,7 +111,7 @@ class ResNet(nn.Module):
         
         # In case the MEL has a 1 channel
         if x.shape[1] == 1 and len(x.shape) > 3:
-            x = torch.squeeze(x)
+            x = torch.squeeze(x, dim=1)
 
         out = self.relu(self.bn1(self.conv1(x)))
         out = self.maxpool(out)

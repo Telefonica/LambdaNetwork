@@ -1,14 +1,4 @@
-import wavencoder
-from wavencoder.models import SincNet
 import torch
-
-input = torch.randn(5, 1, 16000)
-
-
-#model = SincNet(only_cnn=True, pretrained=True, device=torch.device('cpu'))
-
-#print(model(input).shape)
-
 from models.SincNet import SincNet
 
 # [cnn]
@@ -58,4 +48,5 @@ CNN_arch = {'input_dim': wlen,
 
 model = SincNet(CNN_arch)
 
+input = torch.randn(5, 1, 16000)
 print(model(input).shape)

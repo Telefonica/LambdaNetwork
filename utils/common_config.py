@@ -20,6 +20,7 @@ def get_model(p):
         from models import LambdaResnets_2D as LambdaResnets
         if p['frontend'] == 'mel':
             backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+        
         if p['frontend'] == 'sincnet':
             backbone = LambdaResnets.LambdaResNet18(in_channels=1)
 
@@ -107,7 +108,11 @@ def get_model(p):
     
     if p['backbone'] == 'Resnet18':
         from models import Resnets_2D
-        backbone = Resnets_2D.ResNet18(in_channels=1)
+        backbone = Resnets_2D.ResNet18(in_channels=1)\
+    
+    if p['backbone'] == 'Resnet15':
+        from models import Resnets_2D
+        backbone = Resnets_2D.ResNet15(in_channels=1)
 
     if p['backbone'] == 'LightResnet15':
         from models import LightResnets_2D

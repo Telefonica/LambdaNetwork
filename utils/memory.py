@@ -104,7 +104,7 @@ class MemoryBank(object):
 
 
 @torch.no_grad()
-def fill_memory_bank(loader, model, memory_bank, setup, frontend):
+def fill_memory_bank(loader, model, memory_bank):
     model.eval()
     memory_bank.reset()
 
