@@ -13,121 +13,26 @@ def get_criterion(p):
     
     return criterion
 
-
 def get_model(p):
 
-    if p['setup'] == '2D':
-        from models import LambdaResnets_2D as LambdaResnets
-        if p['frontend'] == 'mel':
-            #backbone = LambdaResnets.LambdaResNet18(in_channels=1)
-            backbone = LambdaResnets.LambdaResNet15_2d(in_channels=1)
-        
-        if p['frontend'] == 'sincnet':
-            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
-
-            # BIG TODO HERE: Move this variables to the config file
-            # [cnn]
-            fs = 16000
-            cw_len = 1000
-            wlen = int(fs*cw_len/1000.00)
-            cnn_N_filt = 80, 60, 60
-            cnn_len_filt = 251, 5, 5
-            cnn_max_pool_len=3, 3, 3
-            cnn_use_laynorm_inp=True
-            cnn_use_batchnorm_inp=False
-            cnn_use_laynorm=True, True, True
-            cnn_use_batchnorm=False, False, False
-            cnn_act= ['relu','relu','relu']
-            cnn_drop=0.0, 0.0, 0.0
-
-            CNN_arch = {'input_dim': wlen,
-                'fs': fs,
-                'cnn_N_filt': cnn_N_filt,
-                'cnn_len_filt': cnn_len_filt,
-                'cnn_max_pool_len':cnn_max_pool_len,
-                'cnn_use_laynorm_inp': cnn_use_laynorm_inp,
-                'cnn_use_batchnorm_inp': cnn_use_batchnorm_inp,
-                'cnn_use_laynorm':cnn_use_laynorm,
-                'cnn_use_batchnorm':cnn_use_batchnorm,
-                'cnn_act': cnn_act,
-                'cnn_drop':cnn_drop,          
-            }
-
-            from models.SincNet import SincNet
-            sincnet = SincNet(CNN_arch)
-            # END TODO
+    if p['backbone'] == 'LambdaResnet':
+        if p['setup'] == '2D':
+            from models import LambdaResnets_2D as LambdaResnets
+            backbone = LambdaResnets.LambdaResNet15(in_channels=1, n_maps=46)
+        if p['setup'] == '1D':
+            from models import LambdaResnets_1D as LambdaResnets
+            backbone = LambdaResnets.LambdaResNet15(in_channels=p['spectogram_kwargs']['n_mels'], n_maps=46)
     
-    if p['setup'] == '1D':
-        from models import LambdaResnets_1D as LambdaResnets
-
-        if p['frontend'] == 'mel':
-            #backbone = LambdaResnets.LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'])
-            backbone = LambdaResnets.LambdaResNet15_1d(in_channels=p['spectogram_kwargs']['n_mels'])
-    
-        elif p['frontend'] == 'sincnet':
-
-            # BIG TODO HERE: Move this variables to the config file
-            # [cnn]
-            fs = 16000
-            cw_len = 1000
-            wlen = int(fs*cw_len/1000.00)
-            cnn_N_filt = 80, 60, 60
-            cnn_len_filt = 251, 5, 5
-            cnn_max_pool_len=3, 3, 3
-            cnn_use_laynorm_inp=True
-            cnn_use_batchnorm_inp=False
-            cnn_use_laynorm=True, True, True
-            cnn_use_batchnorm=False, False, False
-            cnn_act= ['relu','relu','relu']
-            cnn_drop=0.0, 0.0, 0.0
-
-            CNN_arch = {'input_dim': wlen,
-                'fs': fs,
-                'cnn_N_filt': cnn_N_filt,
-                'cnn_len_filt': cnn_len_filt,
-                'cnn_max_pool_len':cnn_max_pool_len,
-                'cnn_use_laynorm_inp': cnn_use_laynorm_inp,
-                'cnn_use_batchnorm_inp': cnn_use_batchnorm_inp,
-                'cnn_use_laynorm':cnn_use_laynorm,
-                'cnn_use_batchnorm':cnn_use_batchnorm,
-                'cnn_act': cnn_act,
-                'cnn_drop':cnn_drop,          
-            }
-
-            from models.SincNet import SincNet
-            sincnet = SincNet(CNN_arch)
-            # END TODO
-
-            backbone = LambdaResnets.LambdaResNet18(in_channels=60)
-        
-        elif p['frontend'] == 'raw':
-            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
-
-    # TODO FIX FOR RESNETS
-    if p['backbone'] == 'Resnet50':
-        from models import Resnets_2D
-        backbone = Resnets_2D.ResNet50(in_channels=1)
-    
-    if p['backbone'] == 'Resnet18':
-        from models import Resnets_2D
-        backbone = Resnets_2D.ResNet18(in_channels=1)\
-    
-    if p['backbone'] == 'Resnet15':
-        from models import Resnets_2D
-        backbone = Resnets_2D.ResNet15(in_channels=1)
-
-    if p['backbone'] == 'LightResnet15':
-        from models import LightResnets_2D
-        backbone = LightResnets_2D.ResNet15(in_channels=1)
-
+    elif p['backbone'] == 'Resnet':
+        if p['setup'] == '2D':
+            from models import Resnets_2D as Resnets
+            backbone = Resnets.ResNet15(in_channels=1, n_maps=45)
+        if p['setup'] == '1D':
+            from models import Resnets_1D as Resnets
+            backbone = Resnets.ResNet15(in_channels=p['spectogram_kwargs']['n_mels'], n_maps=45)
 
     from models.heads import SupervisedModel
-
-    # Add the frontend network
-    if p['frontend'] == 'sincnet':
-        model = SupervisedModel(backbone, frontend=sincnet, **p['model_kwargs'])
-    else:
-        model = SupervisedModel(backbone, **p['model_kwargs'])
+    model = SupervisedModel(backbone, **p['model_kwargs'])
     
     return model
 
@@ -241,3 +146,129 @@ def adjust_learning_rate(p, optimizer, epoch):
         param_group['lr'] = lr
 
     return lr
+
+
+
+
+'''
+def get_model_sincnet(p):
+
+    if p['setup'] == '2D':
+        from models import LambdaResnets_2D as LambdaResnets
+        if p['frontend'] == 'mel':
+            #backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+            backbone = LambdaResnets.LambdaResNet15_2d(in_channels=1)
+        
+        if p['frontend'] == 'sincnet':
+            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+
+            # BIG TODO HERE: Move this variables to the config file
+            # [cnn]
+            fs = 16000
+            cw_len = 1000
+            wlen = int(fs*cw_len/1000.00)
+            cnn_N_filt = 80, 60, 60
+            cnn_len_filt = 251, 5, 5
+            cnn_max_pool_len=3, 3, 3
+            cnn_use_laynorm_inp=True
+            cnn_use_batchnorm_inp=False
+            cnn_use_laynorm=True, True, True
+            cnn_use_batchnorm=False, False, False
+            cnn_act= ['relu','relu','relu']
+            cnn_drop=0.0, 0.0, 0.0
+
+            CNN_arch = {'input_dim': wlen,
+                'fs': fs,
+                'cnn_N_filt': cnn_N_filt,
+                'cnn_len_filt': cnn_len_filt,
+                'cnn_max_pool_len':cnn_max_pool_len,
+                'cnn_use_laynorm_inp': cnn_use_laynorm_inp,
+                'cnn_use_batchnorm_inp': cnn_use_batchnorm_inp,
+                'cnn_use_laynorm':cnn_use_laynorm,
+                'cnn_use_batchnorm':cnn_use_batchnorm,
+                'cnn_act': cnn_act,
+                'cnn_drop':cnn_drop,          
+            }
+
+            from models.SincNet import SincNet
+            sincnet = SincNet(CNN_arch)
+            # END TODO
+    
+    if p['setup'] == '1D':
+        from models import LambdaResnets_1D as LambdaResnets
+
+        if p['frontend'] == 'mel':
+            #backbone = LambdaResnets.LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'])
+            backbone = LambdaResnets.LambdaResNet15_1d(in_channels=p['spectogram_kwargs']['n_mels'])
+    
+        elif p['frontend'] == 'sincnet':
+
+            # BIG TODO HERE: Move this variables to the config file
+            # [cnn]
+            fs = 16000
+            cw_len = 1000
+            wlen = int(fs*cw_len/1000.00)
+            cnn_N_filt = 80, 60, 60
+            cnn_len_filt = 251, 5, 5
+            cnn_max_pool_len=3, 3, 3
+            cnn_use_laynorm_inp=True
+            cnn_use_batchnorm_inp=False
+            cnn_use_laynorm=True, True, True
+            cnn_use_batchnorm=False, False, False
+            cnn_act= ['relu','relu','relu']
+            cnn_drop=0.0, 0.0, 0.0
+
+            CNN_arch = {'input_dim': wlen,
+                'fs': fs,
+                'cnn_N_filt': cnn_N_filt,
+                'cnn_len_filt': cnn_len_filt,
+                'cnn_max_pool_len':cnn_max_pool_len,
+                'cnn_use_laynorm_inp': cnn_use_laynorm_inp,
+                'cnn_use_batchnorm_inp': cnn_use_batchnorm_inp,
+                'cnn_use_laynorm':cnn_use_laynorm,
+                'cnn_use_batchnorm':cnn_use_batchnorm,
+                'cnn_act': cnn_act,
+                'cnn_drop':cnn_drop,          
+            }
+
+            from models.SincNet import SincNet
+            sincnet = SincNet(CNN_arch)
+            # END TODO
+
+            backbone = LambdaResnets.LambdaResNet18(in_channels=60)
+        
+        elif p['frontend'] == 'raw':
+            backbone = LambdaResnets.LambdaResNet18(in_channels=1)
+
+    # TODO FIX FOR RESNETS
+    if p['backbone'] == 'Resnet50':
+        from models import Resnets_2D
+        backbone = Resnets_2D.ResNet50(in_channels=1)
+    
+    if p['backbone'] == 'Resnet18':
+        from models import Resnets_2D
+        backbone = Resnets_2D.ResNet18(in_channels=1)\
+    
+    if p['backbone'] == 'Resnet15':
+        from models import Resnets_2D
+        backbone = Resnets_2D.ResNet15(in_channels=1)
+
+    if p['backbone'] == 'Resnet15_1d':
+        from models import Resnets_1D
+        backbone = Resnets_1D.ResNet15(in_channels=p['spectogram_kwargs']['n_mels'])
+
+    if p['backbone'] == 'LightResnet15':
+        from models import LightResnets_2D
+        backbone = LightResnets_2D.ResNet15(in_channels=1)
+
+
+    from models.heads import SupervisedModel
+
+    # Add the frontend network
+    if p['frontend'] == 'sincnet':
+        model = SupervisedModel(backbone, frontend=sincnet, **p['model_kwargs'])
+    else:
+        model = SupervisedModel(backbone, **p['model_kwargs'])
+    
+    return model
+'''

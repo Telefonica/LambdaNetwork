@@ -31,7 +31,8 @@ def create_config(config_file_env, config_file_exp):
     # Set paths for the task of the dataset:
     dataset_dir = os.path.join(root_dir, cfg['db_name'])
     mkdir_if_missing(dataset_dir)
-
+    cfg['dataset_dir'] = dataset_dir
+    
     model_name = cfg['backbone'] + '_' + cfg['setup'] + '_' + cfg['frontend'] + '_' + str(cfg['num_labels'])
     base_dir = os.path.join(dataset_dir, model_name)
     mkdir_if_missing(base_dir)

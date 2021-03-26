@@ -127,7 +127,7 @@ class ResNet(nn.Module):
         return out
 
 
-class LambdaResNet15(nn.Module):
+class LambdaResNet15_1d(nn.Module):
     def __init__(self, in_channels, n_maps):
         super().__init__()
         n_maps = n_maps
@@ -135,7 +135,9 @@ class LambdaResNet15(nn.Module):
         self.n_layers = n_layers = 14
         dilation = True
 
+        #self.convs = [nn.Conv1d(n_maps, n_maps, 3, padding=int(2 ** (2*i // 3)), dilation=int(2 ** (2*i // 3)), bias=False) for i in range(n_layers//2)]
         self.convs = [nn.Conv1d(n_maps, n_maps, 3, padding=1, dilation=1, bias=False) for _ in range(n_layers//2)]
+        
         self.lambdas = [LambdaConv(n_maps, n_maps) for _ in range(n_layers//2)]
         
         '''
@@ -204,9 +206,8 @@ def LambdaResNet18(in_channels=1):
 def LambdaResNet50(in_channels=1):
     return {'backbone': ResNet(LambdaBottleneck, [3, 4, 6, 3], in_channels=in_channels), 'dim': 2048}
 
-
-def LambdaResNet15_1d(in_channels=1, n_maps=44):
-    return {'backbone': LambdaResNet15(in_channels=in_channels, n_maps=n_maps), 'dim': 44}
+def LambdaResNet15(in_channels=1, n_maps=44):
+    return {'backbone': LambdaResNet15_1d(in_channels=in_channels, n_maps=n_maps), 'dim': 44}
 
 # reference
 # https://discuss.pytorch.org/t/how-do-i-check-the-number-of-parameters-of-a-model/4325

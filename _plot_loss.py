@@ -3,7 +3,7 @@ import numpy as np
 import argparse
 
 parser = argparse.ArgumentParser(description='Helper function to visualize loss and accuracy')
-parser.add_argument('--output', help='Output folder to evaluare')
+parser.add_argument('--output', help='Output folder to evaluate')
 args = parser.parse_args()
 
 # Get the str variables from the folder

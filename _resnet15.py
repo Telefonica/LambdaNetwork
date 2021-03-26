@@ -44,22 +44,39 @@ print(model(input))
 '''
 
 import torch
-from models.Resnets_2D import ResNet15
-from models.LambdaResnets_2D import LambdaResNet15_2d
-from models.LambdaResnets_1D import LambdaResNet15_1d
+from models.Resnets_2D import ResNet15 as Res_2d
+from models.Resnets_1D import ResNet15 as Res_1d
+from models.LambdaResnets_2D import LambdaResNet15 as LRes2d
+from models.LambdaResnets_1D import LambdaResNet15 as LRes1d
+from models.heads import SupervisedModel
 from torchscan import summary
 
-input = torch.zeros([5, 1, 40, 100])
+input = torch.zeros([1, 1, 40, 100])
 
-res15 = ResNet15(in_channels=1, n_maps=44)['backbone']
-lambdaRes15_2d = LambdaResNet15_2d(in_channels=1, n_maps=44)['backbone']
-lambdaRes15_1d = LambdaResNet15_1d(in_channels=40, n_maps=44)['backbone']
+res15_2d = Res_2d(in_channels=1, n_maps=44)['backbone']
+res15_1d = Res_1d(in_channels=40, n_maps=44)['backbone']
+lambdaRes15_2d = LRes2d(in_channels=1, n_maps=44)['backbone']
+lambdaRes15_1d = LRes1d(in_channels=40, n_maps=44)['backbone']
+
+
+#model = SupervisedModel(lambdaRes15_1d(in_channels=40, n_maps=44), head='linear')
+
+print(lambdaRes15_1d)
+
+print("----- RESNET 15 ------")
+print(summary(res15_2d, (1,40,101)))
+
+print("----- RESNET 15 1D ------")
+print(summary(res15_1d, (1,40,101)))
+
+print("----- LAMBDARESNET 15 2D ------")
+print(summary(lambdaRes15_2d, (1,40,101)))
+
+print("----- LAMBDARESNET 15 1D ------")
+print(summary(lambdaRes15_1d, (1,40,101)))
 
 import sys
-
-print(summary(res15, (1,40,101)))
-print(summary(lambdaRes15_2d, (1,40,101)))
-print(summary(lambdaRes15_1d, (1,40,101)))
+sys.exit()
 
 print('Resnet 15 2D {}'.format(res15(input).shape))
 print('Lambda Resnet 15 2D {}'.format(lambdaRes15_2d(input).shape))

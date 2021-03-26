@@ -6,7 +6,7 @@ db_name: google_commands
 num_labels: 35
 
 # Model
-backbone: LambdaResnet18
+backbone: LambdaResnet15
 frontend: mel
 model_kwargs:
    head: mlp
@@ -28,7 +28,7 @@ optimizer_kwargs:
 scheduler: cosine
 scheduler_kwargs:
    lr_decay_rate: 0.1
-batch_size: 100
+batch_size: 50
 num_workers: 12
 
 # Transformations

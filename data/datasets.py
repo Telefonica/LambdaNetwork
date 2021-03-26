@@ -4,7 +4,6 @@ import glob
 
 class SpeechCommands(SPEECHCOMMANDS):
     def __init__(self, num_labels: int = 35, subset: str = None):
-        #super().__init__('./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True, subset=subset)
         super().__init__('./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True)
 
         
@@ -23,7 +22,6 @@ class SpeechCommands(SPEECHCOMMANDS):
             self._walker = [w for w in self._walker if w not in excludes]
         
 
-        #self.labels = ['unknown', 'silence']
         self.labels = ['unknown']
         if num_labels == 2:
             self.labels.extend(['left', 'right'])
@@ -54,8 +52,5 @@ class SpeechCommands(SPEECHCOMMANDS):
             label = 'unknown'
         
         return {'audio': audio,
-            'sample_rate': sample_rate,
-            'label': label,
-        }
-        #return waveform, sample_rate, label, speaker_id, utterance_number
-
+                'sample_rate': sample_rate,
+                'label': label }

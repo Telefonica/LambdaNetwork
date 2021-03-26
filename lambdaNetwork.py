@@ -56,8 +56,6 @@ def main():
     else:
         print(summary(model, train_dataset[0]['input'].shape, batch_size=p['batch_size'], device='cpu'))
     
-    
-
     print('Train transforms:', train_transforms)
     print('Validation transforms:', val_transforms)
     print("Dataset contains {}/{} train/val samples".format(len(train_dataset),len(val_dataset)))

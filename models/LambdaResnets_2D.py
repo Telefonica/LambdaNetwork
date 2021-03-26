@@ -11,7 +11,7 @@ class LambdaBlock(nn.Module):
         super(LambdaBlock, self).__init__()
         self.is_last = is_last
 
-        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)    
+        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=(3,3), stride=stride, padding=1, bias=False)    
         self.bn1 = nn.BatchNorm2d(planes)
         #self.conv1 = nn.ModuleList([LambdaConv(in_planes, planes)])
         #if stride != 1 or in_planes != self.expansion * planes:
@@ -125,7 +125,7 @@ class ResNet(nn.Module):
         return out
 
 
-class LambdaResNet15(nn.Module):
+class LambdaResNet15_2d(nn.Module):
     def __init__(self, in_channels, n_maps):
         super().__init__()
         n_maps = n_maps
@@ -134,6 +134,8 @@ class LambdaResNet15(nn.Module):
         dilation = True
 
         self.convs = [nn.Conv2d(n_maps, n_maps, (3, 3), padding=1, dilation=1, bias=False) for _ in range(n_layers//2)]
+        #self.convs = [nn.Conv2d(n_maps, n_maps, (3, 3), padding=int(2 ** (2*i // 3)), dilation=int(2 ** (2*i // 3)), bias=False) for i in range(n_layers//2)]
+        
         self.lambdas = [LambdaConv(n_maps, n_maps) for _ in range(n_layers//2)]
         
         '''
@@ -199,8 +201,8 @@ def LambdaResNet18(in_channels=1):
 def LambdaResNet50(in_channels=1):
     return {'backbone': ResNet(LambdaBottleneck, [3, 4, 6, 3], in_channels=in_channels), 'dim': 2048}
 
-def LambdaResNet15_2d(in_channels=1, n_maps=44):
-    return {'backbone': LambdaResNet15(in_channels=in_channels, n_maps=n_maps), 'dim': 44}
+def LambdaResNet15(in_channels=1, n_maps=44):
+    return {'backbone': LambdaResNet15_2d(in_channels=in_channels, n_maps=n_maps), 'dim': 44}
 
 # reference
 # https://discuss.pytorch.org/t/how-do-i-check-the-number-of-parameters-of-a-model/4325
