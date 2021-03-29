@@ -3,14 +3,14 @@ setup: 1D
 
 # Dataset
 db_name: google_commands
-num_labels: 35
+num_labels: 10
 
 # Model
 backbone: Resnet
 frontend: mel
 model_kwargs:
    head: mlp
-   num_labels: 35
+   num_labels: 10
 
 # Loss
 criterion: supervised
@@ -18,7 +18,7 @@ criterion_kwargs:
    temperature: None 
 
 # Hyperparameters
-epochs: 250
+epochs: 150
 optimizer: sgd
 optimizer_kwargs:
    nesterov: False

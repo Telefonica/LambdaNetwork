@@ -200,6 +200,7 @@ class LambdaResNet15_1d(nn.Module):
         #return x.unsqueeze(-2), length
 
 
+
 def LambdaResNet18(in_channels=1):
     return {'backbone': ResNet(LambdaBlock, [2, 2, 2, 2], in_channels=in_channels), 'dim': 512}
 

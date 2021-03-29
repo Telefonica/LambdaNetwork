@@ -43,6 +43,10 @@ def main():
     train_dataset = get_dataset(p, train_transforms, subset="training")
     val_dataset = get_dataset(p, val_transforms, subset="validation")
     test_dataset = get_dataset(p, val_transforms, subset="testing")
+
+    print(len(train_dataset))
+    print(len(val_dataset))
+    print(len(test_dataset))
     
     train_dataloader = get_train_dataloader(p, train_dataset)
     val_dataloader = get_val_dataloader(p, val_dataset)

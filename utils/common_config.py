@@ -18,10 +18,10 @@ def get_model(p):
     if p['backbone'] == 'LambdaResnet':
         if p['setup'] == '2D':
             from models import LambdaResnets_2D as LambdaResnets
-            backbone = LambdaResnets.LambdaResNet15(in_channels=1, n_maps=46)
+            backbone = LambdaResnets.LambdaResNet15(in_channels=1, n_maps=44)
         if p['setup'] == '1D':
             from models import LambdaResnets_1D as LambdaResnets
-            backbone = LambdaResnets.LambdaResNet15(in_channels=p['spectogram_kwargs']['n_mels'], n_maps=46)
+            backbone = LambdaResnets.LambdaResNet15(in_channels=p['spectogram_kwargs']['n_mels'], n_maps=44)
     
     elif p['backbone'] == 'Resnet':
         if p['setup'] == '2D':
@@ -56,17 +56,19 @@ def get_dataset(p, transform, subset=None):
 def get_train_dataloader(p, dataset):
     
     # Get weighted sampler if we use less than all the commands
+    
+    '''
     if p['db_name'] == 'google_commands' and p['num_labels'] != 35:
         from data.samplers import get_SpeechCommandsSampler
         sampler = get_SpeechCommandsSampler(p, dataset)
 
         return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
             batch_size=p['batch_size'], sampler=sampler, pin_memory=True)
-
+    '''
     return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
             batch_size=p['batch_size'], pin_memory=True,
             drop_last=True, shuffle=True)
-
+    
 
 def get_val_dataloader(p, dataset):
     return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'],

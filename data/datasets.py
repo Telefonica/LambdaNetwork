@@ -4,6 +4,7 @@ import glob
 
 class SpeechCommands(SPEECHCOMMANDS):
     def __init__(self, num_labels: int = 35, subset: str = None):
+        #super().__init__(root='./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True, subset=subset)
         super().__init__('./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True)
 
         

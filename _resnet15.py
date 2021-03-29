@@ -55,8 +55,8 @@ input = torch.zeros([1, 1, 40, 100])
 
 res15_2d = Res_2d(in_channels=1, n_maps=44)['backbone']
 res15_1d = Res_1d(in_channels=40, n_maps=44)['backbone']
-lambdaRes15_2d = LRes2d(in_channels=1, n_maps=44)['backbone']
-lambdaRes15_1d = LRes1d(in_channels=40, n_maps=44)['backbone']
+lambdaRes15_2d = LRes2d(in_channels=1, n_maps=48)['backbone']
+lambdaRes15_1d = LRes1d(in_channels=40, n_maps=48)['backbone']
 
 
 #model = SupervisedModel(lambdaRes15_1d(in_channels=40, n_maps=44), head='linear')
