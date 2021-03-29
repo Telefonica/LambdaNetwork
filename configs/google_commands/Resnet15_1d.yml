@@ -3,14 +3,14 @@ setup: 1D
 
 # Dataset
 db_name: google_commands
-num_labels: 10
+num_labels: 35
 
 # Model
 backbone: Resnet
 frontend: mel
 model_kwargs:
    head: mlp
-   num_labels: 10
+   num_labels: 35
 
 # Loss
 criterion: supervised

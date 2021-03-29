@@ -18,7 +18,7 @@ criterion_kwargs:
    temperature: None 
 
 # Hyperparameters
-epochs: 100
+epochs: 250
 optimizer: sgd
 optimizer_kwargs:
    nesterov: False
@@ -28,7 +28,7 @@ optimizer_kwargs:
 scheduler: cosine
 scheduler_kwargs:
    lr_decay_rate: 0.1
-batch_size: 100
+batch_size: 256
 num_workers: 12
 
 # Transformations

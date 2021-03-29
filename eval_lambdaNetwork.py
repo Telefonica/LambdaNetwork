@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 from utils.common_config import get_dataset, get_val_transformations, get_val_dataloader, get_model
 from utils.eval_utils import get_topk_table
 from utils.memory import MemoryBank, fill_memory_bank
-from utils.eval_utils import save_confusion_matrix
+from utils.eval_utils import save_confusion_matrix, get_roc_curve
 from utils.config import create_config
 
 parser = argparse.ArgumentParser(description='Evaluate Lambda ResNet')
@@ -69,6 +69,11 @@ def main():
     eval_output, eval_target = memory_bank.get_memory()
 
     print('Evaluating the predictions')
+    fpr, tpr, roc_auc = get_roc_curve(eval_target, eval_output)
+    np.save(os.path.join(p['base_dir'], 'fpr.npy'), fpr)
+    np.save(os.path.join(p['base_dir'], 'tpr.npy'), tpr)
+    np.save(os.path.join(p['base_dir'], 'auc.npy'), roc_auc)
+
     eval_labels = eval_output.argmax(axis=1)
     corrects = 0
     for i in range(0, len(eval_labels)):
@@ -80,9 +85,9 @@ def main():
     matrix = confusion_matrix(eval_target, eval_labels)
     save_confusion_matrix(matrix, test_dataset.labels, os.path.join(p['base_dir'], 'confusion_matrix.png'))
     
-    np.set_printoptions(threshold=np.inf)
-    print('Confusion matrix: ')
-    print(matrix)
+    #np.set_printoptions(threshold=np.inf)
+    #print('Confusion matrix: ')
+    #print(matrix)
     print('Accuracy: {} ({}/{})'.format(accuracy*100, corrects, len(test_dataset)))
 
 if __name__ == "__main__":

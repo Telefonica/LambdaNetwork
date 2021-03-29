@@ -3,6 +3,7 @@ import glob
 import numpy as np
 import itertools
 import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, auc
 
 
 def get_topk_table(indicies, filenames):
@@ -39,3 +40,25 @@ def save_confusion_matrix(cm, classes, path, normalize=False, title='Confusion m
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
     plt.savefig(path, dpi=1000)
+
+
+def get_roc_curve(y_true, probs, class_idx=None):
+    n_classes = probs.shape[1]
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+    
+    y_true_all = np.zeros(probs.shape)
+    
+    for i in range(n_classes):
+        fpr[i], tpr[i], _ = roc_curve(np.equal(y_true, i).astype(int), probs[:,i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+        y_true_all[:, i] = np.equal(y_true, i).astype(int)
+
+    fpr["micro"], tpr["micro"], _ = roc_curve(y_true_all.ravel(), probs.ravel())
+    roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+    
+    if class_idx is None:
+        return fpr['micro'], tpr['micro'], roc_auc['micro']
+    else:
+        return fpr[i], tpr[i], roc_auc[i]
