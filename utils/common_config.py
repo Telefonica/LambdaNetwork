@@ -55,9 +55,7 @@ def get_dataset(p, transform, subset=None):
 
 def get_train_dataloader(p, dataset):
     
-    # Get weighted sampler if we use less than all the commands
-    
-    '''
+    '''# Get weighted sampler if we use less than all the commands
     if p['db_name'] == 'google_commands' and p['num_labels'] != 35:
         from data.samplers import get_SpeechCommandsSampler
         sampler = get_SpeechCommandsSampler(p, dataset)
@@ -148,9 +146,6 @@ def adjust_learning_rate(p, optimizer, epoch):
         param_group['lr'] = lr
 
     return lr
-
-
-
 
 '''
 def get_model_sincnet(p):
