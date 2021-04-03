@@ -5,7 +5,6 @@ import yaml
 import numpy as np
 from sklearn.metrics import confusion_matrix
 from utils.common_config import get_dataset, get_val_transformations, get_val_dataloader, get_model
-from utils.eval_utils import get_topk_table
 from utils.memory import MemoryBank, fill_memory_bank
 from utils.eval_utils import save_confusion_matrix, get_roc_curve, get_det_curve
 from utils.config import create_config
@@ -48,15 +47,10 @@ def main():
     print('Load model weights ...')
     state_dict = torch.load(args.model, map_location='cpu')
     model.load_state_dict(state_dict)
-    
-    # CUDA
-    if cuda:
-        model.cuda()
 
     # Perform evaluation
     print('Perform evaluation of the task (setup={}).'.format(p['setup']))
 
-    # TODO: Differentiate memroy bank of labels than memory bank of features (for unsupervised
     print('Create Memory Bank')
     memory_bank = MemoryBank(len(test_dataset),
                             p['model_kwargs']['num_labels'],
@@ -69,13 +63,17 @@ def main():
     eval_output, eval_target = memory_bank.get_memory()
 
     print('Evaluating the predictions')
+
+    # Get the ROC and DET curved (FPR, TPR)
     fpr_roc, tpr_roc, auc_roc = get_roc_curve(eval_target, eval_output)
-    fpr_det, tpr_det, auc_det = get_det_curve(eval_target, eval_output)
+    fpr_det, fnr_det, auc_det = get_det_curve(eval_target, eval_output)
+    
     np.save(os.path.join(p['base_dir'], 'fpr_roc.npy'), fpr_roc)
     np.save(os.path.join(p['base_dir'], 'tpr_roc.npy'), tpr_roc)
     np.save(os.path.join(p['base_dir'], 'auc_roc.npy'), auc_roc)
+    
     np.save(os.path.join(p['base_dir'], 'fpr_det.npy'), fpr_det)
-    np.save(os.path.join(p['base_dir'], 'tpr_det.npy'), tpr_det)
+    np.save(os.path.join(p['base_dir'], 'fnr_det.npy'), fnr_det)
     np.save(os.path.join(p['base_dir'], 'auc_det.npy'), auc_det)
 
     eval_labels = eval_output.argmax(axis=1)
@@ -86,13 +84,11 @@ def main():
 
     accuracy = corrects / float(len(eval_labels))
 
+    print('Computing and Saving confussion matrix')
     matrix = confusion_matrix(eval_target, eval_labels)
     save_confusion_matrix(matrix, test_dataset.labels, os.path.join(p['base_dir'], 'confusion_matrix.png'))
     
-    #np.set_printoptions(threshold=np.inf)
-    #print('Confusion matrix: ')
-    #print(matrix)
-    print('Accuracy: {} ({}/{})'.format(accuracy*100, corrects, len(test_dataset)))
+    print('Accuracy: {:.4f} ({}/{})'.format(accuracy*100, corrects, len(test_dataset)))
 
 if __name__ == "__main__":
     main() 

@@ -14,7 +14,6 @@ class LambdaBlock(nn.Module):
         self.conv1 = nn.Conv1d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm1d(planes)
         
-        #self.conv2 = nn.Conv1d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
         self.conv2 = nn.ModuleList([LambdaConv(planes, planes)])
         
         if stride != 1 or in_planes != self.expansion * planes:
@@ -53,20 +52,13 @@ class LambdaResNet(nn.Module):
         self.layer1 = self._make_layer(block, int(24*k), num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, int(36*k), num_blocks[1], stride=2)
         self.layer3 = self._make_layer(block, int(48*k), num_blocks[2], stride=2)
-        self.layer4 = self._make_layer(block, int(60*k), num_blocks[3], stride=2)        
-        
-        # There are 4 layers in resnet, each layer has it's number of blocks
-        #self.layer1 = self._make_layer(block, 24, num_blocks[0], stride=1)
-        #self.layer2 = self._make_layer(block, 36, num_blocks[1], stride=2)
-        #self.layer3 = self._make_layer(block, 48, num_blocks[2], stride=2)
-        #self.layer4 = self._make_layer(block, 60, num_blocks[3], stride=2)
+        self.layer4 = self._make_layer(block, int(60*k), num_blocks[3], stride=2)
 
         self.avgpool = nn.AdaptiveAvgPool1d(1)
 
     def _make_layer(self, block, planes, num_blocks, stride=1):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
-        print(strides)
         for idx, stride in enumerate(strides):
             layers.append(block(self.in_planes, planes, stride))
             self.in_planes = planes * block.expansion
@@ -91,5 +83,5 @@ class LambdaResNet(nn.Module):
         return out
 
 
-def LambdaResNet15(in_channels, k=1):
+def LambdaResNet18(in_channels, k=1):
     return {'backbone': LambdaResNet(LambdaBlock, [2, 2, 2, 2], in_channels=in_channels, k=k), 'dim': 60*k}

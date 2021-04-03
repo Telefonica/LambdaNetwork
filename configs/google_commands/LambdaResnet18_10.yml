@@ -8,6 +8,7 @@ num_labels: 10
 # Model
 backbone: LambdaResnet
 frontend: mel
+channel_k: 1
 model_kwargs:
    head: linear
    num_labels: 10

@@ -4,18 +4,15 @@ import torch.nn.functional as F
 from models.LambdaLayers import LambdaLayer1D as LambdaConv
 
 
-class LambdaBlock(nn.Module):
+class BasicBlock(nn.Module):
     expansion = 1
 
     def __init__(self, in_planes, planes, stride=1, is_last=False):
-        super(LambdaBlock, self).__init__()
+        super(BasicBlock, self).__init__()
         self.is_last = is_last
 
         self.conv1 = nn.Conv1d(in_planes, planes, kernel_size=9, stride=stride, padding=4, bias=False)
         self.bn1 = nn.BatchNorm1d(planes)
-        
-        #self.conv2 = nn.Conv1d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
-        #self.conv2 = nn.ModuleList([LambdaConv(planes, planes)])
         self.conv2 = nn.ModuleList([nn.Conv1d(planes, planes, kernel_size=9, stride=1, padding=4, bias=False)])
         
         if stride != 1 or in_planes != self.expansion * planes:
@@ -40,9 +37,10 @@ class LambdaBlock(nn.Module):
         out = F.relu(out)
         return out
 
-class ResNet(nn.Module):
-    def __init__(self, block, num_blocks, in_channels):
-        super(ResNet, self).__init__()
+
+class TCResNet(nn.Module):
+    def __init__(self, block, num_blocks, in_channels, k=1):
+        super(TCResNet, self).__init__()
         self.in_planes = 16
 
         self.conv1 = nn.Conv1d(in_channels, 16, kernel_size=3, stride=1, bias=False)
@@ -51,17 +49,15 @@ class ResNet(nn.Module):
         self.maxpool = nn.MaxPool1d(kernel_size=3, stride=2, padding=1)
         
         # There are 4 layers in resnet, each layer has it's number of blocks
-        self.layer1 = self._make_layer(block, 24, num_blocks[0], stride=2)
-        self.layer2 = self._make_layer(block, 36, num_blocks[1], stride=2)
-        self.layer3 = self._make_layer(block, 48, num_blocks[2], stride=2)
-        #self.layer4 = self._make_layer(block, 60, num_blocks[3], stride=2)
+        self.layer1 = self._make_layer(block, int(24*k), num_blocks[0], stride=2)
+        self.layer2 = self._make_layer(block, int(36*k), num_blocks[1], stride=2)
+        self.layer3 = self._make_layer(block, int(48*k), num_blocks[2], stride=2)
 
         self.avgpool = nn.AdaptiveAvgPool1d(1)
 
     def _make_layer(self, block, planes, num_blocks, stride=1):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
-        print(strides)
         for idx, stride in enumerate(strides):
             layers.append(block(self.in_planes, planes, stride))
             self.in_planes = planes * block.expansion
@@ -79,12 +75,11 @@ class ResNet(nn.Module):
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
-        #out = self.layer4(out)
 
         out = self.avgpool(out)
         out = torch.flatten(out, 1)
         return out
 
 
-def TCResnet14(in_channels, n_maps=0):
-    return {'backbone': ResNet(LambdaBlock, [2, 2, 2, 0], in_channels=in_channels), 'dim': 48}
+def TCResnet14(in_channels, k=1):
+    return {'backbone': TCResNet(BasicBlock, [2, 2, 2], in_channels=in_channels, k=k), 'dim': 48*k}

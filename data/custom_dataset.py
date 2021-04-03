@@ -54,7 +54,6 @@ class MelDataset(Dataset):
             win_length=int(win_size*sample_rate),
             hop_length=int(win_stride*sample_rate) )
         
-        self.length = 16000
         self.labels = dataset.labels
         
     def __len__(self):

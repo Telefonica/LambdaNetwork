@@ -1,18 +1,10 @@
-"""
-Authors: Wouter Van Gansbeke, Simon Vandenhende
-Licensed under the CC BY-NC 4.0 license (https://creativecommons.org/licenses/by-nc/4.0/)
-"""
 import os
 import yaml
 from easydict import EasyDict
 
 def mkdir_if_missing(directory):
     if not os.path.exists(directory):
-        try:
-            os.makedirs(directory)
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
+        os.makedirs(directory)
 
 def create_config(config_file_env, config_file_exp):
     # Config for environment path
@@ -33,13 +25,13 @@ def create_config(config_file_env, config_file_exp):
     mkdir_if_missing(dataset_dir)
     cfg['dataset_dir'] = dataset_dir
     
-    model_name = cfg['backbone'] + '_' + cfg['setup'] + '_' + cfg['frontend'] + '_' + str(cfg['num_labels'])
+    model_name = cfg['backbone'] + '_' + str(cfg['num_labels'])
     base_dir = os.path.join(dataset_dir, model_name)
     mkdir_if_missing(base_dir)
     
     cfg['base_dir'] = base_dir
     cfg['checkpoint_dir'] = os.path.join(base_dir, 'checkpoint.pth.tar')
-    cfg['model_test'] = os.path.join(base_dir, 'best_model.pth.tar')
+    cfg['best_model_dir'] = os.path.join(base_dir, 'best_model.pth.tar')
     cfg['model_dir'] = os.path.join(base_dir, 'model.pth.tar')
     cfg['train_loss_dir'] = os.path.join(base_dir, 'train_loss.npy')
     cfg['val_loss_dir'] = os.path.join(base_dir, 'val_loss.npy')

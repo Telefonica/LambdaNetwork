@@ -4,14 +4,14 @@ import numpy as np
 import os
 
 from utils.config import create_config
-from utils.train_utils import supervised_train, supervised_val, supervised_test
+from utils.train_utils import train_model, validate_model, test_model
 from utils.common_config import get_model, get_criterion, get_optimizer, adjust_learning_rate, get_dataset,\
                                 get_train_transformations, get_train_dataloader,\
                                 get_val_transformations, get_val_dataloader
 
 from torchsummary.torchsummary import summary
 
-parser = argparse.ArgumentParser(description='Lambda ResNet')
+parser = argparse.ArgumentParser(description='Setup for training a keyword spotting task')
 parser.add_argument('--config_env', help='Config file for environment')
 parser.add_argument('--config_exp', help='Config file for experiment')
 parser.add_argument('--gpu', help='GPU to use')
@@ -36,7 +36,7 @@ def main():
             torch.cuda.set_device(device)
         model.cuda()
     
-    # Dataset: Get Train and Evaluation
+    # Get the datasets, transformations and dataloaders
     train_transforms = get_train_transformations(p)
     val_transforms = get_val_transformations(p)
 
@@ -47,9 +47,6 @@ def main():
     train_dataloader = get_train_dataloader(p, train_dataset)
     val_dataloader = get_val_dataloader(p, val_dataset)
     test_dataloader = get_val_dataloader(p, test_dataset)
-
-    # Print the model shape and memory on the GPU or CPU
-    print(train_dataset[0]['input'].cuda().shape)
     
     if cuda:
         print(summary(model, train_dataset[0]['input'].cuda().shape, batch_size=p['batch_size'], device=device))
@@ -58,7 +55,7 @@ def main():
     
     print('Train transforms:', train_transforms)
     print('Validation transforms:', val_transforms)
-    print("Dataset contains {}/{} train/val samples".format(len(train_dataset),len(val_dataset)))
+    print('Dataset contains {}/{} train/val samples'.format(len(train_dataset),len(val_dataset)))
 
     # Criterion
     criterion = get_criterion(p)
@@ -73,9 +70,11 @@ def main():
     # TCheckpoint load the last epoch
     if os.path.exists(p['checkpoint_dir']):
         print('Restart from checkpoint {}'.format(p['checkpoint_dir']))
+        
         checkpoint = torch.load(p['checkpoint_dir'], map_location='cpu')
         model.load_state_dict(checkpoint['model'])
         optimizer.load_state_dict(checkpoint['optimizer'])        
+        
         start_epoch = checkpoint['epoch']
         loss_train_values = np.load(p['train_loss_dir']).tolist()
         loss_val_values = np.load(p['val_loss_dir']).tolist()
@@ -90,11 +89,10 @@ def main():
         acc_test_values = []
         current_best_acc = 0.0
         
-
     print("Starting the Training loop ...")
-    print("    Number of Epochs: {}".format(p['epochs']))
-    print("    Batch size: {}".format(p['batch_size']))
-    print("    Total batches: {:.2f}".format(len(train_dataset)/p['batch_size']))
+    print("\tNumber of Epochs: {}".format(p['epochs']))
+    print("\tBatch size: {}".format(p['batch_size']))
+    print("\tTotal batches: {:.2f}".format(len(train_dataset)/p['batch_size']))
 
     for epoch in range(start_epoch, p['epochs']):
         print("Epoch {}/{}".format(epoch, p['epochs']))
@@ -105,13 +103,13 @@ def main():
 
         # Train
         print('Train...')
-        loss_train = supervised_train(train_dataloader, model, criterion, optimizer)
-        loss_val = supervised_val(val_dataloader, model, criterion, optimizer)
-        acc_test = supervised_test(test_dataloader, model, criterion)
+        loss_train = train_model(train_dataloader, model, criterion, optimizer)
+        loss_val = validate_model(val_dataloader, model, criterion, optimizer)
+        acc_test = test_model(test_dataloader, model)
 
         if current_best_acc < acc_test:
-            print('Saving the most accurate current model for the Test dataset')
-            torch.save(model.state_dict(), p['model_test'])
+            print('Saving the most accurate model ...')
+            torch.save(model.state_dict(), p['best_model_dir'])
             current_best_acc = acc_test
 
         loss_train_values.append(loss_train)

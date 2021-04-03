@@ -1,28 +1,35 @@
+import torchaudio
 from torchaudio.datasets import SPEECHCOMMANDS
 import os
 import glob
 
 class SpeechCommands(SPEECHCOMMANDS):
     def __init__(self, num_labels: int = 35, subset: str = None):
-        #super().__init__(root='./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True, subset=subset)
-        super().__init__('./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True)
+        if torchaudio.__version__.startswith('0.7'):
+            super().__init__('./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True)
 
+            def load_list(filename):
+                filepath = os.path.join(self._path, filename)
+                with open(filepath) as fileobj:
+                    return [os.path.join(self._path, line.strip()) for line in fileobj]
+
+            if subset == "validation":
+                self._walker = load_list("validation_list.txt")
+            elif subset == "testing":
+                self._walker = load_list("testing_list.txt")
+            elif subset == "training":
+                excludes = load_list("validation_list.txt") + load_list("testing_list.txt")
+                excludes = set(excludes)
+                self._walker = [w for w in self._walker if w not in excludes]
+
+        elif torchaudio.__version__.startswith('0.8'):
+            super().__init__(root='./datasets/', url='speech_commands_v0.02', folder_in_archive='SpeechCommands', download=True, subset=subset)
         
-        def load_list(filename):
-            filepath = os.path.join(self._path, filename)
-            with open(filepath) as fileobj:
-                return [os.path.join(self._path, line.strip()) for line in fileobj]
-
-        if subset == "validation":
-            self._walker = load_list("validation_list.txt")
-        elif subset == "testing":
-            self._walker = load_list("testing_list.txt")
-        elif subset == "training":
-            excludes = load_list("validation_list.txt") + load_list("testing_list.txt")
-            excludes = set(excludes)
-            self._walker = [w for w in self._walker if w not in excludes]
+        else:
+            print('Unsuported torchaudio version for the Google Speech Comands dataset')
+            import sys
+            sys.exit()
         
-
         self.labels = ['unknown']
         if num_labels == 2:
             self.labels.extend(['left', 'right'])

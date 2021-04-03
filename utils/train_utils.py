@@ -1,7 +1,7 @@
 import torch
 
 
-def supervised_train(train_loader, model, criterion, optimizer):
+def train_model(train_loader, model, criterion, optimizer):
     model.train()
     total_loss = 0
 
@@ -25,7 +25,7 @@ def supervised_train(train_loader, model, criterion, optimizer):
     return total_loss / (i+1)
 
 
-def supervised_val(val_loader, model, criterion, optimizer):
+def validate_model(val_loader, model, criterion, optimizer):
     model.train()
     total_loss = 0
 
@@ -43,17 +43,16 @@ def supervised_val(val_loader, model, criterion, optimizer):
         optimizer.zero_grad()
 
     print("Validation Loss: {0}".format(total_loss/(i+1)))
-
     return total_loss / (i+1)
 
 
 @torch.no_grad()
-def supervised_test(val_loader, model, criterion):
+def test_model(test_loader, model):
     model.eval()
     corrects = 0
     total_samples = 0
 
-    for i, batch in enumerate(val_loader):
+    for i, batch in enumerate(test_loader):
 
         input = batch['input'].cuda(non_blocking=True)
 

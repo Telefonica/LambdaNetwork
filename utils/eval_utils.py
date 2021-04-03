@@ -6,24 +6,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, det_curve, auc
 
 
-def get_topk_table(indicies, filenames):
-
-    # Get each value of the saved npy and assign a name
-    topk_string = []
-    for sample in indicies:
-        list_topk = []
-        for neighbor in sample:
-            list_topk.append(filenames[neighbor])
-        topk_string.append(list_topk)
-
-    return topk_string
-
-
 def save_confusion_matrix(cm, classes, path, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues):
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 
-    print(cm)
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
     plt.colorbar()
@@ -62,6 +48,7 @@ def get_roc_curve(y_true, probs, class_idx=None):
         return fpr['micro'], tpr['micro'], roc_auc['micro']
     else:
         return fpr[i], tpr[i], roc_auc[i]
+
 
 def get_det_curve(y_true, probs, class_idx=None):
     n_classes = probs.shape[1]

@@ -6,8 +6,9 @@ db_name: google_commands
 num_labels: 10
 
 # Model
-backbone: Resnet
+backbone: TCResnet
 frontend: mel
+channel_k: 1
 model_kwargs:
    head: linear
    num_labels: 10
