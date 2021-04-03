@@ -8,9 +8,7 @@ num_labels: 20
 # Model
 backbone: Resnet
 frontend: mel
-model_kwargs:
-   head: linear
-   num_labels: 20
+head: linear
 
 # Loss
 criterion: supervised
@@ -18,7 +16,7 @@ criterion_kwargs:
    temperature: None 
 
 # Hyperparameters
-epochs: 250
+epochs: 200
 optimizer: sgd
 optimizer_kwargs:
    nesterov: False

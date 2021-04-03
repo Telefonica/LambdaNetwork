@@ -29,7 +29,7 @@ def get_model(p):
         backbone = ResNet15(in_channels=1, n_maps=45)
 
     from models.heads import ClassificationModel
-    model = ClassificationModel(backbone, **p['model_kwargs'])
+    model = ClassificationModel(backbone, head=p['head'], num_labels=p['num_labels'])
     
     return model
 

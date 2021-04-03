@@ -9,9 +9,7 @@ num_labels: 10
 backbone: TCResnet
 frontend: mel
 channel_k: 1
-model_kwargs:
-   head: linear
-   num_labels: 10
+head: linear
 
 # Loss
 criterion: supervised
@@ -19,7 +17,7 @@ criterion_kwargs:
    temperature: None 
 
 # Hyperparameters
-epochs: 250
+epochs: 200
 optimizer: sgd
 optimizer_kwargs:
    nesterov: False
