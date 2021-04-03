@@ -89,6 +89,7 @@ def main():
         loss_val_values = []
         acc_test_values = []
         current_best_acc = 0.0
+        
 
     print("Starting the Training loop ...")
     print("    Number of Epochs: {}".format(p['epochs']))

@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 from utils.common_config import get_dataset, get_val_transformations, get_val_dataloader, get_model
 from utils.eval_utils import get_topk_table
 from utils.memory import MemoryBank, fill_memory_bank
-from utils.eval_utils import save_confusion_matrix, get_roc_curve
+from utils.eval_utils import save_confusion_matrix, get_roc_curve, get_det_curve
 from utils.config import create_config
 
 parser = argparse.ArgumentParser(description='Evaluate Lambda ResNet')
@@ -69,10 +69,14 @@ def main():
     eval_output, eval_target = memory_bank.get_memory()
 
     print('Evaluating the predictions')
-    fpr, tpr, roc_auc = get_roc_curve(eval_target, eval_output)
-    np.save(os.path.join(p['base_dir'], 'fpr.npy'), fpr)
-    np.save(os.path.join(p['base_dir'], 'tpr.npy'), tpr)
-    np.save(os.path.join(p['base_dir'], 'auc.npy'), roc_auc)
+    fpr_roc, tpr_roc, auc_roc = get_roc_curve(eval_target, eval_output)
+    fpr_det, tpr_det, auc_det = get_det_curve(eval_target, eval_output)
+    np.save(os.path.join(p['base_dir'], 'fpr_roc.npy'), fpr_roc)
+    np.save(os.path.join(p['base_dir'], 'tpr_roc.npy'), tpr_roc)
+    np.save(os.path.join(p['base_dir'], 'auc_roc.npy'), auc_roc)
+    np.save(os.path.join(p['base_dir'], 'fpr_det.npy'), fpr_det)
+    np.save(os.path.join(p['base_dir'], 'tpr_det.npy'), tpr_det)
+    np.save(os.path.join(p['base_dir'], 'auc_det.npy'), auc_det)
 
     eval_labels = eval_output.argmax(axis=1)
     corrects = 0

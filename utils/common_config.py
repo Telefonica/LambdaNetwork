@@ -20,16 +20,18 @@ def get_model(p):
             from models import LambdaResnets_2D as LambdaResnets
             backbone = LambdaResnets.LambdaResNet15(in_channels=1, n_maps=44)
         if p['setup'] == '1D':
-            from models import LambdaResnets_1D as LambdaResnets
-            backbone = LambdaResnets.LambdaResNet15(in_channels=p['spectogram_kwargs']['n_mels'], n_maps=44)
+            #from models import LambdaResnets_1D as LambdaResnets
+            from models import new_lambda as LambdaResnets
+            backbone = LambdaResnets.LambdaResNet15(in_channels=p['spectogram_kwargs']['n_mels'], k=2)
     
     elif p['backbone'] == 'Resnet':
         if p['setup'] == '2D':
             from models import Resnets_2D as Resnets
             backbone = Resnets.ResNet15(in_channels=1, n_maps=45)
         if p['setup'] == '1D':
-            from models import Resnets_1D as Resnets
-            backbone = Resnets.ResNet15(in_channels=p['spectogram_kwargs']['n_mels'], n_maps=45)
+            #from models import Resnets_1D as Resnets
+            from models import TC_Resnet as Resnets
+            backbone = Resnets.TCResnet14(in_channels=p['spectogram_kwargs']['n_mels'], n_maps=45)
 
     from models.heads import SupervisedModel
     model = SupervisedModel(backbone, **p['model_kwargs'])

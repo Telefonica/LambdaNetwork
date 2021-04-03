@@ -3,14 +3,14 @@ setup: 2D
 
 # Dataset
 db_name: google_commands
-num_labels: 35
+num_labels: 20
 
 # Model
-backbone: LambdaResnet
+backbone: Resnet
 frontend: mel
 model_kwargs:
    head: linear
-   num_labels: 35
+   num_labels: 20
 
 # Loss
 criterion: supervised
@@ -28,7 +28,7 @@ optimizer_kwargs:
 scheduler: cosine
 scheduler_kwargs:
    lr_decay_rate: 0.1
-batch_size: 50
+batch_size: 100
 num_workers: 12
 
 # Transformations

@@ -10,12 +10,19 @@ class SupervisedModel(nn.Module):
         self.backbone_dim = backbone['dim']
         self.head = head
 
+        # Define proportion or neurons to dropout
+        self.dropout = nn.Dropout(0.5)
+
         # If we don't use all the dataset: add unknown (+1)
         if num_labels != 35:
             num_labels = num_labels + 1
  
         if head == 'linear':
-            self.contrastive_head = nn.Linear(self.backbone_dim, num_labels)
+            #self.contrastive_head = nn.Linear(self.backbone_dim, num_labels)
+            self.contrastive_head = nn.Sequential(
+                nn.Dropout(0.5), # All architecture deeper than ResNet-200 dropout_rate: 0.2
+                nn.Linear(self.backbone_dim, num_labels)
+        )
 
         elif head == 'mlp':
             self.contrastive_head = nn.Sequential(

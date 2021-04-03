@@ -3,7 +3,7 @@ import glob
 import numpy as np
 import itertools
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve, det_curve, auc
 
 
 def get_topk_table(indicies, filenames):
@@ -62,3 +62,24 @@ def get_roc_curve(y_true, probs, class_idx=None):
         return fpr['micro'], tpr['micro'], roc_auc['micro']
     else:
         return fpr[i], tpr[i], roc_auc[i]
+
+def get_det_curve(y_true, probs, class_idx=None):
+    n_classes = probs.shape[1]
+    fpr = dict()
+    fnr = dict()
+    roc_auc = dict()
+    
+    y_true_all = np.zeros(probs.shape)
+    
+    for i in range(n_classes):
+        fpr[i], fnr[i], _ = det_curve(np.equal(y_true, i).astype(int), probs[:,i])
+        roc_auc[i] = auc(fpr[i], fnr[i])
+        y_true_all[:, i] = np.equal(y_true, i).astype(int)
+
+    fpr["micro"], fnr["micro"], _ = det_curve(y_true_all.ravel(), probs.ravel())
+    roc_auc["micro"] = auc(fpr["micro"], fnr["micro"])
+    
+    if class_idx is None:
+        return fpr['micro'], fnr['micro'], roc_auc['micro']
+    else:
+        return fpr[i], fnr[i], roc_auc[i]

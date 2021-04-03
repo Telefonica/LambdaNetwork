@@ -9,7 +9,7 @@ num_labels: 35
 backbone: Resnet
 frontend: mel
 model_kwargs:
-   head: mlp
+   head: linear
    num_labels: 35
 
 # Loss

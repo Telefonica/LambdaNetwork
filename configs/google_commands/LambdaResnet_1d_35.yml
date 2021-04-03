@@ -9,7 +9,7 @@ num_labels: 35
 backbone: LambdaResnet
 frontend: mel
 model_kwargs:
-   head: mlp
+   head: linear
    num_labels: 35
 
 # Loss
