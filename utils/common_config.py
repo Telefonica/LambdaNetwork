@@ -40,6 +40,10 @@ def get_dataset(p, transform, subset=None):
         from data.datasets import SpeechCommands
         dataset = SpeechCommands(num_labels=p['num_labels'], subset=subset)
 
+    elif p['db_name'] == 'tau_urban':
+        from data.datasets import TAUurban
+        dataset = TAUurban(subset=subset)
+
     from data.custom_dataset import AudioDataset
     dataset = AudioDataset(dataset, transform=transform)
 

@@ -1,7 +1,10 @@
 import torchaudio
 from torchaudio.datasets import SPEECHCOMMANDS
+from torch.utils.data import Dataset
+from torchaudio import load
 import os
 import glob
+import csv
 
 class SpeechCommands(SPEECHCOMMANDS):
     def __init__(self, num_labels: int = 35, subset: str = None):
@@ -62,3 +65,38 @@ class SpeechCommands(SPEECHCOMMANDS):
         return {'audio': audio,
                 'sample_rate': sample_rate,
                 'label': label }
+
+
+class TAUurban(Dataset):
+    def __init__(self, dataset_path='datasets/TAU-urban-acoustic-scenes-2020-mobile-development', num_labels: int = 10, subset: str = None):
+
+        if subset == 'training':
+            files_csv = os.path.join(dataset_path, 'evaluation_setup/fold1_train.csv')
+        elif subset == 'testing':
+            files_csv = os.path.join(dataset_path, 'evaluation_setup/fold1_test.csv')
+        elif subset == 'validation':
+            files_csv = os.path.join(dataset_path, 'evaluation_setup/fold1_evaluate.csv')
+        
+        with open(files_csv, newline='') as f:
+            reader = csv.reader(f)
+            data = list(reader)
+
+        self.files = []
+        self.labels = [] 
+
+        # Skip the title
+        for wavfile in data[1:]:
+            filename, label = wavfile[0].split('\t')
+            self.files.append(os.path.join(dataset_path, filename))
+            self.labels.append(label)
+
+    def __getitem__(self, index):
+
+        # Load the audio file
+        audio, sample_rate = load(self.files[index])
+        label = self.labels[index]
+
+        return {'audio': audio,
+                'sample_rate': sample_rate,
+                'label': label }
+
