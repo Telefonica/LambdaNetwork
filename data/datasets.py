@@ -82,19 +82,32 @@ class TAUurban(Dataset):
             data = list(reader)
 
         self.files = []
-        self.labels = [] 
+        self.files_labels = [] 
 
         # Skip the title
         for wavfile in data[1:]:
-            filename, label = wavfile[0].split('\t')
+            filename = wavfile[0].split('\t')
+            
+            # Some samples have their label
+            if len(filename) == 2:
+                filename, label = filename
+            elif len(filename) == 1:
+                filename = filename[0]
+                label = os.path.basename(filename).split('-')[0]
+
             self.files.append(os.path.join(dataset_path, filename))
-            self.labels.append(label)
+            self.files_labels.append(label)
+        
+        self.labels = sorted(set(self.files_labels))
+
+    def __len__(self):
+        return len(self.files_labels)
 
     def __getitem__(self, index):
 
         # Load the audio file
         audio, sample_rate = load(self.files[index])
-        label = self.labels[index]
+        label = self.files_labels[index]
 
         return {'audio': audio,
                 'sample_rate': sample_rate,

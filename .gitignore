@@ -6,4 +6,5 @@ __pycache__/
 .vscode/
 datasets/SpeechCommands/
 datasets/speech_commands_v0.02.tar.gz
+datasets/TAU-urban-acoustic-scenes-2020-mobile-development
 output/
