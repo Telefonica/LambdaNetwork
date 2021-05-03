@@ -19,7 +19,7 @@ def train_model(train_loader, model, criterion, optimizer):
         loss.backward()
         optimizer.step()
 
-        if i % 100 == 0:
+        if i % 10 == 0:
             print("Progress: {:.2f}% \t Batch: {} \t Loss: {}".format((i+1)/len(train_loader) * 100, (i+1), loss.item()))
 
     return total_loss / (i+1)

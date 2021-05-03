@@ -16,7 +16,7 @@ class ClassificationModel(nn.Module):
  
         if head == 'linear':
             self.classification_head = nn.Sequential(
-                nn.Dropout(0.5),
+                #nn.Dropout(0.5),
                 nn.Linear(self.backbone_dim, num_labels)
             )
 

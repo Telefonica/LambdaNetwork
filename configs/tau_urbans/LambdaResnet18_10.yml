@@ -34,23 +34,23 @@ num_workers: 12
 transformation_strategy: audio 
 transformation_kwargs:
    volume:
-      p: 0.5
+      p: 0.0
    crop:
-      p: 0.5
+      p: 0.0
    time_strech:
-      p: 0.3
+      p: 0.0
    pitch_shift:
-      p: 0.3
+      p: 0.0
    temporal_shift:
-      p: 0.3
+      p: 0.0
    clipping_distortion: 
-      p: 0.2
+      p: 0.0
    background_noise:
-      p: 0.7
+      p: 0.0
 
 spectogram_kwargs:
    sample_rate: 44100
-   n_fft: 512
-   n_mels: 40
-   win_size: 0.01
-   win_stride: 0.005
+   n_fft: 1024
+   n_mels: 80
+   win_size: 0.02
+   win_stride: 0.01

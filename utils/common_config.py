@@ -88,13 +88,13 @@ def get_train_transformations(p):
             augment.ShiftTransform(p=p['transformation_kwargs']['temporal_shift']['p']),    # Shift the audio signal temporally
             augment.ClippingDistortionTransform(p=p['transformation_kwargs']['clipping_distortion']['p']), # Saturation distortion the audio signal
             augment.AddBackgroundNoiseSNR(p=p['transformation_kwargs']['background_noise']['p']), # Add background noise randomly picked (SNR)
-            augment.LengthTransform()                                                       # After all the transforms, keep the same length
+            augment.LengthTransform(length=441000)                                                       # After all the transforms, keep the same length
         )
 
 def get_val_transformations(p):
     if p['transformation_strategy'] == 'audio':
         return nn.Sequential(
-            augment.LengthTransform()
+            augment.LengthTransform(length=441000)
         )
 
 def get_optimizer(p, model, cluster_head_only=False):
