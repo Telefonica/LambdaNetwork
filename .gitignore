@@ -3,6 +3,7 @@
 __pycache__/
 **/__pycache__
 .vscode/
+nohup/
 datasets/SpeechCommands/
 datasets/speech_commands_v0.02.tar.gz
 output/
