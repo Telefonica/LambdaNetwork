@@ -24,17 +24,15 @@ To change the subtask, change the `num_lables` variable in the config `.yml` fil
 the training of the model can be performed by running the `train.py` file through the following command: (Choose the available GPU on your PC)
 
 ```bash
-python -u train.py --config_env configs/env.yml --config_exp configs/google_commands/'desired_config'.yml --gpu X
+python -u train.py --config_exp configs/google_commands/'desired_config'.yml --gpu X
 ```
 
 If gpu is not set, the model will be trained in `DataParallel` mode, using all the available GPUs and multipliying its batch size for the number of available GPUs.
 
-**Note**: The first time running the training script, the *Google Speech Commands dataset* will be downloaded to the `datasets/` folder. Once downloaded, the run may fail as the dataset was not loaded in memory. Run again the training script and everything will be fine.
-
 To evaluate the trained model, the path to the `pth.tar` saved model must be given:
 
 ```bash
-python -u eval.py --config_env configs/env.yml --config_exp configs/google_commands/'desired_config'.yml --gpu X --model output/google_commands/'desired_model'/'model'.pth.tar
+python -u eval.py --config_exp configs/google_commands/'desired_config'.yml --gpu X --model output/google_commands/'desired_model'/'model'.pth.tar
 ```
 
 ## Plotting the results
