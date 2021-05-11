@@ -5,7 +5,7 @@ import os
 
 from utils.config import create_config
 from utils.train_utils import train_model, validate_model, test_model
-from utils.common_config import get_model, get_criterion, get_optimizer, adjust_learning_rate, get_dataset,\
+from utils.common_config import get_model, get_criterion, get_optimizer, adjust_learning_rate, get_dataset, get_transformed_dataset,\
                                 get_train_transformations, get_train_dataloader,\
                                 get_val_transformations, get_val_dataloader
 
@@ -36,12 +36,16 @@ def main():
         model.cuda()
     
     # Get the datasets, transformations and dataloaders
+    train_dataset = get_dataset(p, subset="training")
+    val_dataset = get_dataset(p, subset="validation")
+    test_dataset = get_dataset(p, subset="testing")
+    
     train_transforms = get_train_transformations(p)
     val_transforms = get_val_transformations(p)
 
-    train_dataset = get_dataset(p, train_transforms, subset="training")
-    val_dataset = get_dataset(p, val_transforms, subset="validation")
-    test_dataset = get_dataset(p, val_transforms, subset="testing")
+    train_dataset = get_transformed_dataset(p, train_dataset, train_transforms)
+    val_dataset = get_transformed_dataset(p, val_dataset, val_transforms)
+    test_dataset = get_transformed_dataset(p, test_dataset, val_transforms)
     
     train_dataloader = get_train_dataloader(p, train_dataset)
     val_dataloader = get_val_dataloader(p, val_dataset)

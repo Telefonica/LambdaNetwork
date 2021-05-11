@@ -38,23 +38,23 @@ def get_model(p):
     return model
 
 
-def get_dataset(p, transform, subset=None):
+def get_dataset(p, subset=None):
     mkdir_if_missing('./datasets/')
-    if p['db_name'] == 'google_commands':
-        from data.datasets import SpeechCommands
-        dataset = SpeechCommands(num_labels=p['num_labels'], subset=subset)
+    
+    from data.datasets import SpeechCommands
+    dataset = SpeechCommands(num_labels=p['num_labels'], subset=subset)
 
-    elif p['db_name'] == 'tau_urban':
-        from data.datasets import TAUurban
-        dataset = TAUurban(subset=subset)
+    return dataset
 
+
+def get_transformed_dataset(p, dataset, transform):
     from data.custom_dataset import AudioDataset
     dataset = AudioDataset(dataset, transform=transform)
 
     if p['frontend'] == 'mel':
         from data.custom_dataset import MelDataset
         dataset = MelDataset(dataset, **p['spectogram_kwargs'])
-    
+
     return dataset
 
 
