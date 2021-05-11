@@ -13,13 +13,12 @@ parser = argparse.ArgumentParser(description='Evaluate Lambda ResNet')
 parser.add_argument('--config_exp', help='Location of config file')
 parser.add_argument('--model', help='Location where model is saved')
 parser.add_argument('--gpu', help='GPU device to use')
-parser.add_argument('--config_env', help='Config file for environment')
 args = parser.parse_args()
 
 def main():
     
     # Read config file
-    p = create_config(args.config_env, args.config_exp)
+    p = create_config(args.config_exp)
     cuda = torch.cuda.is_available()
 
     # Get model

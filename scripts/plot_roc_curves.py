@@ -6,8 +6,8 @@ num_classes = 10
 
 lambdaResnet18 = 'output/google_commands/LambdaResnet_{}_k1'.format(num_classes)
 lambdaResnet18_2 = 'output/google_commands/LambdaResnet_{}_k2'.format(num_classes)
-TC_Resnet14 = 'output/google_commands/Resnet_{}'.format(num_classes)
-Resnet15 = 'output/google_commands/Resnet_{}'.format(num_classes)
+TC_Resnet14 = 'output/google_commands/Resnet15_{}'.format(num_classes)
+Resnet15 = 'output/google_commands/Resnet15_{}'.format(num_classes)
 
 paths = [Resnet15, lambdaResnet18_2, lambdaResnet18, TC_Resnet14]
 models = ['Resnet15', 'LambdaResnet18-2', 'LambdaResnet18', 'TC-Resnet14']

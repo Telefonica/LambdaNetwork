@@ -70,8 +70,6 @@ class LambdaResNet(nn.Module):
         if x.shape[1] == 1 and len(x.shape) > 3:
             x = torch.squeeze(x, dim=1)
 
-            x.transpose_(1,2)
-
         out = self.relu(self.bn1(self.conv1(x)))
         out = self.maxpool(out)
 

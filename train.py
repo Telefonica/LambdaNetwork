@@ -12,13 +12,12 @@ from utils.common_config import get_model, get_criterion, get_optimizer, adjust_
 from torchsummary.torchsummary import summary
 
 parser = argparse.ArgumentParser(description='Setup for training a keyword spotting task')
-parser.add_argument('--config_env', help='Config file for environment')
 parser.add_argument('--config_exp', help='Config file for experiment')
 parser.add_argument('--gpu', help='GPU to use')
 args = parser.parse_args()
 
 def main():
-    p = create_config(args.config_env, args.config_exp)
+    p = create_config(args.config_exp)
 
     cuda = torch.cuda.is_available()
 

@@ -6,20 +6,17 @@ def mkdir_if_missing(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-def create_config(config_file_env, config_file_exp):
-    # Config for environment path
-    with open(config_file_env, 'r') as stream:
-        root_dir = yaml.safe_load(stream)['root_dir']
-   
+def create_config(config_file_exp):
+    
     with open(config_file_exp, 'r') as stream:
         config = yaml.safe_load(stream)
     
     cfg = EasyDict()
-   
     # Copy
     for k, v in config.items():
         cfg[k] = v
 
+    root_dir = 'output/'
     # Set paths for the task of the dataset:
     dataset_dir = os.path.join(root_dir, cfg['db_name'])
     mkdir_if_missing(dataset_dir)
