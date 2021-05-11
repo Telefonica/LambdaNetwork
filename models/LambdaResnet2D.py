@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from models.LambdaLayers import LambdaLayer1D as LambdaConv
+from models.LambdaLayers import LambdaLayer2D as LambdaConv
 
 
 class LambdaBlock(nn.Module):
@@ -11,15 +11,15 @@ class LambdaBlock(nn.Module):
         super(LambdaBlock, self).__init__()
         self.is_last = is_last
 
-        self.conv1 = nn.Conv1d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
-        self.bn1 = nn.BatchNorm1d(planes)
+        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(planes)
         
         self.conv2 = nn.ModuleList([LambdaConv(planes, planes)])
         
         if stride != 1 or in_planes != self.expansion * planes:
-            self.conv2.append(nn.AvgPool1d(kernel_size=3, stride=1, padding=1))
+            self.conv2.append(nn.AvgPool2d(kernel_size=3, stride=1, padding=1))
         
-        self.conv2.append(nn.BatchNorm1d(planes))
+        self.conv2.append(nn.BatchNorm2d(planes))
         self.conv2.append(nn.ReLU())
         self.conv2 = nn.Sequential(*self.conv2)
         
@@ -27,8 +27,8 @@ class LambdaBlock(nn.Module):
         
         if stride != 1 or in_planes != self.expansion * planes:
             self.shortcut = nn.Sequential(
-                nn.Conv1d(in_planes, self.expansion * planes, kernel_size=1, stride=stride, bias=False),
-                nn.BatchNorm1d(self.expansion * planes)
+                nn.Conv2d(in_planes, self.expansion * planes, kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(self.expansion * planes)
             )
 
     def forward(self, x):
@@ -38,15 +38,16 @@ class LambdaBlock(nn.Module):
         out = F.relu(out)
         return out
 
+
 class LambdaResNet(nn.Module):
     def __init__(self, block, num_blocks, in_channels, k=1):
         super(LambdaResNet, self).__init__()
         self.in_planes = 16
 
-        self.conv1 = nn.Conv1d(in_channels, 16, kernel_size=3, stride=1, bias=False)
-        self.bn1 = nn.BatchNorm1d(16)
+        self.conv1 = nn.Conv2d(in_channels, 16, kernel_size=3, stride=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(16)
         self.relu = nn.ReLU(inplace=True)
-        self.maxpool = nn.MaxPool1d(kernel_size=3, stride=2, padding=1)
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         
         # There are 4 layers in resnet, each layer has it's number of blocks
         self.layer1 = self._make_layer(block, int(24*k), num_blocks[0], stride=1)
@@ -54,7 +55,7 @@ class LambdaResNet(nn.Module):
         self.layer3 = self._make_layer(block, int(48*k), num_blocks[2], stride=2)
         self.layer4 = self._make_layer(block, int(60*k), num_blocks[3], stride=2)
 
-        self.avgpool = nn.AdaptiveAvgPool1d(1)
+        self.avgpool = nn.AdaptiveAvgPool2d((1,1))
 
     def _make_layer(self, block, planes, num_blocks, stride=1):
         strides = [stride] + [1]*(num_blocks-1)
@@ -66,11 +67,6 @@ class LambdaResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
-        # In case the MEL has a 1 channel
-        if x.shape[1] == 1 and len(x.shape) > 3:
-            x = torch.squeeze(x, dim=1)
-
-            x.transpose_(1,2)
 
         out = self.relu(self.bn1(self.conv1(x)))
         out = self.maxpool(out)

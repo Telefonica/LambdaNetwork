@@ -52,9 +52,7 @@ def main():
     print('Perform evaluation of the task (setup={}).'.format(p['setup']))
 
     print('Create Memory Bank')
-    memory_bank = MemoryBank(len(test_dataset),
-                            p['model_kwargs']['num_labels'],
-                            p['num_labels'], p['criterion_kwargs']['temperature'])
+    memory_bank = MemoryBank(len(test_dataset), p['num_labels'], p['num_labels'])
     if cuda:
         memory_bank.cuda()
 
@@ -86,7 +84,7 @@ def main():
 
     print('Computing and Saving confussion matrix')
     matrix = confusion_matrix(eval_target, eval_labels)
-    save_confusion_matrix(matrix, test_dataset.labels, os.path.join(p['base_dir'], 'confusion_matrix.png'))
+    save_confusion_matrix(matrix, test_dataset.labels, os.path.join(p['base_dir'], 'confusion_matrix.png'), normalize=True)
     
     print('Accuracy: {:.4f} ({}/{})'.format(accuracy*100, corrects, len(test_dataset)))
 

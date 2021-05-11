@@ -4,17 +4,13 @@ setup: 1D
 # Dataset
 db_name: google_commands
 num_labels: 35
+audio_length: 1
 
 # Model
 backbone: TCResnet
 frontend: mel
 channel_k: 1
 head: linear
-
-# Loss
-criterion: supervised
-criterion_kwargs:
-   temperature: None 
 
 # Hyperparameters
 epochs: 200

@@ -30,6 +30,7 @@ def save_confusion_matrix(cm, classes, path, normalize=False, title='Confusion m
 
 def get_roc_curve(y_true, probs, class_idx=None):
     n_classes = probs.shape[1]
+    print(probs.shape)
     fpr = dict()
     tpr = dict()
     roc_auc = dict()
@@ -52,6 +53,7 @@ def get_roc_curve(y_true, probs, class_idx=None):
 
 def get_det_curve(y_true, probs, class_idx=None):
     n_classes = probs.shape[1]
+    print(probs.shape)
     fpr = dict()
     fnr = dict()
     roc_auc = dict()
@@ -59,6 +61,7 @@ def get_det_curve(y_true, probs, class_idx=None):
     y_true_all = np.zeros(probs.shape)
     
     for i in range(n_classes):
+        print(np.equal(y_true, i).astype(int))
         fpr[i], fnr[i], _ = det_curve(np.equal(y_true, i).astype(int), probs[:,i])
         roc_auc[i] = auc(fpr[i], fnr[i])
         y_true_all[:, i] = np.equal(y_true, i).astype(int)

@@ -30,7 +30,7 @@ def main():
         if args.gpu is None:
             device = torch.device('cuda:0')
             model = torch.nn.DataParallel(model)
-            p['batch_size'] = torch.cuda.device_count() * p['batch_size']
+            #p['batch_size'] = torch.cuda.device_count() * p['batch_size']
         else:
             device = torch.device('cuda:{}'.format(args.gpu))
             torch.cuda.set_device(device)

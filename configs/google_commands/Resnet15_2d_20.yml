@@ -4,16 +4,12 @@ setup: 2D
 # Dataset
 db_name: google_commands
 num_labels: 20
+audio_length: 1
 
 # Model
 backbone: Resnet
 frontend: mel
 head: linear
-
-# Loss
-criterion: supervised
-criterion_kwargs:
-   temperature: None 
 
 # Hyperparameters
 epochs: 200

@@ -8,17 +8,21 @@ from utils.config import mkdir_if_missing
 
 
 def get_criterion(p):
-    if p['criterion'] == 'supervised':
-        from losses.losses import CrossEntropyLoss
-        criterion = CrossEntropyLoss()
+    from losses.losses import CrossEntropyLoss
+    criterion = CrossEntropyLoss()
     
     return criterion
 
 
 def get_model(p):
     if p['backbone'] == 'LambdaResnet':
-        from models.LambdaResnet import LambdaResNet18
-        backbone = LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'], k=p['channel_k'])
+        if p['setup'] == '1D':
+            from models.LambdaResnet import LambdaResNet18
+            backbone = LambdaResNet18(in_channels=p['spectogram_kwargs']['n_mels'], k=p['channel_k'])
+    
+        elif p['setup'] == '2D':
+            from models.LambdaResnet2D import LambdaResNet18
+            backbone = LambdaResNet18(in_channels=1, k=p['channel_k'])
     
     elif p['backbone'] == 'TCResnet':
         from models.TCResnet import TCResnet14
@@ -55,18 +59,6 @@ def get_dataset(p, transform, subset=None):
 
 
 def get_train_dataloader(p, dataset):
-    
-    '''
-    Not giving better results  yet
-    
-    # Get weighted sampler if we use less than all the commands
-    if p['db_name'] == 'google_commands' and p['num_labels'] != 35:
-        from data.samplers import get_SpeechCommandsSampler
-        sampler = get_SpeechCommandsSampler(p, dataset)
-
-        return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
-            batch_size=p['batch_size'], sampler=sampler, pin_memory=True)
-    '''
     return torch.utils.data.DataLoader(dataset, num_workers=p['num_workers'], 
             batch_size=p['batch_size'], pin_memory=True,
             drop_last=True, shuffle=True)
@@ -88,13 +80,13 @@ def get_train_transformations(p):
             augment.ShiftTransform(p=p['transformation_kwargs']['temporal_shift']['p']),    # Shift the audio signal temporally
             augment.ClippingDistortionTransform(p=p['transformation_kwargs']['clipping_distortion']['p']), # Saturation distortion the audio signal
             augment.AddBackgroundNoiseSNR(p=p['transformation_kwargs']['background_noise']['p']), # Add background noise randomly picked (SNR)
-            augment.LengthTransform(length=441000)                                                       # After all the transforms, keep the same length
+            augment.LengthTransform(length=p['audio_length']*p['spectogram_kwargs']['sample_rate']) # After all the transforms, keep the same length
         )
 
 def get_val_transformations(p):
     if p['transformation_strategy'] == 'audio':
         return nn.Sequential(
-            augment.LengthTransform(length=441000)
+            augment.LengthTransform(length=p['audio_length']*p['spectogram_kwargs']['sample_rate'])
         )
 
 def get_optimizer(p, model, cluster_head_only=False):

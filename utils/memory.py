@@ -8,22 +8,23 @@ import torch
 
 
 class MemoryBank(object):
-    def __init__(self, n, dim, num_classes, temperature):
+    def __init__(self, n, dim, num_classes):
         self.n = n
         self.dim = dim 
+        
         if dim != 35:
             self.features = torch.FloatTensor(self.n, self.dim+1)
         else:
             self.features = torch.FloatTensor(self.n, self.dim)
+        
+        self.features = torch.FloatTensor(self.n, self.dim)
         self.targets = torch.FloatTensor(self.n)
         self.ptr = 0
         self.device = 'cpu'
         self.K = 100
-        self.temperature = temperature
+        self.temperature = 0.1
         self.C = num_classes
         self.labels = []
-
-        #self.ngpus = faiss.get_num_gpus()
 
     def weighted_knn(self, predictions):
         # perform weighted knn
@@ -115,5 +116,6 @@ def fill_memory_bank(loader, model, memory_bank):
         target = batch['target']
         label = batch['label']
         memory_bank.update(output, target, label)
+        
         if i % 100 == 0:
             print('Fill Memory Bank [%d/%d]' %(i, len(loader)))
