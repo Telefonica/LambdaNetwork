@@ -9,7 +9,6 @@ Here we list the requirements needed to run the project (and the version we used
 * einops (0.3.0)
 * librosa (0.8.0)
 * pyyaml (5.4.1)
-* faiss-gpu (1.7.0)
 
 ## Configurating the model
 The model configurations of the 3 tested models for the *Google Speech Commands dataset* are found in `configs/google_commands/`.
