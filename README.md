@@ -1,7 +1,11 @@
 # Efficient Keyword Spotting through long-range interactions with Temporal Lambda Networks
 
 ## Abstract
-Recent models based on attention mechanisms have shown unprecedented performance in the speech recognition domain. These are computational expensive and unnecessarily complex for the keyword spotting task where its main usage is in small-footprint devices. This work explores the application of the Lambda networks, a framework for capturing long-range interactions, within this spotting task. The proposed architecture is inspired by current state-of-the-art models for keyword spotting built on residual connections. Our main contribution consists on swapping the residual blocks by temporal Lambda layers thus bypassing the expensive computation of attention maps, largely reducing the model complexity. Furthermore, the proposed Lambda network is built upon uni-dimensional convolutions which also dramatically decreases the number of floating point operations performed along the inference stage. This architecture does not only reach state-of-the-art accuracies on the Google Speech Commands dataset, but it is 85% and 65% lighter than its multi headed attention (MHAtt-RNN) and residual convolutional (Res15) counterparts, while being up to 100x faster than them. To the best of our knowledge, this is the first attempt to examine the Lambda framework within the speech domain and therefore, we unravel further research and development of future speech interfaces based on this architecture.
+Models based on attention mechanisms have shown unprecedented speech recognition performance. However, they are computationally expensive and unnecessarily complex for keyword spotting, a task targeted to small-footprint devices.
+
+This work explores the application of Lambda networks, an alternative framework for capturing long-range interactions without attention, for the keyword spotting task. We propose a novel ResNet-based model by swapping the residual blocks by temporal Lambda layers. Furthermore, the proposed architecture is built upon uni-dimensional temporal convolutions that further reduce its complexity.
+
+The presented model does not only reach state-of-the-art accuracies on the Google Speech Commands dataset, but it is 85% and 65% lighter than its Transformer-based (KWT) and convolutional (Res15) counterparts while being up to 100x faster. To the best of our knowledge, this is the first attempt to explore the Lambda framework within the speech domain and therefore, we unravel further research of new interfaces based on this architecture. 
 
 ## Requirements
 Here we list the requirements needed to run the project (and the version we used). It is recomendded to install `pytorch` and `torchaudio` following the official installation instructions
@@ -20,7 +24,7 @@ To change the subtask, change the `num_lables` variable in the config `.yml` fil
 
 ## Training and evaluating the model
 
-the training of the model can be performed by running the `train.py` file through the following command: (Choose the available GPU on your PC)
+The training of the model can be performed by running the `train.py` file through the following command: (Choose the available GPU on your PC)
 
 ```bash
 python -u train.py --config_exp configs/google_commands/'desired_config'.yml --gpu X
