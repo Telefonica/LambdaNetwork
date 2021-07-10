@@ -1,0 +1,1952 @@
+/home/b.btv/anaconda3/envs/tid_lambda/lib/python3.8/site-packages/torchaudio/backend/utils.py:53: UserWarning: "sox" backend is being deprecated. The default backend will be changed to "sox_io" backend in 0.8.0 and "sox" backend will be removed in 0.9.0. Please migrate to "sox_io" backend. Please refer to https://github.com/pytorch/audio/issues/903 for the detail.
+  warnings.warn(
+Model is SupervisedModel
+84843
+9981
+11005
+/home/b.btv/anaconda3/envs/tid_lambda/lib/python3.8/site-packages/torch/functional.py:515: UserWarning: stft will require the return_complex parameter be explicitly  specified in a future PyTorch release. Use return_complex=False  to preserve the current behavior or return_complex=True to return  a complex output. (Triggered internally at  /opt/conda/conda-bld/pytorch_1603729096996/work/aten/src/ATen/native/SpectralOps.cpp:653.)
+  return _VF.stft(input, n_fft, hop_length, win_length, window,  # type: ignore
+/home/b.btv/anaconda3/envs/tid_lambda/lib/python3.8/site-packages/torch/functional.py:515: UserWarning: The function torch.rfft is deprecated and will be removed in a future PyTorch release. Use the new torch.fft module functions, instead, by importing torch.fft and calling torch.fft.fft or torch.fft.rfft. (Triggered internally at  /opt/conda/conda-bld/pytorch_1603729096996/work/aten/src/ATen/native/SpectralOps.cpp:590.)
+  return _VF.stft(input, n_fft, hop_length, win_length, window,  # type: ignore
+torch.Size([1, 40, 101])
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [100, 45, 40, 101]             405
+            Conv2d-2         [100, 45, 40, 101]          18,225
+       BatchNorm2d-3         [100, 45, 40, 101]               0
+            Conv2d-4         [100, 45, 40, 101]          18,225
+       BatchNorm2d-5         [100, 45, 40, 101]               0
+            Conv2d-6         [100, 45, 40, 101]          18,225
+       BatchNorm2d-7         [100, 45, 40, 101]               0
+            Conv2d-8         [100, 45, 40, 101]          18,225
+       BatchNorm2d-9         [100, 45, 40, 101]               0
+           Conv2d-10         [100, 45, 40, 101]          18,225
+      BatchNorm2d-11         [100, 45, 40, 101]               0
+           Conv2d-12         [100, 45, 40, 101]          18,225
+      BatchNorm2d-13         [100, 45, 40, 101]               0
+           Conv2d-14         [100, 45, 40, 101]          18,225
+      BatchNorm2d-15         [100, 45, 40, 101]               0
+           Conv2d-16         [100, 45, 40, 101]          18,225
+      BatchNorm2d-17         [100, 45, 40, 101]               0
+           Conv2d-18         [100, 45, 40, 101]          18,225
+      BatchNorm2d-19         [100, 45, 40, 101]               0
+           Conv2d-20         [100, 45, 40, 101]          18,225
+      BatchNorm2d-21         [100, 45, 40, 101]               0
+           Conv2d-22         [100, 45, 40, 101]          18,225
+      BatchNorm2d-23         [100, 45, 40, 101]               0
+           Conv2d-24         [100, 45, 40, 101]          18,225
+      BatchNorm2d-25         [100, 45, 40, 101]               0
+           Conv2d-26         [100, 45, 40, 101]          18,225
+      BatchNorm2d-27         [100, 45, 40, 101]               0
+            Res15-28                  [100, 45]               0
+           Linear-29                  [100, 35]           1,610
+  SupervisedModel-30                  [100, 35]               0
+================================================================
+Total params: 238,940
+Trainable params: 238,940
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 1.54
+Forward/backward pass size (MB): 3745.05
+Params size (MB): 0.91
+Estimated Total Size (MB): 3747.50
+----------------------------------------------------------------
+
+(tensor(238940), tensor(238940))
+Train transforms: Sequential(
+  (0): VolTransform(gain_type=db, min=-5, max=5, p=0.5)
+  (1): CropTransform(miliseconds=100, p=0.5)
+  (2): TimeStretchTransform(min_rate=0.75, max_rate=1.25, p=0.3)
+  (3): PitchShiftTransform(min_semit=-4, max_semit=4, p=0.3)
+  (4): ShiftTransform(min_fract=-0.2, max_fract=0.2, rollover=False, p=0.3)
+  (5): ClippingDistortionTransform(min_th=20, max_th=40, p=0.2)
+  (6): AddBackgroundNoiseSNR(SNR_range(dB)=(0, 15)
+  (7): LengthTransform(length=16000)
+)
+Validation transforms: Sequential(
+  (0): LengthTransform(length=16000)
+)
+Dataset contains 84843/9981 train/val samples
+Criterion is CrossEntropyLoss
+SGD (
+Parameter Group 0
+    dampening: 0
+    lr: 0.1
+    momentum: 0.9
+    nesterov: False
+    weight_decay: 0.0001
+)
+No checkpoint file at output/google_commands/Resnet_2D_mel_35/checkpoint.pth.tar
+Starting the Training loop ...
+    Number of Epochs: 250
+    Batch size: 100
+    Total batches: 848.43
+Epoch 0/250
+Adjusted learning rate to 0.10000
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 3.5886266231536865
+Progress: 11.91% 	 Batch: 101 	 Loss: 3.464728355407715
+Progress: 23.70% 	 Batch: 201 	 Loss: 3.3224599361419678
+Progress: 35.50% 	 Batch: 301 	 Loss: 3.141514301300049
+Progress: 47.29% 	 Batch: 401 	 Loss: 3.154171943664551
+Progress: 59.08% 	 Batch: 501 	 Loss: 3.0805914402008057
+Progress: 70.87% 	 Batch: 601 	 Loss: 3.0435619354248047
+Progress: 82.67% 	 Batch: 701 	 Loss: 3.0053327083587646
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.984508752822876
+Validation Loss: 3.4424005722999573
+Accuracy of the model (Test Data): 80.25%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 1/250
+Adjusted learning rate to 0.10000
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.9684839248657227
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.910581588745117
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.915189266204834
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.891274929046631
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.9226415157318115
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.8482067584991455
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.854015588760376
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.792757987976074
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.8618481159210205
+Validation Loss: 3.429556119441986
+Accuracy of the model (Test Data): 86.73%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 2/250
+Adjusted learning rate to 0.09998
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.846283197402954
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.825265407562256
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.836913824081421
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.82344913482666
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.8318262100219727
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.845088481903076
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.8142166137695312
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.8870227336883545
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.842766046524048
+Validation Loss: 3.4321515703201295
+Accuracy of the model (Test Data): 86.72%
+Checkpoint ...
+Epoch 3/250
+Adjusted learning rate to 0.09996
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.8383727073669434
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.8368635177612305
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.73325777053833
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.790264844894409
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.8222975730895996
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.780472993850708
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.828977584838867
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7951819896698
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7977020740509033
+Validation Loss: 3.428365867137909
+Accuracy of the model (Test Data): 89.27%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 4/250
+Adjusted learning rate to 0.09994
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.8282718658447266
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.853724718093872
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.817708969116211
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7835607528686523
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7506606578826904
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7965469360351562
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7971198558807373
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.753450870513916
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.828132390975952
+Validation Loss: 3.419698107242584
+Accuracy of the model (Test Data): 89.77%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 5/250
+Adjusted learning rate to 0.09990
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.8000988960266113
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7709381580352783
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7542855739593506
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7731003761291504
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7550208568573
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.772920608520508
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.814274311065674
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.8074841499328613
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.783329725265503
+Validation Loss: 3.42030326128006
+Accuracy of the model (Test Data): 89.71%
+Checkpoint ...
+Epoch 6/250
+Adjusted learning rate to 0.09986
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.775956392288208
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.752211809158325
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.738370656967163
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7754883766174316
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7469642162323
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7816812992095947
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7312371730804443
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7529473304748535
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7918992042541504
+Validation Loss: 3.415010087490082
+Accuracy of the model (Test Data): 89.88%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 7/250
+Adjusted learning rate to 0.09981
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.823856830596924
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.743117332458496
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.782777786254883
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7873146533966064
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7464423179626465
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7446398735046387
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7781713008880615
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7547333240509033
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7620415687561035
+Validation Loss: 3.4173882031440734
+Accuracy of the model (Test Data): 91.46%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 8/250
+Adjusted learning rate to 0.09975
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.732274055480957
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7517709732055664
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7381181716918945
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7756659984588623
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7980797290802
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.771669864654541
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.765872001647949
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7761173248291016
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7387583255767822
+Validation Loss: 3.4069770050048827
+Accuracy of the model (Test Data): 92.29%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 9/250
+Adjusted learning rate to 0.09968
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7574872970581055
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.741454839706421
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.776843309402466
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.8083813190460205
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.779148578643799
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.829709768295288
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7301244735717773
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7580084800720215
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.8149569034576416
+Validation Loss: 3.416402952671051
+Accuracy of the model (Test Data): 91.53%
+Checkpoint ...
+Epoch 10/250
+Adjusted learning rate to 0.09961
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.8223440647125244
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7849066257476807
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7028849124908447
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.747431755065918
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7602508068084717
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7705445289611816
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.727384090423584
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.765526056289673
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.8201351165771484
+Validation Loss: 3.402251183986664
+Accuracy of the model (Test Data): 91.07%
+Checkpoint ...
+Epoch 11/250
+Adjusted learning rate to 0.09952
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7610113620758057
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.758937358856201
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7788431644439697
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.736480951309204
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.8266284465789795
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.723923683166504
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7897143363952637
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7771639823913574
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7724645137786865
+Validation Loss: 3.3975811123847963
+Accuracy of the model (Test Data): 92.06%
+Checkpoint ...
+Epoch 12/250
+Adjusted learning rate to 0.09943
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.745028495788574
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7526168823242188
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7765731811523438
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7157962322235107
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.791703701019287
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7599258422851562
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7430756092071533
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.797788143157959
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.8455593585968018
+Validation Loss: 3.406673078536987
+Accuracy of the model (Test Data): 91.52%
+Checkpoint ...
+Epoch 13/250
+Adjusted learning rate to 0.09933
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.754608154296875
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.723381996154785
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.811619758605957
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7870829105377197
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.788860559463501
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7785775661468506
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7684409618377686
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.767608404159546
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7637081146240234
+Validation Loss: 3.396344470977783
+Accuracy of the model (Test Data): 91.35%
+Checkpoint ...
+Epoch 14/250
+Adjusted learning rate to 0.09923
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.761592388153076
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7278037071228027
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.721451759338379
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.735694646835327
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7129383087158203
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.712844133377075
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.763683795928955
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.787017822265625
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.789959192276001
+Validation Loss: 3.389399516582489
+Accuracy of the model (Test Data): 91.75%
+Checkpoint ...
+Epoch 15/250
+Adjusted learning rate to 0.09912
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7382400035858154
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7208855152130127
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7931857109069824
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.74105167388916
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7830193042755127
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.735408306121826
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.730346918106079
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7522313594818115
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.815408706665039
+Validation Loss: 3.3920779466629027
+Accuracy of the model (Test Data): 92.31%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 16/250
+Adjusted learning rate to 0.09899
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7311365604400635
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.730452299118042
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.736509084701538
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.781902551651001
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.753592014312744
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.798962354660034
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7440688610076904
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7515718936920166
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.72420597076416
+Validation Loss: 3.385725440979004
+Accuracy of the model (Test Data): 92.49%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 17/250
+Adjusted learning rate to 0.09886
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.747434139251709
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7266225814819336
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7559359073638916
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7056851387023926
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.747114658355713
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.8010244369506836
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7191576957702637
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6980154514312744
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7511146068573
+Validation Loss: 3.397945125102997
+Accuracy of the model (Test Data): 91.91%
+Checkpoint ...
+Epoch 18/250
+Adjusted learning rate to 0.09873
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.737438678741455
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7360336780548096
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.741941452026367
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7678589820861816
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.754852294921875
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.725506544113159
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.730924367904663
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.776231050491333
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7406527996063232
+Validation Loss: 3.4075373291969298
+Accuracy of the model (Test Data): 91.85%
+Checkpoint ...
+Epoch 19/250
+Adjusted learning rate to 0.09858
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7310726642608643
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7828400135040283
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.740018844604492
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.768181800842285
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.782576322555542
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7159128189086914
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.721301794052124
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7534449100494385
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7849557399749756
+Validation Loss: 3.3908250737190246
+Accuracy of the model (Test Data): 92.68%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 20/250
+Adjusted learning rate to 0.09843
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7600159645080566
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7599527835845947
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7359626293182373
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7446045875549316
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.762129306793213
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7441470623016357
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7398529052734375
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7736563682556152
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7462143898010254
+Validation Loss: 3.3822444033622743
+Accuracy of the model (Test Data): 91.63%
+Checkpoint ...
+Epoch 21/250
+Adjusted learning rate to 0.09827
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7343671321868896
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.700218439102173
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.8219611644744873
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6862032413482666
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.717273473739624
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7528815269470215
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.698197364807129
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7659101486206055
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7317616939544678
+Validation Loss: 3.389062690734863
+Accuracy of the model (Test Data): 92.70%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 22/250
+Adjusted learning rate to 0.09810
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.760953664779663
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7252819538116455
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7932815551757812
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.766366958618164
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.745803117752075
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7348389625549316
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.756532907485962
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7364656925201416
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7680959701538086
+Validation Loss: 3.3878697848320005
+Accuracy of the model (Test Data): 92.28%
+Checkpoint ...
+Epoch 23/250
+Adjusted learning rate to 0.09793
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7378814220428467
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.724003553390503
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7733070850372314
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7232089042663574
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.725151777267456
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7466559410095215
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.698709011077881
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7943718433380127
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.726304292678833
+Validation Loss: 3.3959886741638186
+Accuracy of the model (Test Data): 92.84%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 24/250
+Adjusted learning rate to 0.09775
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7633321285247803
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.796245813369751
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.733070135116577
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7811522483825684
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7731540203094482
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7601394653320312
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7096478939056396
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7326550483703613
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.690495491027832
+Validation Loss: 3.392818579673767
+Accuracy of the model (Test Data): 92.85%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 25/250
+Adjusted learning rate to 0.09756
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.68046236038208
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7245185375213623
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.72833251953125
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.781860589981079
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.771091938018799
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7447094917297363
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.762082815170288
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7394309043884277
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7378106117248535
+Validation Loss: 3.3910821533203124
+Accuracy of the model (Test Data): 93.96%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 26/250
+Adjusted learning rate to 0.09736
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7280173301696777
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.73799204826355
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7733147144317627
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7363975048065186
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.703291416168213
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6962876319885254
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.79495906829834
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.722660779953003
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.748030424118042
+Validation Loss: 3.390933892726898
+Accuracy of the model (Test Data): 93.30%
+Checkpoint ...
+Epoch 27/250
+Adjusted learning rate to 0.09715
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7107017040252686
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.772725820541382
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7530202865600586
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.776674747467041
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.682016372680664
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7332241535186768
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7646987438201904
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7180063724517822
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.754774570465088
+Validation Loss: 3.392226965427399
+Accuracy of the model (Test Data): 94.28%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 28/250
+Adjusted learning rate to 0.09694
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7144839763641357
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.795405387878418
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7620034217834473
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.763789653778076
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7407753467559814
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7503466606140137
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7272205352783203
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7144248485565186
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.714191198348999
+Validation Loss: 3.3893437457084654
+Accuracy of the model (Test Data): 93.58%
+Checkpoint ...
+Epoch 29/250
+Adjusted learning rate to 0.09672
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7137856483459473
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7246062755584717
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7560548782348633
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7620344161987305
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.723069429397583
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7304258346557617
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7205638885498047
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.791781425476074
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.690065622329712
+Validation Loss: 3.3923877906799316
+Accuracy of the model (Test Data): 92.20%
+Checkpoint ...
+Epoch 30/250
+Adjusted learning rate to 0.09649
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7066919803619385
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.756199598312378
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7376229763031006
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.695950984954834
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.736724853515625
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.752213954925537
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7321102619171143
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6868669986724854
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.698488712310791
+Validation Loss: 3.3954335618019105
+Accuracy of the model (Test Data): 93.22%
+Checkpoint ...
+Epoch 31/250
+Adjusted learning rate to 0.09626
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.746818780899048
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7209722995758057
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7447662353515625
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.694716453552246
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6844332218170166
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7152459621429443
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7317113876342773
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7688827514648438
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7212018966674805
+Validation Loss: 3.399952790737152
+Accuracy of the model (Test Data): 92.92%
+Checkpoint ...
+Epoch 32/250
+Adjusted learning rate to 0.09602
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.726884365081787
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.787163019180298
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.765549659729004
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7475225925445557
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7676808834075928
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.755326509475708
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.729945659637451
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7498552799224854
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6973419189453125
+Validation Loss: 3.3904163599014283
+Accuracy of the model (Test Data): 93.88%
+Checkpoint ...
+Epoch 33/250
+Adjusted learning rate to 0.09577
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.741246223449707
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.715303659439087
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7136588096618652
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.746569871902466
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.752108573913574
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7518179416656494
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7654571533203125
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6951262950897217
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.76552152633667
+Validation Loss: 3.398194124698639
+Accuracy of the model (Test Data): 93.86%
+Checkpoint ...
+Epoch 34/250
+Adjusted learning rate to 0.09551
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.696911573410034
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.684295415878296
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7118053436279297
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7142300605773926
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7324347496032715
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.69364857673645
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7217302322387695
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7173397541046143
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.726625680923462
+Validation Loss: 3.3947460508346556
+Accuracy of the model (Test Data): 94.15%
+Checkpoint ...
+Epoch 35/250
+Adjusted learning rate to 0.09525
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7398841381073
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7476208209991455
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7177622318267822
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.733637809753418
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6868817806243896
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6904265880584717
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.710998296737671
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7242493629455566
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.724724054336548
+Validation Loss: 3.390632152557373
+Accuracy of the model (Test Data): 93.86%
+Checkpoint ...
+Epoch 36/250
+Adjusted learning rate to 0.09498
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7137246131896973
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.71173095703125
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.762059211730957
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.696817636489868
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.759417772293091
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.693495273590088
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.737067937850952
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6952035427093506
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7336041927337646
+Validation Loss: 3.389399824142456
+Accuracy of the model (Test Data): 94.08%
+Checkpoint ...
+Epoch 37/250
+Adjusted learning rate to 0.09470
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6828157901763916
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7035322189331055
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.737539052963257
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7615854740142822
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.743678569793701
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6779110431671143
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.73323130607605
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7221038341522217
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7172532081604004
+Validation Loss: 3.404174439907074
+Accuracy of the model (Test Data): 93.96%
+Checkpoint ...
+Epoch 38/250
+Adjusted learning rate to 0.09441
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7280666828155518
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7523741722106934
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7697412967681885
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.677858352661133
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.717214584350586
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7566843032836914
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7277650833129883
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7708404064178467
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7437186241149902
+Validation Loss: 3.3965660738945007
+Accuracy of the model (Test Data): 94.23%
+Checkpoint ...
+Epoch 39/250
+Adjusted learning rate to 0.09412
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.728375196456909
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.732121229171753
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.719017267227173
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7837140560150146
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7095236778259277
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7144200801849365
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6981678009033203
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.769050359725952
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7396013736724854
+Validation Loss: 3.39124995470047
+Accuracy of the model (Test Data): 93.49%
+Checkpoint ...
+Epoch 40/250
+Adjusted learning rate to 0.09382
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.711411952972412
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7505316734313965
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.737156867980957
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7009737491607666
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.812530517578125
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.761730432510376
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.726468086242676
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7780914306640625
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.720839738845825
+Validation Loss: 3.397498435974121
+Accuracy of the model (Test Data): 93.88%
+Checkpoint ...
+Epoch 41/250
+Adjusted learning rate to 0.09352
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.710782766342163
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.659130811691284
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7560689449310303
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7407279014587402
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.779956102371216
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7474188804626465
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.722907781600952
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.735337257385254
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.720137119293213
+Validation Loss: 3.386551139354706
+Accuracy of the model (Test Data): 93.89%
+Checkpoint ...
+Epoch 42/250
+Adjusted learning rate to 0.09320
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7025842666625977
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.766256332397461
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.686182975769043
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.756882905960083
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.757526159286499
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.750234603881836
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7866101264953613
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7099199295043945
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.751002788543701
+Validation Loss: 3.3953682589530945
+Accuracy of the model (Test Data): 93.75%
+Checkpoint ...
+Epoch 43/250
+Adjusted learning rate to 0.09288
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.720660448074341
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.707496404647827
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7350809574127197
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.738969087600708
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7539708614349365
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7143731117248535
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.699784278869629
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7107160091400146
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6901259422302246
+Validation Loss: 3.3987638688087465
+Accuracy of the model (Test Data): 92.99%
+Checkpoint ...
+Epoch 44/250
+Adjusted learning rate to 0.09256
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.777017593383789
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.701070785522461
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.73100209236145
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.710724115371704
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7412500381469727
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7596304416656494
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6974685192108154
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.713737726211548
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7694058418273926
+Validation Loss: 3.3882972478866575
+Accuracy of the model (Test Data): 94.42%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 45/250
+Adjusted learning rate to 0.09222
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.71030855178833
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.740931987762451
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.716428756713867
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.684924602508545
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.767390489578247
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.779874324798584
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7312726974487305
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7297301292419434
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7069125175476074
+Validation Loss: 3.3867738914489744
+Accuracy of the model (Test Data): 93.32%
+Checkpoint ...
+Epoch 46/250
+Adjusted learning rate to 0.09188
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6871063709259033
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7401082515716553
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7092180252075195
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7200732231140137
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7508726119995117
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7244248390197754
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.742830753326416
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.732273817062378
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7217648029327393
+Validation Loss: 3.39115403175354
+Accuracy of the model (Test Data): 93.47%
+Checkpoint ...
+Epoch 47/250
+Adjusted learning rate to 0.09154
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7274701595306396
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.731178045272827
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7605903148651123
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.753070116043091
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7436037063598633
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.698530912399292
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7503719329833984
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.682793617248535
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7538559436798096
+Validation Loss: 3.389866955280304
+Accuracy of the model (Test Data): 93.36%
+Checkpoint ...
+Epoch 48/250
+Adjusted learning rate to 0.09119
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.708641290664673
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7538132667541504
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.691073417663574
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7276604175567627
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.729543685913086
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7817533016204834
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.746799945831299
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.725878953933716
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.701035976409912
+Validation Loss: 3.3870024490356445
+Accuracy of the model (Test Data): 93.59%
+Checkpoint ...
+Epoch 49/250
+Adjusted learning rate to 0.09083
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7310678958892822
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.748411178588867
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.702014207839966
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6753733158111572
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.699625253677368
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7554900646209717
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.706948757171631
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.713667869567871
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7065374851226807
+Validation Loss: 3.3956884932518006
+Accuracy of the model (Test Data): 93.57%
+Checkpoint ...
+Epoch 50/250
+Adjusted learning rate to 0.09046
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7453360557556152
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.734100341796875
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.689467191696167
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.682248115539551
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7043685913085938
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.776319980621338
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.712906837463379
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.681100845336914
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.711423873901367
+Validation Loss: 3.3906936502456664
+Accuracy of the model (Test Data): 94.42%
+Checkpoint ...
+Epoch 51/250
+Adjusted learning rate to 0.09009
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.716440439224243
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6919174194335938
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7318856716156006
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.746943473815918
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.76557993888855
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7392818927764893
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7227556705474854
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6874959468841553
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.698951482772827
+Validation Loss: 3.390377199649811
+Accuracy of the model (Test Data): 92.62%
+Checkpoint ...
+Epoch 52/250
+Adjusted learning rate to 0.08971
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.733222723007202
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.712198495864868
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7484171390533447
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6886348724365234
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.764747381210327
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.749783515930176
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6624045372009277
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.731912612915039
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.805513381958008
+Validation Loss: 3.3799166655540467
+Accuracy of the model (Test Data): 92.67%
+Checkpoint ...
+Epoch 53/250
+Adjusted learning rate to 0.08933
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.732177972793579
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.721702814102173
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7119743824005127
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7556333541870117
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.704240083694458
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7059578895568848
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.718665838241577
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7326889038085938
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.688671588897705
+Validation Loss: 3.3884135389328005
+Accuracy of the model (Test Data): 94.27%
+Checkpoint ...
+Epoch 54/250
+Adjusted learning rate to 0.08893
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7714145183563232
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.715700626373291
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.724081516265869
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7633962631225586
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.701291084289551
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7022478580474854
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7056992053985596
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7106900215148926
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7393546104431152
+Validation Loss: 3.3856540274620057
+Accuracy of the model (Test Data): 93.93%
+Checkpoint ...
+Epoch 55/250
+Adjusted learning rate to 0.08854
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7201223373413086
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.764293909072876
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7150988578796387
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7610082626342773
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7004201412200928
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.729323625564575
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.709059238433838
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.757206916809082
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7320361137390137
+Validation Loss: 3.3861065030097963
+Accuracy of the model (Test Data): 92.91%
+Checkpoint ...
+Epoch 56/250
+Adjusted learning rate to 0.08813
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7340447902679443
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7727510929107666
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7742857933044434
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.760659694671631
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7076756954193115
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.697516441345215
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.757814884185791
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6936886310577393
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7847323417663574
+Validation Loss: 3.388445591926575
+Accuracy of the model (Test Data): 93.30%
+Checkpoint ...
+Epoch 57/250
+Adjusted learning rate to 0.08772
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7558202743530273
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.698556423187256
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7151520252227783
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7381067276000977
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7371761798858643
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6715621948242188
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.730182409286499
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7500722408294678
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7085371017456055
+Validation Loss: 3.3898716282844545
+Accuracy of the model (Test Data): 93.98%
+Checkpoint ...
+Epoch 58/250
+Adjusted learning rate to 0.08731
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7368690967559814
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6697745323181152
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7750449180603027
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7041611671447754
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.736171007156372
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7232770919799805
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.744964599609375
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7358226776123047
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.755239963531494
+Validation Loss: 3.387300171852112
+Accuracy of the model (Test Data): 92.70%
+Checkpoint ...
+Epoch 59/250
+Adjusted learning rate to 0.08689
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.690821647644043
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.71614933013916
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7466933727264404
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7584476470947266
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.745819330215454
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7443673610687256
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7322003841400146
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7241146564483643
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7779550552368164
+Validation Loss: 3.3875583958625795
+Accuracy of the model (Test Data): 93.37%
+Checkpoint ...
+Epoch 60/250
+Adjusted learning rate to 0.08646
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7186994552612305
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.748321294784546
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7454404830932617
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.739450693130493
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7258315086364746
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.735060930252075
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7201485633850098
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7306177616119385
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7224504947662354
+Validation Loss: 3.3708099794387816
+Accuracy of the model (Test Data): 94.14%
+Checkpoint ...
+Epoch 61/250
+Adjusted learning rate to 0.08603
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.683969736099243
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.747872829437256
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7396841049194336
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.729734420776367
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.714533805847168
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7360172271728516
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7465033531188965
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.749089241027832
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7392754554748535
+Validation Loss: 3.3895958280563354
+Accuracy of the model (Test Data): 94.36%
+Checkpoint ...
+Epoch 62/250
+Adjusted learning rate to 0.08559
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.775874614715576
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.716203212738037
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6990902423858643
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.713989019393921
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7099335193634033
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7061808109283447
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.680316686630249
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.703949213027954
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.743027687072754
+Validation Loss: 3.387610652446747
+Accuracy of the model (Test Data): 93.72%
+Checkpoint ...
+Epoch 63/250
+Adjusted learning rate to 0.08515
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.677626132965088
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7238543033599854
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7464711666107178
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7587249279022217
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7346878051757812
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7222204208374023
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7366485595703125
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7186479568481445
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7053287029266357
+Validation Loss: 3.3784825515747072
+Accuracy of the model (Test Data): 94.54%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 64/250
+Adjusted learning rate to 0.08470
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7123358249664307
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7292709350585938
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.749570369720459
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7179946899414062
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7014496326446533
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7424380779266357
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6985790729522705
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7466049194335938
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7228457927703857
+Validation Loss: 3.387282359600067
+Accuracy of the model (Test Data): 94.07%
+Checkpoint ...
+Epoch 65/250
+Adjusted learning rate to 0.08424
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.758970260620117
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7161548137664795
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7338180541992188
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7068417072296143
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7475454807281494
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.775062322616577
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6846463680267334
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.699944496154785
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7118399143218994
+Validation Loss: 3.385822443962097
+Accuracy of the model (Test Data): 93.25%
+Checkpoint ...
+Epoch 66/250
+Adjusted learning rate to 0.08378
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7036969661712646
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.777914047241211
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.663663387298584
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.681589365005493
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7156684398651123
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7316927909851074
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.703387975692749
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.694614887237549
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.714292287826538
+Validation Loss: 3.388599309921265
+Accuracy of the model (Test Data): 93.32%
+Checkpoint ...
+Epoch 67/250
+Adjusted learning rate to 0.08332
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7398080825805664
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7055068016052246
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7227327823638916
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7292447090148926
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.76210880279541
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.730664014816284
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.705026865005493
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7264058589935303
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7544620037078857
+Validation Loss: 3.3864618873596193
+Accuracy of the model (Test Data): 94.54%
+Checkpoint ...
+Epoch 68/250
+Adjusted learning rate to 0.08285
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7344329357147217
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7080941200256348
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.735903263092041
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.75224232673645
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7281384468078613
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6871912479400635
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7484586238861084
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7225582599639893
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7694334983825684
+Validation Loss: 3.3808075737953187
+Accuracy of the model (Test Data): 94.20%
+Checkpoint ...
+Epoch 69/250
+Adjusted learning rate to 0.08237
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.71879243850708
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.8158318996429443
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.690092086791992
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.771554470062256
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.734116554260254
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7353436946868896
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.711325168609619
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.731064796447754
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.727266788482666
+Validation Loss: 3.3933831000328065
+Accuracy of the model (Test Data): 93.69%
+Checkpoint ...
+Epoch 70/250
+Adjusted learning rate to 0.08189
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7399227619171143
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.749288320541382
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7242462635040283
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6979546546936035
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7341578006744385
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.755807399749756
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.720797538757324
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.714866876602173
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7295572757720947
+Validation Loss: 3.3818554067611695
+Accuracy of the model (Test Data): 93.57%
+Checkpoint ...
+Epoch 71/250
+Adjusted learning rate to 0.08140
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7112789154052734
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.765368700027466
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7625045776367188
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7161664962768555
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7199413776397705
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7052478790283203
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.725451707839966
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.731266736984253
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6856369972229004
+Validation Loss: 3.3920801520347594
+Accuracy of the model (Test Data): 93.68%
+Checkpoint ...
+Epoch 72/250
+Adjusted learning rate to 0.08091
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.730738878250122
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.718111038208008
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7316558361053467
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.711035966873169
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7131667137145996
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.755444049835205
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.694748640060425
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7475271224975586
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.706674098968506
+Validation Loss: 3.3826575827598573
+Accuracy of the model (Test Data): 94.07%
+Checkpoint ...
+Epoch 73/250
+Adjusted learning rate to 0.08042
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7466983795166016
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7523069381713867
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6954102516174316
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7003066539764404
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6861181259155273
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.704930067062378
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.699713945388794
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.72505259513855
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6810593605041504
+Validation Loss: 3.388995850086212
+Accuracy of the model (Test Data): 93.29%
+Checkpoint ...
+Epoch 74/250
+Adjusted learning rate to 0.07992
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7047228813171387
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.753042697906494
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7078025341033936
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.690490961074829
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7614781856536865
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.684269905090332
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.734509229660034
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.746170997619629
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7168779373168945
+Validation Loss: 3.3918904781341555
+Accuracy of the model (Test Data): 93.07%
+Checkpoint ...
+Epoch 75/250
+Adjusted learning rate to 0.07941
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6901044845581055
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.741006374359131
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7399487495422363
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7397756576538086
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7105343341827393
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.738173484802246
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.778146266937256
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7343947887420654
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6987993717193604
+Validation Loss: 3.3882075119018555
+Accuracy of the model (Test Data): 94.22%
+Checkpoint ...
+Epoch 76/250
+Adjusted learning rate to 0.07890
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.699943780899048
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.680598735809326
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.694408893585205
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6975884437561035
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.698871374130249
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7580149173736572
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.698460578918457
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7239956855773926
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.723512887954712
+Validation Loss: 3.381501860618591
+Accuracy of the model (Test Data): 93.81%
+Checkpoint ...
+Epoch 77/250
+Adjusted learning rate to 0.07839
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7197165489196777
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7053024768829346
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.692082405090332
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7377419471740723
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7160089015960693
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.721903085708618
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7156741619110107
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7406930923461914
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7296600341796875
+Validation Loss: 3.387500207424164
+Accuracy of the model (Test Data): 94.40%
+Checkpoint ...
+Epoch 78/250
+Adjusted learning rate to 0.07787
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.695958137512207
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7180113792419434
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6675448417663574
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7304162979125977
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7426984310150146
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7555911540985107
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.733989953994751
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.696917772293091
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.750253915786743
+Validation Loss: 3.3807768964767457
+Accuracy of the model (Test Data): 92.79%
+Checkpoint ...
+Epoch 79/250
+Adjusted learning rate to 0.07734
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7263545989990234
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7284369468688965
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6834092140197754
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7237749099731445
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7199296951293945
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7003514766693115
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7585535049438477
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.711301326751709
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7191579341888428
+Validation Loss: 3.3881519174575807
+Accuracy of the model (Test Data): 94.19%
+Checkpoint ...
+Epoch 80/250
+Adjusted learning rate to 0.07681
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7200253009796143
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.752609968185425
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.695344924926758
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6894681453704834
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7230520248413086
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7245614528656006
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7244672775268555
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.697544574737549
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7549304962158203
+Validation Loss: 3.387919385433197
+Accuracy of the model (Test Data): 93.40%
+Checkpoint ...
+Epoch 81/250
+Adjusted learning rate to 0.07628
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6983258724212646
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.659510850906372
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6900572776794434
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.784292697906494
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7038979530334473
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7427849769592285
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7385125160217285
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.754241943359375
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7295925617218018
+Validation Loss: 3.394814918041229
+Accuracy of the model (Test Data): 93.90%
+Checkpoint ...
+Epoch 82/250
+Adjusted learning rate to 0.07575
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7286999225616455
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7338080406188965
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.724536180496216
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7152371406555176
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.739603042602539
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.757110834121704
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.690274238586426
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7117795944213867
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.702914237976074
+Validation Loss: 3.3865208768844606
+Accuracy of the model (Test Data): 93.86%
+Checkpoint ...
+Epoch 83/250
+Adjusted learning rate to 0.07521
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6959547996520996
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6999905109405518
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7357282638549805
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7372374534606934
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6842050552368164
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.717231512069702
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7177884578704834
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.736457586288452
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.716630458831787
+Validation Loss: 3.387946243286133
+Accuracy of the model (Test Data): 94.23%
+Checkpoint ...
+Epoch 84/250
+Adjusted learning rate to 0.07466
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7618257999420166
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.747701406478882
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.74434232711792
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7095534801483154
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.735224723815918
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.728586435317993
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6808526515960693
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7029640674591064
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.729994535446167
+Validation Loss: 3.3859138345718383
+Accuracy of the model (Test Data): 93.56%
+Checkpoint ...
+Epoch 85/250
+Adjusted learning rate to 0.07411
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.689613103866577
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6884548664093018
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7256274223327637
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.713574171066284
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7211971282958984
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7028043270111084
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7579989433288574
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.706212043762207
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6932363510131836
+Validation Loss: 3.3833096075057982
+Accuracy of the model (Test Data): 94.38%
+Checkpoint ...
+Epoch 86/250
+Adjusted learning rate to 0.07356
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7832329273223877
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.693704843521118
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7733821868896484
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.690580368041992
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7269446849823
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6705963611602783
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7592215538024902
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7567477226257324
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6822543144226074
+Validation Loss: 3.3880422711372375
+Accuracy of the model (Test Data): 93.72%
+Checkpoint ...
+Epoch 87/250
+Adjusted learning rate to 0.07301
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7070538997650146
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.73891544342041
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7853407859802246
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7135186195373535
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.745922803878784
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6987061500549316
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7326223850250244
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.742837429046631
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7200803756713867
+Validation Loss: 3.3917403769493104
+Accuracy of the model (Test Data): 93.86%
+Checkpoint ...
+Epoch 88/250
+Adjusted learning rate to 0.07245
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7146823406219482
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7186858654022217
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.714433193206787
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7322845458984375
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6972546577453613
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.710691213607788
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.72060489654541
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7230167388916016
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.682300090789795
+Validation Loss: 3.385286054611206
+Accuracy of the model (Test Data): 93.82%
+Checkpoint ...
+Epoch 89/250
+Adjusted learning rate to 0.07188
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.766469717025757
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6895482540130615
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7168941497802734
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7000555992126465
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7488317489624023
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.696150541305542
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6782140731811523
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.734750986099243
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7625820636749268
+Validation Loss: 3.393452298641205
+Accuracy of the model (Test Data): 94.02%
+Checkpoint ...
+Epoch 90/250
+Adjusted learning rate to 0.07132
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7385454177856445
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7047042846679688
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.707839250564575
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7437148094177246
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7313601970672607
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7060346603393555
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7562637329101562
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6935176849365234
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.710345983505249
+Validation Loss: 3.3896713423728944
+Accuracy of the model (Test Data): 92.98%
+Checkpoint ...
+Epoch 91/250
+Adjusted learning rate to 0.07075
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6730268001556396
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7477784156799316
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.673840284347534
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.743398666381836
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7154061794281006
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6994762420654297
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.773294448852539
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7346765995025635
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.696969985961914
+Validation Loss: 3.385853900909424
+Accuracy of the model (Test Data): 93.92%
+Checkpoint ...
+Epoch 92/250
+Adjusted learning rate to 0.07018
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.720524549484253
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.713165283203125
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.670470952987671
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.727747917175293
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7193291187286377
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.759686231613159
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6450202465057373
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.718264579772949
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.738637924194336
+Validation Loss: 3.3938178277015685
+Accuracy of the model (Test Data): 95.24%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 93/250
+Adjusted learning rate to 0.06960
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7115159034729004
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.720076084136963
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7115349769592285
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.713677406311035
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7352325916290283
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7278103828430176
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.696014165878296
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6915597915649414
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.692389488220215
+Validation Loss: 3.382744653224945
+Accuracy of the model (Test Data): 94.76%
+Checkpoint ...
+Epoch 94/250
+Adjusted learning rate to 0.06902
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6771414279937744
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7312686443328857
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.753546714782715
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7568769454956055
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.735733985900879
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6905357837677
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.78720760345459
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.725740671157837
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.687009811401367
+Validation Loss: 3.385247898101807
+Accuracy of the model (Test Data): 94.03%
+Checkpoint ...
+Epoch 95/250
+Adjusted learning rate to 0.06844
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.689709186553955
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7445852756500244
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6855359077453613
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7430481910705566
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.759251356124878
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.6838386058807373
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.712207317352295
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.751716375350952
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7817318439483643
+Validation Loss: 3.3794058847427366
+Accuracy of the model (Test Data): 93.81%
+Checkpoint ...
+Epoch 96/250
+Adjusted learning rate to 0.06785
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7077622413635254
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7163174152374268
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.743422508239746
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7150707244873047
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.751619338989258
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7367498874664307
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6650445461273193
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7159125804901123
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7265572547912598
+Validation Loss: 3.388907449245453
+Accuracy of the model (Test Data): 94.17%
+Checkpoint ...
+Epoch 97/250
+Adjusted learning rate to 0.06726
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.704274892807007
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6849184036254883
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.747671127319336
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7447879314422607
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7288947105407715
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7277328968048096
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.758074998855591
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.703047752380371
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6792590618133545
+Validation Loss: 3.3815832257270815
+Accuracy of the model (Test Data): 94.00%
+Checkpoint ...
+Epoch 98/250
+Adjusted learning rate to 0.06667
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7325408458709717
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.753775119781494
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6791646480560303
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.702233076095581
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.703721046447754
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7610907554626465
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6471338272094727
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.703437089920044
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6998941898345947
+Validation Loss: 3.38091383934021
+Accuracy of the model (Test Data): 93.26%
+Checkpoint ...
+Epoch 99/250
+Adjusted learning rate to 0.06608
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7385849952697754
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6891095638275146
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7216153144836426
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7285447120666504
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7057557106018066
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.674391984939575
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7313175201416016
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.727144718170166
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7659261226654053
+Validation Loss: 3.3831428408622743
+Accuracy of the model (Test Data): 94.42%
+Checkpoint ...
+Epoch 100/250
+Adjusted learning rate to 0.06549
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7215442657470703
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.739744186401367
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.693497896194458
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7187705039978027
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7172861099243164
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7033989429473877
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.718130588531494
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7273545265197754
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.750309467315674
+Validation Loss: 3.3762677240371706
+Accuracy of the model (Test Data): 93.84%
+Checkpoint ...
+Epoch 101/250
+Adjusted learning rate to 0.06489
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.697523832321167
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.699802875518799
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.731447219848633
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7273731231689453
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6927740573883057
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7355539798736572
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7012438774108887
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7385730743408203
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.706186532974243
+Validation Loss: 3.384189088344574
+Accuracy of the model (Test Data): 94.13%
+Checkpoint ...
+Epoch 102/250
+Adjusted learning rate to 0.06429
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.737285852432251
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.695472478866577
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7069764137268066
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6900315284729004
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6976494789123535
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7324559688568115
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.746880292892456
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.745694637298584
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6647536754608154
+Validation Loss: 3.381380391120911
+Accuracy of the model (Test Data): 94.28%
+Checkpoint ...
+Epoch 103/250
+Adjusted learning rate to 0.06368
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7347114086151123
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.773998737335205
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.700538396835327
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.738903760910034
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7085506916046143
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7373340129852295
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.716348886489868
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6969242095947266
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7305822372436523
+Validation Loss: 3.3932065677642824
+Accuracy of the model (Test Data): 94.51%
+Checkpoint ...
+Epoch 104/250
+Adjusted learning rate to 0.06308
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7420051097869873
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.692866325378418
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.721791982650757
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.78076171875
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7054202556610107
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.727426767349243
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7066891193389893
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6813437938690186
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.691906690597534
+Validation Loss: 3.382292058467865
+Accuracy of the model (Test Data): 94.24%
+Checkpoint ...
+Epoch 105/250
+Adjusted learning rate to 0.06247
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7043020725250244
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6681385040283203
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7092173099517822
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6708879470825195
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7166085243225098
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7190005779266357
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6924307346343994
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7072365283966064
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.670067071914673
+Validation Loss: 3.379594087600708
+Accuracy of the model (Test Data): 94.52%
+Checkpoint ...
+Epoch 106/250
+Adjusted learning rate to 0.06186
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7183759212493896
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6970055103302
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6926541328430176
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.751081943511963
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6975841522216797
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7173824310302734
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6948165893554688
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7133007049560547
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6870179176330566
+Validation Loss: 3.383525876998901
+Accuracy of the model (Test Data): 94.49%
+Checkpoint ...
+Epoch 107/250
+Adjusted learning rate to 0.06125
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.741896390914917
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.727998971939087
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7054216861724854
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7313404083251953
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.714109420776367
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.706486463546753
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.70405912399292
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.689582109451294
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.694169521331787
+Validation Loss: 3.383953354358673
+Accuracy of the model (Test Data): 94.18%
+Checkpoint ...
+Epoch 108/250
+Adjusted learning rate to 0.06064
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7067711353302
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7108428478240967
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.724741220474243
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.706737756729126
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.74076771736145
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.705573320388794
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.732947587966919
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.6967153549194336
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7212090492248535
+Validation Loss: 3.376452453136444
+Accuracy of the model (Test Data): 94.42%
+Checkpoint ...
+Epoch 109/250
+Adjusted learning rate to 0.06003
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.71832275390625
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.676555871963501
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.703639268875122
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6941330432891846
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.755061388015747
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7452633380889893
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7039883136749268
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7490735054016113
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.725388288497925
+Validation Loss: 3.380171148777008
+Accuracy of the model (Test Data): 94.68%
+Checkpoint ...
+Epoch 110/250
+Adjusted learning rate to 0.05941
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6917004585266113
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.716752290725708
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7562694549560547
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7264883518218994
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.730700969696045
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7023537158966064
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.714400053024292
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7250826358795166
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6696817874908447
+Validation Loss: 3.3827033185958864
+Accuracy of the model (Test Data): 93.93%
+Checkpoint ...
+Epoch 111/250
+Adjusted learning rate to 0.05879
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7185311317443848
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.715867519378662
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.725940227508545
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.722601890563965
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7538232803344727
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.723477363586426
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.708752393722534
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.700707197189331
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.752861738204956
+Validation Loss: 3.3766547799110413
+Accuracy of the model (Test Data): 94.62%
+Checkpoint ...
+Epoch 112/250
+Adjusted learning rate to 0.05817
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.720308303833008
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.6681160926818848
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.697127103805542
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7246482372283936
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.757373332977295
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.676520347595215
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7730019092559814
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7028207778930664
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7259888648986816
+Validation Loss: 3.3720482444763182
+Accuracy of the model (Test Data): 95.33%
+Saving the most accurate current model for the Test dataset
+Checkpoint ...
+Epoch 113/250
+Adjusted learning rate to 0.05755
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.695723295211792
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7478995323181152
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.67232608795166
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7217319011688232
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.770291328430176
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.743135690689087
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.690248966217041
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7072997093200684
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.713097333908081
+Validation Loss: 3.3759055972099303
+Accuracy of the model (Test Data): 94.79%
+Checkpoint ...
+Epoch 114/250
+Adjusted learning rate to 0.05693
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.728982925415039
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7089242935180664
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.717933416366577
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7255027294158936
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7265970706939697
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.706010341644287
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.694647789001465
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.68052339553833
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.748218297958374
+Validation Loss: 3.379886145591736
+Accuracy of the model (Test Data): 93.36%
+Checkpoint ...
+Epoch 115/250
+Adjusted learning rate to 0.05631
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7004940509796143
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7102572917938232
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6945462226867676
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6894783973693848
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6934430599212646
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.765958309173584
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6963894367218018
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.715610980987549
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.706007957458496
+Validation Loss: 3.3846016550064086
+Accuracy of the model (Test Data): 93.99%
+Checkpoint ...
+Epoch 116/250
+Adjusted learning rate to 0.05569
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7118680477142334
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.701178789138794
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6985690593719482
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.71671986579895
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6626839637756348
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.750075101852417
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7120003700256348
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7893941402435303
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7111239433288574
+Validation Loss: 3.379861650466919
+Accuracy of the model (Test Data): 94.23%
+Checkpoint ...
+Epoch 117/250
+Adjusted learning rate to 0.05506
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6761586666107178
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.70540189743042
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.704723596572876
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.741964340209961
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.68135142326355
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7136483192443848
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7334280014038086
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.76849365234375
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.721705436706543
+Validation Loss: 3.37569714307785
+Accuracy of the model (Test Data): 94.27%
+Checkpoint ...
+Epoch 118/250
+Adjusted learning rate to 0.05444
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7188053131103516
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7208967208862305
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6986563205718994
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.693077802658081
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.753777503967285
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.695831298828125
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.736346483230591
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7444353103637695
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7276833057403564
+Validation Loss: 3.3690586709976196
+Accuracy of the model (Test Data): 93.73%
+Checkpoint ...
+Epoch 119/250
+Adjusted learning rate to 0.05381
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7112245559692383
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7186625003814697
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6641135215759277
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7032601833343506
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7184858322143555
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7165417671203613
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7127671241760254
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.745795249938965
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.7276620864868164
+Validation Loss: 3.3862599515914917
+Accuracy of the model (Test Data): 93.88%
+Checkpoint ...
+Epoch 120/250
+Adjusted learning rate to 0.05319
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.725431203842163
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.710663080215454
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.6820228099823
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7168729305267334
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6929094791412354
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.716156244277954
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.7616820335388184
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7155327796936035
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.681868553161621
+Validation Loss: 3.376604690551758
+Accuracy of the model (Test Data): 94.88%
+Checkpoint ...
+Epoch 121/250
+Adjusted learning rate to 0.05256
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7516257762908936
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.7312450408935547
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.721567153930664
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.6854326725006104
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.7595789432525635
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.695115566253662
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6987051963806152
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.697760820388794
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.703922986984253
+Validation Loss: 3.383002932071686
+Accuracy of the model (Test Data): 94.39%
+Checkpoint ...
+Epoch 122/250
+Adjusted learning rate to 0.05193
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.6769683361053467
+Progress: 11.91% 	 Batch: 101 	 Loss: 2.661370038986206
+Progress: 23.70% 	 Batch: 201 	 Loss: 2.7170848846435547
+Progress: 35.50% 	 Batch: 301 	 Loss: 2.7545266151428223
+Progress: 47.29% 	 Batch: 401 	 Loss: 2.6900670528411865
+Progress: 59.08% 	 Batch: 501 	 Loss: 2.7259159088134766
+Progress: 70.87% 	 Batch: 601 	 Loss: 2.6878325939178467
+Progress: 82.67% 	 Batch: 701 	 Loss: 2.7283523082733154
+Progress: 94.46% 	 Batch: 801 	 Loss: 2.6824958324432373
+Validation Loss: 3.3794141459465026
+Accuracy of the model (Test Data): 94.39%
+Checkpoint ...
+Epoch 123/250
+Adjusted learning rate to 0.05131
+Train...
+Progress: 0.12% 	 Batch: 1 	 Loss: 2.7309560775756836
