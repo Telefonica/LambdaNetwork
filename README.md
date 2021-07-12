@@ -1,4 +1,4 @@
-# Efficient Keyword Spotting through long-range interactions with Temporal Lambda Networks
+# Efficient Keyword Spotting by capturing long-range interactions with Temporal Lambda Networks
 
 ## Abstract
 Models based on attention mechanisms have shown unprecedented speech recognition performance. However, they are computationally expensive and unnecessarily complex for keyword spotting, a task targeted to small-footprint devices.
