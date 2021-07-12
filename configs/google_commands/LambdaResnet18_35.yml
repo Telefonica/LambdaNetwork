@@ -1,0 +1,52 @@
+# Setup
+setup: 1D
+
+# Dataset
+db_name: google_commands
+num_labels: 35
+audio_length: 1
+
+# Model
+backbone: LambdaResnet
+frontend: mel
+channel_k: 1
+head: linear
+
+# Hyperparameters
+epochs: 200
+optimizer: sgd
+optimizer_kwargs:
+   nesterov: False
+   weight_decay: 0.0001 
+   momentum: 0.9
+   lr: 0.1
+scheduler: cosine
+scheduler_kwargs:
+   lr_decay_rate: 0.1
+batch_size: 256
+num_workers: 12
+
+# Transformations
+transformation_strategy: audio 
+transformation_kwargs:
+   volume:
+      p: 0.5
+   crop:
+      p: 0.5
+   time_strech:
+      p: 0.3
+   pitch_shift:
+      p: 0.3
+   temporal_shift:
+      p: 0.3
+   clipping_distortion: 
+      p: 0.2
+   background_noise:
+      p: 0.7
+
+spectogram_kwargs:
+   sample_rate: 16000
+   n_fft: 512
+   n_mels: 40
+   win_size: 0.02
+   win_stride: 0.01

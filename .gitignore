@@ -1,0 +1,12 @@
+# Complires / VS Code related
+.pylintrc
+__pycache__/
+**/__pycache__
+.vscode/
+
+# Speech commands is automatically downloaded
+datasets/SpeechCommands/
+datasets/speech_commands_v0.02.tar.gz
+
+# Output models
+output/

@@ -1,0 +1,4 @@
+pyyaml==5.4.1
+librosa==0.8.0
+easydict==1.9
+einops==0.3.0
